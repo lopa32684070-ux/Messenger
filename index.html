@@ -196,6 +196,8 @@ firebase.initializeApp({
 });
 const auth = firebase.auth(), db = firebase.firestore(), storage = firebase.storage(), TS = firebase.firestore.FieldValue.serverTimestamp;
 storage.setMaxUploadRetryTime(20000); storage.setMaxOperationRetryTime(15000);
+// false = fotos salvas direto no Firestore (sem Storage). true = usa o Firebase Storage (necessário para vídeos).
+const USE_STORAGE = false;
 const $ = id => document.getElementById(id);
 let me = null, myName = "", unsubList = null, unsubMsgs = null, curChat = null, signup = false, busy = false, chats = [], firstLoad = true, editing = false, sel = null, msgMap = {}, pending = null;
 
@@ -403,6 +405,12 @@ $("sdel").onclick = async () => {
     await db.doc("chats/" + curChat + "/messages/" + m.id).delete();
     if (m.path) storage.ref(m.path).delete().catch(() => {});
     clearSel();
+    const chatId = curChat, q = await db.collection("chats/" + chatId + "/messages").orderBy("ts", "desc").limit(1).get();
+    const l = q.empty ? null : q.docs[0].data({ serverTimestamps: "estimate" });
+    await db.doc("chats/" + chatId).update({
+      lastText: l ? (l.kind === "image" ? "Foto" : l.kind === "video" ? "Vídeo" : l.text).slice(0, 80) : "",
+      lastAt: l && l.ts ? l.ts : TS()
+    });
   } catch (x) { toast("Erro ao excluir: " + x.message); }
 };
 
@@ -452,15 +460,25 @@ $("file").onchange = async e => {
   const f = e.target.files[0]; e.target.value = ""; if (!f || !curChat) return;
   try {
     if (f.type.startsWith("image/")) {
-      const c = await toCanvas(f, 1280), blob = await new Promise(r => c.toBlob(r, "image/jpeg", .82));
-      try { const u = await upload(blob, "jpg", "image/jpeg"); await sendMsg({ kind: "image", ...u }, "Foto"); }
-      catch {
-        const small = (await toCanvas(f, 900)).toDataURL("image/jpeg", .7);
-        if (small.length > 900000) throw new Error("Foto grande demais. Ative o Firebase Storage.");
-        await sendMsg({ kind: "image", url: small }, "Foto");
+      let sent = false;
+      if (USE_STORAGE) {
+        try {
+          const c = await toCanvas(f, 1280), blob = await new Promise(r => c.toBlob(r, "image/jpeg", .82));
+          const u = await upload(blob, "jpg", "image/jpeg"); await sendMsg({ kind: "image", ...u }, "Foto"); sent = true;
+        } catch {}
+      }
+      if (!sent) {
+        let url = "";
+        for (const [max, q] of [[1280, .78], [1024, .72], [800, .65], [640, .55]]) {
+          url = (await toCanvas(f, max)).toDataURL("image/jpeg", q);
+          if (url.length < 880000) break;
+        }
+        if (url.length >= 880000) throw new Error("Foto grande demais.");
+        await sendMsg({ kind: "image", url }, "Foto");
       }
       toast("Foto enviada");
     } else if (f.type.startsWith("video/")) {
+      if (!USE_STORAGE) return toast("Vídeos precisam do Storage. Mude USE_STORAGE para true.");
       if (f.size > 50e6) return toast("Vídeo maior que 50 MB.");
       try { const u = await upload(f, (f.name.split(".").pop() || "mp4").toLowerCase(), f.type); await sendMsg({ kind: "video", ...u }, "Vídeo"); toast("Vídeo enviado"); }
       catch (x) { toast("Vídeos precisam do Firebase Storage ativado."); }
