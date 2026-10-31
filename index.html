@@ -117,6 +117,30 @@ svg.ic{width:20px;height:20px;display:block}
 #lb img{max-width:100%;max-height:100%}
 #toast{position:absolute;left:50%;bottom:84px;transform:translateX(-50%);background:rgba(20,28,45,.92);color:#fff;padding:7px 14px;border-radius:4px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:86%;text-align:center;z-index:8}
 #toast.on{opacity:1}
+.av.grp svg{width:68%;height:68%;position:relative;z-index:1}
+.sn{display:block;font-weight:700;font-size:11px;margin-bottom:2px}
+.b.m .sn{padding:2px 4px}
+.b.p{width:262px;white-space:normal}
+.pq{font-weight:700;margin-bottom:2px}
+.opt{position:relative;display:flex;justify-content:space-between;gap:8px;border:1px solid #8a9bb3;border-radius:3px;background:#fff;margin-top:5px;padding:5px 8px;overflow:hidden;cursor:pointer;color:#111}
+.opt .fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(#d4f5bd,#8fdb68 50%,#6ccd3c 51%,#8fdc66);border-right:1px solid #4a9e24}
+.opt span{position:relative}
+.opt .oc{font-size:11px;white-space:nowrap;color:#345}
+.opt.mine{border-color:#2f74dc;box-shadow:0 0 0 1px #2f74dc}
+.pt{font-size:11px;color:#556;margin-top:5px}
+.card{max-height:92%;overflow:auto}
+.card.wide{max-width:340px}
+.sec{font-weight:700;color:#1d3f6b;margin:10px 0 4px}
+.box{background:#fff;border:1px solid #828790;max-height:170px;overflow:auto;box-shadow:inset 0 1px 2px rgba(0,0,0,.15)}
+.mem,.pick{display:flex;align-items:center;gap:8px;padding:5px 8px;border-bottom:1px solid #e3e6ec}
+.pick input{width:auto;height:auto;margin-left:auto;box-shadow:none}
+.mn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{font-size:10px;font-weight:700;color:#5a3d00;background:linear-gradient(#ffe9a0,#f3c33c);border:1px solid #b8860b;border-radius:3px;padding:1px 6px}
+.hint{padding:10px;color:#667;margin:0!important}
+.row2{display:flex;gap:6px;margin-top:6px}
+.row2 input{flex:1;width:auto;min-width:0}
+.row2 .nbtn{min-width:0}
+#pops input{margin-top:6px}
 </style>
 </head>
 <body>
@@ -153,13 +177,14 @@ svg.ic{width:20px;height:20px;display:block}
   </section>
 
   <section id="chat" class="screen">
-    <div class="nav"><button class="nbtn" id="back">Voltar</button><h1><span class="av sm" id="cav"></span><span id="who"></span></h1><span class="sp"></span></div>
+    <div class="nav"><button class="nbtn" id="back">Voltar</button><h1><span class="av sm" id="cav"></span><span id="who"></span></h1><button class="nbtn" id="ginfo" type="button" hidden>Grupo</button><span class="sp" id="gsp"></span></div>
     <div id="msgs"></div>
     <div id="selbar"><span>Mensagem selecionada</span><button class="nbtn dark" id="sopen" type="button">Abrir</button><button class="nbtn danger" id="sdel" type="button">Excluir</button><button class="nbtn dark" id="scan" type="button">Cancelar</button></div>
     <div id="tray"></div>
     <form class="bar" id="sendf">
       <button type="button" class="ib" id="att" aria-label="Enviar foto ou vídeo"><svg class="ic" viewBox="0 0 24 24"><path d="M16.5 6.5l-8 8a2.2 2.2 0 003.1 3.1l8.4-8.4a4.2 4.2 0 00-6-6L5.7 11.8a6.2 6.2 0 008.8 8.8l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
       <button type="button" class="ib" id="emo" aria-label="Emoticons"></button>
+      <button type="button" class="ib" id="pollb" aria-label="Criar enquete"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
       <textarea id="txt" rows="1" maxlength="1000" placeholder="Digite sua mensagem" aria-label="Mensagem"></textarea>
       <button class="send" id="sendbtn" disabled>Enviar</button>
       <input type="file" id="file" accept="image/*,video/*" hidden>
@@ -171,11 +196,30 @@ svg.ic{width:20px;height:20px;display:block}
       <input id="nemail" type="email" placeholder="amigo@email.com" required autocomplete="off"><p class="err" id="nerr" role="alert"></p>
       <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button class="nbtn" id="nok">Conversar</button></div></form>
     <form class="card" id="cf" hidden><h3 id="ct"></h3><p id="cp"></p>
-      <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button class="nbtn danger">Excluir</button></div></form>
+      <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button class="nbtn danger" id="cok">Excluir</button></div></form>
     <form class="card" id="af" hidden><h3>Minha conta</h3><p id="amail"></p>
       <input id="aname" type="text" maxlength="40" placeholder="Nome de usuário" required><p class="err" id="aerr" role="alert"></p>
       <div class="btns"><button type="button" class="nbtn dark" data-close>Fechar</button><button class="nbtn">Salvar nome</button></div>
       <div class="btns"><button type="button" class="nbtn danger" id="aout">Sair da conta</button></div></form>
+    <div class="card" id="nm" hidden><h3>Criar nova</h3><p>Escolha o que deseja iniciar.</p>
+      <div class="btns" style="flex-direction:column"><button type="button" class="nbtn" id="nm1">Conversa com uma pessoa</button><button type="button" class="nbtn" id="nm2">Grupo com várias pessoas</button><button type="button" class="nbtn dark" data-close>Cancelar</button></div></div>
+    <form class="card wide" id="gf" hidden><h3>Novo grupo</h3><p>Você será o administrador.</p>
+      <input id="gname" type="text" maxlength="40" placeholder="Nome do grupo" required>
+      <div class="sec">Integrantes</div><div class="box" id="gpool"></div>
+      <div class="row2"><input id="gemail" type="email" placeholder="Adicionar por e-mail" autocomplete="off"><button type="button" class="nbtn dark" id="gadd">Adicionar</button></div>
+      <p class="err" id="gerr" role="alert"></p>
+      <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button class="nbtn">Criar grupo</button></div></form>
+    <form class="card" id="np" hidden><h3>Nova enquete</h3>
+      <input id="pq" type="text" maxlength="120" placeholder="Pergunta" required><div id="pops"></div>
+      <div class="row2"><button type="button" class="nbtn dark" id="padd">+ Opção</button></div>
+      <p class="err" id="nperr" role="alert"></p>
+      <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button class="nbtn">Criar enquete</button></div></form>
+    <div class="card wide" id="gi" hidden><h3 id="gititle"></h3><p id="gicount"></p>
+      <div class="box" id="gmem"></div>
+      <div id="gadm"><div class="sec">Adicionar integrante</div><div class="row2"><input id="giemail" type="email" placeholder="E-mail da pessoa"><button type="button" class="nbtn" id="giadd">Adicionar</button></div>
+      <div class="sec">Nome do grupo</div><div class="row2"><input id="grename" type="text" maxlength="40"><button type="button" class="nbtn" id="girename">Salvar</button></div></div>
+      <p class="err" id="gierr" role="alert"></p>
+      <div class="btns"><button type="button" class="nbtn dark" data-close>Fechar</button><button type="button" class="nbtn danger" id="gleave">Sair do grupo</button><button type="button" class="nbtn danger" id="gdel">Excluir grupo</button></div></div>
   </div>
   <div id="lb"><img alt="Foto ampliada"></div>
   <div id="toast" role="status"></div>
@@ -199,7 +243,7 @@ storage.setMaxUploadRetryTime(20000); storage.setMaxOperationRetryTime(15000);
 // false = fotos salvas direto no Firestore (sem Storage). true = usa o Firebase Storage (necessário para vídeos).
 const USE_STORAGE = false;
 const $ = id => document.getElementById(id);
-let me = null, myName = "", unsubList = null, unsubMsgs = null, curChat = null, signup = false, busy = false, chats = [], firstLoad = true, editing = false, sel = null, msgMap = {}, pending = null;
+let me = null, myName = "", unsubList = null, unsubMsgs = null, curChat = null, signup = false, busy = false, chats = [], firstLoad = true, editing = false, sel = null, msgMap = {}, pending = null, curMeta = null, curSeen = false, pool = new Map(), picked = new Set();
 
 const show = id => document.querySelectorAll(".screen").forEach(s => s.classList.toggle("on", s.id === id));
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -208,6 +252,8 @@ function avatar(name, cls = ""){
   const n = (name || "?").trim(); let h = 0; for (const c of n) h = (h * 31 + c.charCodeAt(0)) % 360;
   return `<span class="av ${cls}" style="background:linear-gradient(hsl(${h},60%,62%),hsl(${h},65%,42%))">${esc(n[0].toUpperCase())}</span>`;
 }
+const hueOf = s => { let h = 0; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
+const groupAv = (cls = "") => `<span class="av grp ${cls}" style="background:linear-gradient(#86b6ec,#2f6bb8)"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="3" fill="#fff"/><circle cx="16.5" cy="9.5" r="2.6" fill="#e6eefb"/><path d="M2 20c0-4 3-6 6-6s6 2 6 6zM13.5 20c.2-2.800 1.800-4.600 4.200-4.600 2.700 0 4.300 2 4.300 4.600z" fill="#fff"/></svg></span>`;
 const hhmm = d => d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
 const sameDay = (a, b) => a.toDateString() === b.toDateString();
 const stamp = d => (sameDay(d, new Date()) ? "Hoje" : d.toLocaleDateString("pt-BR")) + " " + hhmm(d);
@@ -243,7 +289,7 @@ $("tray").innerHTML = Object.keys(FACES).map(k => `<button type="button" data-c=
 function openModal(id){ document.querySelectorAll(".card").forEach(c => c.hidden = c.id !== id); $("modal").classList.add("on"); }
 function closeModal(){ $("modal").classList.remove("on"); if (pending) { pending(false); pending = null; } }
 $("modal").onclick = e => { if (e.target.id === "modal" || e.target.hasAttribute("data-close")) closeModal(); };
-function ask(title, text){ $("ct").textContent = title; $("cp").textContent = text; openModal("cf"); return new Promise(r => pending = r); }
+function ask(title, text, ok = "Excluir"){ $("ct").textContent = title; $("cp").textContent = text; $("cok").textContent = ok; openModal("cf"); return new Promise(r => pending = r); }
 $("cf").onsubmit = e => { e.preventDefault(); const r = pending; pending = null; $("modal").classList.remove("on"); r && r(true); };
 
 /* ---------- login ---------- */
@@ -300,32 +346,53 @@ $("af").onsubmit = async e => {
 };
 
 /* ---------- lista ---------- */
+const chatTitle = c => c.isGroup ? c.title : (c.names?.[c.other] || "Contato");
+const nameOf = u => curMeta?.names?.[u] || "Integrante";
+const FV = firebase.firestore.FieldValue;
+async function findUser(email){
+  const q = await db.collection("users").where("email", "==", email.trim().toLowerCase()).limit(1).get();
+  return q.empty ? null : { id: q.docs[0].id, name: q.docs[0].data().name };
+}
 function drawList(){
   const q = $("q").value.trim().toLowerCase();
-  const rows = chats.filter(c => !q || (c.names?.[c.other] || "").toLowerCase().includes(q));
+  const rows = chats.filter(c => !q || chatTitle(c).toLowerCase().includes(q));
   $("list").classList.toggle("editing", editing); $("edit").textContent = editing ? "Concluído" : "Editar";
   $("list").innerHTML = rows.length ? rows.map(c => {
-    const n = c.names?.[c.other] || "Contato", d = c.lastAt ? c.lastAt.toDate() : null;
+    const n = chatTitle(c), d = c.lastAt ? c.lastAt.toDate() : null;
     const tm = d ? (sameDay(d, new Date()) ? hhmm(d) : d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })) : "";
-    return `<button class="row" data-id="${c.id}" data-name="${esc(n)}"><span class="minus"></span>${avatar(n)}<span class="tx"><b>${esc(n)}</b><span class="l">${esc(c.lastText || "Nova conversa")}</span></span><span class="tm">${tm}</span></button>`;
-  }).join("") : `<div class="empty"><svg viewBox="0 0 48 48"><rect x="4" y="6" width="40" height="28" rx="8" fill="#e4eefb" stroke="#6f93b3" stroke-width="2"/><path d="M13 34l-3 9 11-9z" fill="#e4eefb" stroke="#6f93b3" stroke-width="2" stroke-linejoin="round"/></svg>${q ? "Nenhuma conversa encontrada." : "Nenhuma conversa ainda.<br>Toque em <b>Nova</b> e digite o e-mail de um amigo que já criou conta."}</div>`;
+    return `<button class="row" data-id="${c.id}"><span class="minus"></span>${c.isGroup ? groupAv() : avatar(n)}<span class="tx"><b>${esc(n)}</b><span class="l">${esc(c.lastText || (c.isGroup ? "Novo grupo" : "Nova conversa"))}</span></span><span class="tm">${tm}</span></button>`;
+  }).join("") : `<div class="empty"><svg viewBox="0 0 48 48"><rect x="4" y="6" width="40" height="28" rx="8" fill="#e4eefb" stroke="#6f93b3" stroke-width="2"/><path d="M13 34l-3 9 11-9z" fill="#e4eefb" stroke="#6f93b3" stroke-width="2" stroke-linejoin="round"/></svg>${q ? "Nenhuma conversa encontrada." : "Nenhuma conversa ainda.<br>Toque em <b>Nova</b> para começar uma conversa ou criar um grupo."}</div>`;
 }
 function watchList(){
   unsubList && unsubList();
   unsubList = db.collection("chats").where("members", "array-contains", me.uid).onSnapshot(snap => {
     chats = snap.docs.map(d => { const c = d.data({ serverTimestamps: "estimate" }); return { id: d.id, ...c, other: c.members.find(m => m !== me.uid) }; })
       .sort((a, b) => (b.lastAt?.seconds || 0) - (a.lastAt?.seconds || 0));
-    drawList();
+    drawList(); syncOpen();
   }, err => { $("list").innerHTML = `<div class="empty">Erro ao carregar: ${esc(err.message)}</div>`; });
 }
+function syncOpen(){
+  if (!curChat) return;
+  const c = chats.find(x => x.id === curChat);
+  if (c) { curMeta = c; curSeen = true; setHeader(); if ($("modal").classList.contains("on") && !$("gi").hidden) renderInfo(); }
+  else if (curSeen) { toast(curMeta?.isGroup ? "Você não está mais neste grupo." : "Esta conversa foi encerrada."); goHome(); }
+}
+function goHome(){ unsubMsgs && unsubMsgs(); curChat = null; curMeta = null; clearSel(); closeModal(); show("home"); }
 $("q").oninput = drawList;
 $("edit").onclick = () => { editing = !editing; drawList(); };
+const leaveGroup = id => db.doc("chats/" + id).update({ members: FV.arrayRemove(me.uid) });
 $("list").onclick = async e => {
   const r = e.target.closest(".row"); if (!r) return;
-  if (!editing) return openChat(r.dataset.id, r.dataset.name);
-  if (await ask("Excluir conversa?", "Todas as mensagens com " + r.dataset.name + " serão apagadas para os dois.")) {
-    try { await delChat(r.dataset.id); toast("Conversa excluída"); } catch (x) { toast("Erro ao excluir: " + x.message); }
-  }
+  const c = chats.find(x => x.id === r.dataset.id); if (!c) return;
+  if (!editing) return openChat(c.id, c);
+  const n = chatTitle(c);
+  try {
+    if (c.isGroup && c.admin !== me.uid) {
+      if (await ask("Sair do grupo?", "Você deixa de receber as mensagens de " + n + ".", "Sair")) { await leaveGroup(c.id); toast("Você saiu do grupo"); }
+    } else if (await ask(c.isGroup ? "Excluir grupo?" : "Excluir conversa?", c.isGroup ? "O grupo " + n + " e todas as mensagens serão apagados para todos." : "Todas as mensagens com " + n + " serão apagadas para os dois.")) {
+      await delChat(c.id); toast(c.isGroup ? "Grupo excluído" : "Conversa excluída");
+    }
+  } catch (x) { toast("Erro: " + x.message); }
 };
 async function delChat(id){
   const snap = await db.collection("chats/" + id + "/messages").get(), paths = [];
@@ -337,44 +404,89 @@ async function delChat(id){
   await db.doc("chats/" + id).delete();
   paths.forEach(p => storage.ref(p).delete().catch(() => {}));
 }
-$("new").onclick = () => { $("nerr").textContent = ""; $("nemail").value = ""; openModal("nf"); $("nemail").focus(); };
+
+/* nova conversa / novo grupo */
+$("new").onclick = () => openModal("nm");
+$("nm1").onclick = () => { $("nerr").textContent = ""; $("nemail").value = ""; openModal("nf"); $("nemail").focus(); };
+$("nm2").onclick = () => {
+  pool = new Map(); picked = new Set();
+  chats.filter(c => !c.isGroup).forEach(c => pool.set(c.other, c.names?.[c.other] || "Contato"));
+  $("gname").value = ""; $("gemail").value = ""; $("gerr").textContent = ""; drawPool(); openModal("gf"); $("gname").focus();
+};
 $("nf").onsubmit = async e => {
   e.preventDefault(); $("nerr").textContent = ""; $("nok").disabled = true;
   try {
-    const email = $("nemail").value.trim().toLowerCase();
-    const q = await db.collection("users").where("email", "==", email).limit(1).get();
-    if (q.empty) { $("nerr").textContent = "Nenhuma conta com esse e-mail."; return; }
-    const other = q.docs[0];
+    const other = await findUser($("nemail").value);
+    if (!other) { $("nerr").textContent = "Nenhuma conta com esse e-mail."; return; }
     if (other.id === me.uid) { $("nerr").textContent = "Esse é o seu próprio e-mail."; return; }
     const id = [me.uid, other.id].sort().join("_"), ref = db.doc("chats/" + id);
-    const ex = await ref.get().catch(() => null);
-    if (!ex || !ex.exists) await ref.set({ members: [me.uid, other.id], names: { [me.uid]: myName, [other.id]: other.data().name }, lastText: "", lastAt: TS() });
-    closeModal(); openChat(id, other.data().name);
+    const ex = await ref.get().catch(() => null), names = { [me.uid]: myName, [other.id]: other.name };
+    if (!ex || !ex.exists) await ref.set({ members: [me.uid, other.id], names, lastText: "", lastAt: TS() });
+    closeModal(); openChat(id, { id, isGroup: false, members: [me.uid, other.id], names, other: other.id });
   } catch (x) { $("nerr").textContent = "Erro: " + x.message; }
   finally { $("nok").disabled = false; }
+};
+function drawPool(){
+  $("gpool").innerHTML = pool.size ? [...pool].map(([u, n]) => `<label class="pick">${avatar(n, "sm")}<span class="mn">${esc(n)}</span><input type="checkbox" data-u="${u}" ${picked.has(u) ? "checked" : ""}></label>`).join("") : '<p class="hint">Você ainda não tem contatos. Adicione alguém pelo e-mail abaixo.</p>';
+}
+$("gpool").onchange = e => { const u = e.target.dataset.u; if (u) e.target.checked ? picked.add(u) : picked.delete(u); };
+$("gadd").onclick = async () => {
+  const em = $("gemail").value.trim(); if (!em) return; $("gerr").textContent = "";
+  try {
+    const u = await findUser(em);
+    if (!u) return void ($("gerr").textContent = "Nenhuma conta com esse e-mail.");
+    if (u.id === me.uid) return void ($("gerr").textContent = "Você já faz parte do grupo.");
+    pool.set(u.id, u.name); picked.add(u.id); $("gemail").value = ""; drawPool();
+  } catch (x) { $("gerr").textContent = "Erro: " + x.message; }
+};
+$("gf").onsubmit = async e => {
+  e.preventDefault(); $("gerr").textContent = "";
+  const title = $("gname").value.trim();
+  if (!picked.size) { $("gerr").textContent = "Escolha pelo menos 1 integrante."; return; }
+  if (picked.size > 49) { $("gerr").textContent = "O grupo aceita até 50 pessoas."; return; }
+  const members = [me.uid, ...picked], names = { [me.uid]: myName }; picked.forEach(u => names[u] = pool.get(u));
+  try {
+    const ref = await db.collection("chats").add({ isGroup: true, title, admin: me.uid, members, names, lastText: "Grupo criado", lastAt: TS() });
+    closeModal(); openChat(ref.id, { id: ref.id, isGroup: true, title, admin: me.uid, members, names });
+  } catch (x) { $("gerr").textContent = "Erro: " + x.message; }
 };
 
 /* ---------- conversa ---------- */
 function clearSel(){ sel = null; $("selbar").classList.remove("on"); document.querySelectorAll(".b.sel").forEach(b => b.classList.remove("sel")); }
-function openChat(id, name){
-  curChat = id; firstLoad = true; clearSel();
-  $("who").textContent = name; $("cav").outerHTML = avatar(name, "sm").replace("<span", '<span id="cav"');
-  $("msgs").innerHTML = ""; $("tray").classList.remove("on"); show("chat");
+function setHeader(){
+  const c = curMeta, g = c.isGroup, t = chatTitle(c);
+  $("who").textContent = t;
+  $("cav").outerHTML = (g ? groupAv("sm") : avatar(t, "sm")).replace("<span", '<span id="cav"');
+  $("ginfo").hidden = !g; $("gsp").hidden = g;
+}
+function pollHtml(m){
+  const votes = m.votes || {}, tot = Object.keys(votes).length, mine = votes[me.uid], vals = Object.values(votes);
+  return `<div class="pq">${esc(m.question)}</div>` + m.options.map((o, i) => {
+    const n = vals.filter(v => v === i).length, pc = tot ? Math.round(100 * n / tot) : 0;
+    return `<div class="opt${mine === i ? " mine" : ""}" data-i="${i}" role="button" tabindex="0"><div class="fill" style="width:${pc}%"></div><span>${esc(o)}</span><span class="oc">${n} (${pc}%)</span></div>`;
+  }).join("") + `<div class="pt">${tot} ${tot === 1 ? "voto" : "votos"}. Toque numa opção para votar.</div>`;
+}
+function openChat(id, meta){
+  curChat = id; curMeta = meta; curSeen = chats.some(x => x.id === id); firstLoad = true; clearSel();
+  setHeader(); $("msgs").innerHTML = ""; $("tray").classList.remove("on"); show("chat");
   unsubMsgs && unsubMsgs();
   unsubMsgs = db.collection("chats/" + id + "/messages").orderBy("ts").onSnapshot(snap => {
-    const box = $("msgs"), nearEnd = box.scrollHeight - box.scrollTop - box.clientHeight < 120;
+    const box = $("msgs"), nearEnd = box.scrollHeight - box.scrollTop - box.clientHeight < 120, GAP = 30 * 60 * 1000;
     const list = snap.docs.map(d => { const m = d.data({ serverTimestamps: "estimate" }); return { id: d.id, ...m, t: m.ts ? m.ts.toDate() : new Date() }; });
     msgMap = {}; let html = "", prevT = 0;
     list.forEach((m, i) => {
       msgMap[m.id] = m;
-      if (m.t - prevT > 30 * 60 * 1000) html += `<div class="date">${stamp(m.t)}</div>`;
+      if (m.t - prevT > GAP) html += `<div class="date">${stamp(m.t)}</div>`;
       prevT = m.t;
-      const next = list[i + 1], last = !next || next.from !== m.from || next.t - m.t > 30 * 60 * 1000;
-      let inner;
-      if (m.kind === "image") inner = `<img class="med" loading="lazy" src="${esc(m.url)}" alt="Foto">`;
-      else if (m.kind === "video") inner = `<video class="med" src="${esc(m.url)}" controls preload="metadata" playsinline></video>`;
+      const prev = list[i - 1], next = list[i + 1], mine = m.from === me.uid;
+      const first = !prev || prev.from !== m.from || m.t - prev.t > GAP, last = !next || next.from !== m.from || next.t - m.t > GAP;
+      const sn = curMeta.isGroup && !mine && first ? `<span class="sn" style="color:hsl(${hueOf(m.from)},60%,32%)">${esc(nameOf(m.from))}</span>` : "";
+      let inner, cls = "";
+      if (m.kind === "image") { inner = `<img class="med" loading="lazy" src="${esc(m.url)}" alt="Foto">`; cls = " m"; }
+      else if (m.kind === "video") { inner = `<video class="med" src="${esc(m.url)}" controls preload="metadata" playsinline></video>`; cls = " m"; }
+      else if (m.kind === "poll") { inner = pollHtml(m); cls = " p"; }
       else inner = fmt(m.text);
-      html += `<div class="r ${m.from === me.uid ? "out" : "in"}${last ? " end" : ""}"><div class="b${m.kind === "image" || m.kind === "video" ? " m" : ""}${sel && sel.id === m.id ? " sel" : ""}" data-id="${m.id}">${inner}</div></div>`;
+      html += `<div class="r ${mine ? "out" : "in"}${last ? " end" : ""}"><div class="b${cls}${sel && sel.id === m.id ? " sel" : ""}" data-id="${m.id}">${sn}${inner}</div></div>`;
     });
     const lm = list[list.length - 1];
     if (lm && lm.from === me.uid) html += `<div class="status">${snap.metadata.hasPendingWrites ? "Enviando…" : "Enviada"}</div>`;
@@ -384,34 +496,101 @@ function openChat(id, name){
     firstLoad = false;
   }, err => toast("Erro: " + err.message));
 }
-$("back").onclick = () => { unsubMsgs && unsubMsgs(); curChat = null; clearSel(); show("home"); };
+$("back").onclick = goHome;
 
-/* selecionar, abrir e excluir mensagem */
+/* selecionar, abrir, votar e excluir mensagem */
+async function vote(id, i){
+  const m = msgMap[id]; if (!m) return;
+  const cur = (m.votes || {})[me.uid];
+  try { await db.doc("chats/" + curChat + "/messages/" + id).update("votes." + me.uid, cur === i ? FV.delete() : i); }
+  catch (x) { toast("Não foi possível votar: " + x.message); }
+}
 $("msgs").onclick = e => {
   const b = e.target.closest(".b");
   if (!b || e.target.closest("video")) return clearSel();
+  const o = e.target.closest(".opt"); if (o) return vote(b.dataset.id, +o.dataset.i);
   const m = msgMap[b.dataset.id]; if (!m) return;
   clearSel(); sel = m; b.classList.add("sel");
-  $("sopen").hidden = m.kind !== "image"; $("sdel").hidden = m.from !== me.uid;
+  $("sopen").hidden = m.kind !== "image";
+  $("sdel").hidden = !(m.from === me.uid || (curMeta.isGroup && curMeta.admin === me.uid));
   $("selbar").classList.add("on");
 };
 $("scan").onclick = clearSel;
 $("sopen").onclick = () => { $("lb").querySelector("img").src = sel.url; $("lb").classList.add("on"); };
 $("lb").onclick = () => $("lb").classList.remove("on");
+const previewOf = l => l.kind === "image" ? "Foto" : l.kind === "video" ? "Vídeo" : l.kind === "poll" ? "Enquete: " + l.question : l.text;
+const withName = (uid, t) => curMeta.isGroup ? nameOf(uid).split(" ")[0] + ": " + t : t;
 $("sdel").onclick = async () => {
   const m = sel; if (!m) return;
-  if (!await ask("Excluir mensagem?", "Ela some da conversa para os dois.")) return;
+  if (!await ask("Excluir mensagem?", "Ela some da conversa para todos.")) return;
   try {
     await db.doc("chats/" + curChat + "/messages/" + m.id).delete();
     if (m.path) storage.ref(m.path).delete().catch(() => {});
     clearSel();
-    const chatId = curChat, q = await db.collection("chats/" + chatId + "/messages").orderBy("ts", "desc").limit(1).get();
+    const q = await db.collection("chats/" + curChat + "/messages").orderBy("ts", "desc").limit(1).get();
     const l = q.empty ? null : q.docs[0].data({ serverTimestamps: "estimate" });
-    await db.doc("chats/" + chatId).update({
-      lastText: l ? (l.kind === "image" ? "Foto" : l.kind === "video" ? "Vídeo" : l.text).slice(0, 80) : "",
-      lastAt: l && l.ts ? l.ts : TS()
-    });
+    await db.doc("chats/" + curChat).update({ lastText: l ? withName(l.from, previewOf(l)).slice(0, 80) : "", lastAt: l && l.ts ? l.ts : TS() });
   } catch (x) { toast("Erro ao excluir: " + x.message); }
+};
+
+/* ---------- enquete ---------- */
+function addOpt(){
+  const n = $("pops").children.length; if (n >= 6) return;
+  const i = document.createElement("input"); i.type = "text"; i.maxLength = 60; i.placeholder = "Opção " + (n + 1); $("pops").appendChild(i);
+  $("padd").hidden = n + 1 >= 6;
+}
+$("pollb").onclick = () => { $("pq").value = ""; $("pops").innerHTML = ""; $("nperr").textContent = ""; addOpt(); addOpt(); openModal("np"); $("pq").focus(); };
+$("padd").onclick = addOpt;
+$("np").onsubmit = async e => {
+  e.preventDefault();
+  const q = $("pq").value.trim(), ops = [...$("pops").children].map(i => i.value.trim()).filter(Boolean);
+  if (ops.length < 2) { $("nperr").textContent = "Preencha pelo menos 2 opções."; return; }
+  try { await sendMsg({ kind: "poll", question: q, options: ops, votes: {} }, "Enquete: " + q); closeModal(); }
+  catch (x) { $("nperr").textContent = "Erro: " + x.message; }
+};
+
+/* ---------- grupo: integrantes e administração ---------- */
+function gerr(t){ $("gierr").textContent = t; }
+function renderInfo(){
+  const c = curMeta, adm = c.admin === me.uid;
+  $("gititle").textContent = c.title; $("gicount").textContent = c.members.length + " integrantes";
+  $("gmem").innerHTML = c.members.map(u => {
+    const n = c.names?.[u] || "Integrante";
+    return `<div class="mem">${avatar(n, "sm")}<span class="mn">${esc(n)}${u === me.uid ? " (você)" : ""}</span>${u === c.admin ? '<span class="badge">Admin</span>' : ""}${adm && u !== me.uid ? `<button class="link" data-rm="${u}">Remover</button>` : ""}</div>`;
+  }).join("");
+  $("gadm").hidden = !adm; $("gdel").hidden = !adm; $("gleave").hidden = adm;
+  if (adm && document.activeElement !== $("grename")) $("grename").value = c.title;
+}
+const openInfo = () => { renderInfo(); gerr(""); openModal("gi"); };
+$("ginfo").onclick = openInfo;
+const upd = data => db.doc("chats/" + curChat).update(data);
+$("gmem").onclick = async e => {
+  const b = e.target.closest("[data-rm]"); if (!b) return;
+  const u = b.dataset.rm, ok = await ask("Remover integrante?", nameOf(u) + " sai do grupo.", "Remover");
+  openInfo();
+  if (ok) try { await upd({ members: FV.arrayRemove(u) }); } catch (x) { gerr("Erro: " + x.message); }
+};
+$("giadd").onclick = async () => {
+  const em = $("giemail").value.trim(); if (!em) return; gerr("");
+  try {
+    const u = await findUser(em);
+    if (!u) return gerr("Nenhuma conta com esse e-mail.");
+    if (curMeta.members.includes(u.id)) return gerr("Essa pessoa já está no grupo.");
+    if (curMeta.members.length >= 50) return gerr("O grupo aceita até 50 pessoas.");
+    await upd({ members: FV.arrayUnion(u.id), ["names." + u.id]: u.name }); $("giemail").value = ""; toast(u.name + " entrou no grupo");
+  } catch (x) { gerr("Erro: " + x.message); }
+};
+$("girename").onclick = async () => {
+  const t = $("grename").value.trim(); if (!t) return gerr("Digite um nome para o grupo.");
+  try { await upd({ title: t }); toast("Nome do grupo alterado"); } catch (x) { gerr("Erro: " + x.message); }
+};
+$("gleave").onclick = async () => {
+  if (!await ask("Sair do grupo?", "Você deixa de receber as mensagens deste grupo.", "Sair")) return openInfo();
+  try { curSeen = false; await leaveGroup(curChat); goHome(); toast("Você saiu do grupo"); } catch (x) { curSeen = true; openInfo(); gerr("Erro: " + x.message); }
+};
+$("gdel").onclick = async () => {
+  if (!await ask("Excluir grupo?", "O grupo e todas as mensagens serão apagados para todos.")) return openInfo();
+  try { const id = curChat; curSeen = false; await delChat(id); goHome(); toast("Grupo excluído"); } catch (x) { curSeen = true; openInfo(); gerr("Erro: " + x.message); }
 };
 
 /* emoticons e texto */
@@ -428,7 +607,7 @@ $("txt").onkeydown = e => { if (e.key === "Enter" && !e.shiftKey && matchMedia("
 async function sendMsg(data, preview){
   const id = curChat;
   await db.collection("chats/" + id + "/messages").add({ from: me.uid, text: "", kind: "text", ts: TS(), ...data });
-  await db.doc("chats/" + id).update({ lastText: preview.slice(0, 80), lastAt: TS() });
+  await db.doc("chats/" + id).update({ lastText: withName(me.uid, preview).slice(0, 80), lastAt: TS() });
 }
 $("sendf").onsubmit = async e => {
   e.preventDefault();
