@@ -184,6 +184,21 @@ svg.ic{width:20px;height:20px;display:block}
 @keyframes fi{from{opacity:0}to{opacity:1}}
 @keyframes dlg{from{opacity:0;transform:translateY(-12px) scale(.95)}to{opacity:1;transform:none}}
 }
+
+.sbody{flex:1;overflow-y:auto;background:var(--bg);padding:6px 10px calc(env(safe-area-inset-bottom,0px) + 16px)}
+.gt{margin:14px 8px 6px;font-weight:700;font-size:13px;color:#4c566c;text-shadow:0 1px #fff}
+.grp{background:#fff;border:1px solid #a7b0c0;border-radius:9px;overflow:hidden;box-shadow:0 1px 0 #fff}
+.srow{display:flex;align-items:center;gap:10px;width:100%;min-height:46px;padding:8px 12px;background:#fff;border:0;border-bottom:1px solid #d0d4db;font:inherit;color:#111;text-align:left;cursor:pointer}
+.srow:last-child{border-bottom:0}.srow:active{background:linear-gradient(#4b8ee6,#1c63c9);color:#fff}
+.srow.t>span:first-child{flex:1}.srow small{color:#6b7587}
+.srow .tx{flex:1;min-width:0;display:flex;flex-direction:column}.srow .tx small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.srow .chev{color:#9aa3b3;font-size:22px;line-height:1}
+.srow input.sw{-webkit-appearance:none;appearance:none;position:relative;flex-shrink:0;width:78px;height:27px;margin:0;padding:0;border-radius:14px;border:1px solid #7c8596;background:linear-gradient(#fafafa,#d8dbe0);box-shadow:inset 0 2px 4px rgba(0,0,0,.35);transition:background .2s}
+.srow input.sw::before{content:"OFF";position:absolute;right:10px;top:0;line-height:25px;font:700 13px var(--ff);color:#7b8494}
+.srow input.sw::after{content:"";position:absolute;left:-1px;top:-1px;width:39px;height:27px;border-radius:14px;border:1px solid #6e7889;background:linear-gradient(#fdfdfd,#bfc3cb);box-shadow:0 1px 2px rgba(0,0,0,.4);transition:left .2s}
+.srow input.sw:checked{background:linear-gradient(#2a68c8,#5b9bf0);border-color:#1f4f9c}
+.srow input.sw:checked::before{content:"ON";left:11px;right:auto;color:#fff;text-shadow:0 -1px rgba(0,0,0,.4)}
+.srow input.sw:checked::after{left:37px}
 </style>
 </head>
 <body>
@@ -214,9 +229,25 @@ svg.ic{width:20px;height:20px;display:block}
   </section>
 
   <section id="home" class="screen">
-    <div class="nav"><button class="nbtn" id="acc">Minha conta</button><h1>Mensagens</h1><button class="nbtn" id="new">Nova</button></div>
+    <div class="nav"><button class="nbtn" id="cfg">Configurações</button><h1>Mensagens</h1><button class="nbtn" id="new">Nova</button></div>
     <div class="search"><input id="q" type="search" placeholder="Buscar conversas" aria-label="Buscar conversas"><button class="link" id="edit" type="button">Editar</button></div>
     <div id="list"></div>
+  </section>
+
+  <section id="settings" class="screen">
+    <div class="nav"><button class="nbtn" id="sback" type="button">Voltar</button><h1>Configurações</h1><span style="min-width:68px"></span></div>
+    <div class="sbody">
+      <div class="gt">Perfil</div>
+      <div class="grp"><button class="srow" id="acc" type="button"><span id="sav"></span><span class="tx"><b id="snm"></b><small id="sml"></small></span><span class="chev">›</span></button></div>
+      <div class="gt">Mensagens</div>
+      <div class="grp"><label class="srow t"><span>Sons de mensagem</span><input type="checkbox" class="sw" id="asnd"></label></div>
+      <div class="gt">Privacidade</div>
+      <div class="grp"><label class="srow t"><span>Mostrar quando estou online e digitando</span><input type="checkbox" class="sw" id="ashow"></label></div>
+      <div class="gt">Aparência</div>
+      <div class="grp"><label class="srow t"><span>Animações nos botões</span><input type="checkbox" class="sw" id="afx"></label></div>
+      <div class="gt">Sobre</div>
+      <div class="grp"><div class="srow t"><span>Versão</span><small>Messenger v6</small></div></div>
+    </div>
   </section>
 
   <section id="chat" class="screen">
@@ -245,9 +276,7 @@ svg.ic{width:20px;height:20px;display:block}
     <form class="card" id="af" hidden><h3>Minha conta</h3><p id="amail"></p>
       <input id="aname" type="text" maxlength="40" placeholder="Nome de usuário" required>
       <div class="row2" style="align-items:center"><span id="apv"></span><button type="button" class="nbtn dark" id="aph">Trocar foto</button><button type="button" class="nbtn dark" id="aphx">Remover</button></div>
-      <label class="chk"><input type="checkbox" id="asnd"> Sons de mensagem</label>
-      <label class="chk"><input type="checkbox" id="afx"> Animações nos botões</label>
-      <label class="chk"><input type="checkbox" id="ashow"> Mostrar quando estou online e digitando</label><p class="err" id="aerr" role="alert"></p>
+      <p class="err" id="aerr" role="alert"></p>
       <div class="btns"><button type="button" class="nbtn dark" data-close>Fechar</button><button class="nbtn">Salvar nome</button></div>
       <div class="btns"><button type="button" class="nbtn danger" id="aout">Sair da conta</button></div></form>
     <div class="card" id="nm" hidden><h3>Criar nova</h3><p>Escolha o que deseja iniciar.</p>
@@ -415,7 +444,7 @@ function drawList(){
     const ty = typers(c), pr = c.isGroup ? null : presOf(c.other);
     const av = c.isGroup ? groupAv("", c.photo) : `<span class="avw">${avatar(n, "", pres[c.other]?.photo)}${pr ? `<span class="dot${pr.on ? " on" : ""}"></span>` : ""}</span>`;
     const line = ty.length ? `<span class="l typ">${esc(c.isGroup ? ty.map(u => (c.names?.[u] || "").split(" ")[0]).join(", ") + " digitando…" : "digitando…")}</span>` : `<span class="l">${esc(c.lastText || (c.isGroup ? "Novo grupo" : "Nova conversa"))}</span>`;
-    const un = c.unread?.[me.uid] || 0;
+    const un = c.lastText ? Math.max(0, c.unread?.[me.uid] || 0) : 0;
     return `<button class="row${myPins.includes(c.id) ? " pn" : ""}${un ? " un" : ""}" data-id="${c.id}"><span class="minus"></span>${av}<span class="tx"><b>${esc(n)}</b>${line}</span><span class="rt"><span class="tm">${tm}</span>${un ? `<span class="bd">${un > 99 ? "99+" : un}</span>` : ""}</span><span class="pinb">${PIN}</span></button>`;
   }).join("") : `<div class="empty"><svg viewBox="0 0 48 48"><rect x="4" y="6" width="40" height="28" rx="8" fill="#e4eefb" stroke="#6f93b3" stroke-width="2"/><path d="M13 34l-3 9 11-9z" fill="#e4eefb" stroke="#6f93b3" stroke-width="2" stroke-linejoin="round"/></svg>${q ? "Nenhuma conversa encontrada." : "Nenhuma conversa ainda.<br>Toque em <b>Nova</b> para começar uma conversa ou criar um grupo."}</div>`;
 }
@@ -566,12 +595,14 @@ $("sdel").onclick = async () => {
   const m = sel; if (!m) return;
   if (!await ask("Excluir mensagem?", "Ela some da conversa para todos.")) return;
   try {
+    const t = m.t ? m.t.getTime() : 0, dec = {};
+    (curMeta.members || []).forEach(u => { if (u !== m.from && tsMs(curMeta.read?.[u]) < t) dec["unread." + u] = FV.increment(-1); });
     await db.doc("chats/" + curChat + "/messages/" + m.id).delete();
     if (m.path) storage.ref(m.path).delete().catch(() => {});
     clearSel();
     const q = await db.collection("chats/" + curChat + "/messages").orderBy("ts", "desc").limit(1).get();
     const l = q.empty ? null : q.docs[0].data({ serverTimestamps: "estimate" });
-    await db.doc("chats/" + curChat).update({ lastText: l ? withName(l.from, previewOf(l)).slice(0, 80) : "", lastAt: l && l.ts ? l.ts : TS() });
+    await db.doc("chats/" + curChat).update({ lastText: l ? withName(l.from, previewOf(l)).slice(0, 80) : "", lastAt: l && l.ts ? l.ts : TS(), ...dec });
   } catch (x) { toast("Erro ao excluir: " + x.message); }
 };
 
@@ -797,8 +828,8 @@ $("asnd").onchange = () => { try { localStorage.setItem("snd", $("asnd").checked
 const phOf = u => u === me?.uid ? myPhoto : (pres[u]?.photo || "");
 const sortChats = () => chats.sort((a, b) => (myPins.includes(b.id) - myPins.includes(a.id)) || (b.lastAt?.seconds || 0) - (a.lastAt?.seconds || 0));
 function unreadFx(){
-  const n = c => c.unread?.[me.uid] || 0, all = chats.reduce((s, c) => s + n(c), 0), oth = chats.reduce((s, c) => s + (c.id === curChat ? 0 : n(c)), 0);
-  document.title = (all ? "(" + all + ") " : "") + "Messenger";
+  const n = c => c.lastText ? Math.max(0, c.unread?.[me.uid] || 0) : 0, all = chats.reduce((s, c) => s + n(c), 0), oth = chats.reduce((s, c) => s + (c.id === curChat ? 0 : n(c)), 0);
+  document.title = (all ? "(" + all + ") " : "") + "Messenger"; chats.forEach(heal);
   if (prevUn !== null && oth > prevUn) beep("r"); prevUn = oth;
 }
 async function togglePin(id){
@@ -873,7 +904,7 @@ async function sq(f){
 }
 async function setPhoto(url){
   try {
-    if (phT === "me") { await db.doc("users/" + me.uid).update({ photo: url || FV.delete() }); myPhoto = url; $("apv").innerHTML = avatar(myName, "", url); drawList(); }
+    if (phT === "me") { await db.doc("users/" + me.uid).update({ photo: url || FV.delete() }); myPhoto = url; $("apv").innerHTML = avatar(myName, "", url); drawList(); fillSettings(); }
     else await upd({ photo: url || FV.delete() });
     toast(url ? "Foto atualizada" : "Foto removida");
   } catch (x) { toast("Erro: " + x.message); }
@@ -913,6 +944,27 @@ document.addEventListener("click", e => {
   const b = e.target.closest(".nbtn,.ib,.send,.go,.row,#tray button"); if (!b || b.disabled) return;
   b.classList.remove("clk"); void b.offsetWidth; b.classList.add("clk"); setTimeout(() => b.classList.remove("clk"), 450);
 }, true);
+/* corrige contadores antigos: confere as mensagens realmente não lidas */
+const healed = new Set();
+async function heal(c){
+  const un = c.unread?.[me.uid] || 0, key = c.id + "|" + un + "|" + (c.lastAt?.seconds || 0);
+  if (un <= 0 || un > 60 || healed.has(key) || c.id === curChat) return; healed.add(key);
+  try {
+    const q = await db.collection("chats/" + c.id + "/messages").orderBy("ts", "desc").limit(un).get(), rd = tsMs(c.read?.[me.uid]);
+    const real = q.docs.filter(d => { const x = d.data(); return x.from !== me.uid && tsMs(x.ts) > rd; }).length;
+    if (real < un) await db.doc("chats/" + c.id).update({ ["unread." + me.uid]: real });
+  } catch {}
+}
+
+/* tela de Configurações */
+function fillSettings(){
+  $("sav").innerHTML = avatar(myName, "sm", myPhoto); $("snm").textContent = myName; $("sml").textContent = me?.email || "";
+  $("asnd").checked = sndOn(); $("afx").checked = fxOn(); $("ashow").checked = myShow;
+}
+$("cfg").onclick = () => { fillSettings(); show("settings"); };
+$("sback").onclick = () => show("home");
+document.addEventListener("click", () => setTimeout(() => { if ($("settings").classList.contains("on")) fillSettings(); }, 60));
+$("af").addEventListener("submit", () => setTimeout(fillSettings, 800));
 </script>
 </body>
 </html>
