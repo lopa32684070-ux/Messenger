@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content">
 <meta name="theme-color" content="#5d78a1">
 <title>Messenger</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -171,6 +171,19 @@ svg.ic{width:20px;height:20px;display:block}
 .q b{display:block;font-size:11px}.ed{opacity:.6;font-size:10px}
 .b.fl{outline:3px solid #f5b400;outline-offset:1px}
 @media(prefers-reduced-motion:no-preference){.b.pop{animation:pop .3s cubic-bezier(.2,.9,.3,1.25)}.out .b.pop{transform-origin:100% 100%}.in .b.pop{transform-origin:0 100%}@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.55)}to{opacity:1;transform:none}}}
+
+@media(prefers-reduced-motion:no-preference){
+#app.fx :is(.nbtn,.ib,.send,.go):active{transform:translateY(1px)}
+#app.fx :is(.nbtn,.ib,.send,.go,#tray button).clk{animation:clkb .4s ease-out}
+#app.fx .row.clk{animation:clkr .45s ease-out}
+#app.fx .screen.on{animation:fi .22s ease-out}
+#app.fx #modal.on{animation:fi .15s ease-out}
+#app.fx #modal.on .card{animation:dlg .2s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes clkb{0%{filter:brightness(1.3);box-shadow:0 0 0 0 rgba(255,255,255,.9),0 0 10px 2px rgba(110,170,255,.9)}100%{filter:none;box-shadow:0 0 0 6px rgba(110,170,255,0)}}
+@keyframes clkr{0%{background:#cfe0fa}100%{background:#fff}}
+@keyframes fi{from{opacity:0}to{opacity:1}}
+@keyframes dlg{from{opacity:0;transform:translateY(-12px) scale(.95)}to{opacity:1;transform:none}}
+}
 </style>
 </head>
 <body>
@@ -233,6 +246,7 @@ svg.ic{width:20px;height:20px;display:block}
       <input id="aname" type="text" maxlength="40" placeholder="Nome de usuário" required>
       <div class="row2" style="align-items:center"><span id="apv"></span><button type="button" class="nbtn dark" id="aph">Trocar foto</button><button type="button" class="nbtn dark" id="aphx">Remover</button></div>
       <label class="chk"><input type="checkbox" id="asnd"> Sons de mensagem</label>
+      <label class="chk"><input type="checkbox" id="afx"> Animações nos botões</label>
       <label class="chk"><input type="checkbox" id="ashow"> Mostrar quando estou online e digitando</label><p class="err" id="aerr" role="alert"></p>
       <div class="btns"><button type="button" class="nbtn dark" data-close>Fechar</button><button class="nbtn">Salvar nome</button></div>
       <div class="btns"><button type="button" class="nbtn danger" id="aout">Sair da conta</button></div></form>
@@ -872,6 +886,33 @@ $("pfile").onchange = async e => {
   const f = e.target.files[0]; e.target.value = ""; if (!f || !f.type.startsWith("image/")) return;
   try { await setPhoto(await sq(f)); } catch (x) { toast(x.message); }
 };
+/* teclado: continua aberto ao enviar e a conversa se ajusta à área visível */
+const keep = e => e.preventDefault();
+$("sendbtn").addEventListener("mousedown", keep); $("sendbtn").addEventListener("pointerdown", e => { if (e.pointerType === "mouse") keep(e); });
+$("sendf").addEventListener("submit", () => $("txt").focus());
+let stick = true;
+$("msgs").addEventListener("scroll", () => { const b = $("msgs"); stick = b.scrollHeight - b.scrollTop - b.clientHeight < 150; }, { passive: true });
+const toEnd = () => { const b = $("msgs"); b.scrollTop = b.scrollHeight; };
+if (window.visualViewport) {
+  const vv = visualViewport, fit = () => {
+    const a = $("app");
+    if (innerWidth < 620) a.style.height = vv.height + "px"; else a.style.height = "";
+    scrollTo(0, 0); if (stick && $("chat").classList.contains("on")) toEnd();
+  };
+  vv.addEventListener("resize", fit); vv.addEventListener("scroll", () => scrollTo(0, 0)); fit();
+}
+$("txt").addEventListener("focus", () => setTimeout(() => { scrollTo(0, 0); if (stick) toEnd(); }, 300));
+/* animações leves nos botões (opcional) */
+const fxOn = () => { try { return localStorage.getItem("fx") !== "0"; } catch { return true; } };
+const applyFx = () => $("app").classList.toggle("fx", fxOn());
+applyFx();
+$("afx").onchange = () => { try { localStorage.setItem("fx", $("afx").checked ? "1" : "0"); } catch {} applyFx(); };
+$("acc").addEventListener("click", () => { $("afx").checked = fxOn(); });
+document.addEventListener("click", e => {
+  if (!fxOn()) return;
+  const b = e.target.closest(".nbtn,.ib,.send,.go,.row,#tray button"); if (!b || b.disabled) return;
+  b.classList.remove("clk"); void b.offsetWidth; b.classList.add("clk"); setTimeout(() => b.classList.remove("clk"), 450);
+}, true);
 </script>
 </body>
 </html>
