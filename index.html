@@ -3,106 +3,160 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Mensagens</title>
+<meta name="theme-color" content="#5d78a1">
+<title>Messenger</title>
 <style>
+:root{--bg:#dde1ec;--nav1:#b4c0d4;--nav2:#7d93b4;--nav3:#667fa4;--g1:#a6e45a;--g2:#78cd27;--gray1:#f0f0f4;--gray2:#d2d2d8}
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;margin:0}
-body{background:#2b3a55;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;display:flex;justify-content:center}
-#app{width:100%;max-width:480px;height:100%;background:#dbe0ec;position:relative;overflow:hidden;display:flex;flex-direction:column}
-.screen{display:none;flex-direction:column;height:100%}
+body{background:radial-gradient(circle at 50% 0,#4a6a96,#1d2b44);font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;display:flex;justify-content:center;align-items:center;color:#111}
+#app{width:100%;max-width:480px;height:100%;background:var(--bg);position:relative;overflow:hidden}
+@media(min-width:620px){#app{height:min(860px,96vh);border-radius:28px;box-shadow:0 0 0 8px #0d1422,0 20px 60px rgba(0,0,0,.6)}}
+.screen{display:none;flex-direction:column;height:100%;position:absolute;inset:0}
 .screen.on{display:flex}
-button{font-family:inherit;cursor:pointer}
+button,input,textarea{font-family:inherit}
+button{cursor:pointer}
 :focus-visible{outline:2px solid #1f6fe0;outline-offset:2px}
 
-/* barra de navegação estilo iOS */
-.nav{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 8px) 8px 8px;background:linear-gradient(#a9b6cc,#7389ab 50%,#6b82a5);border-bottom:1px solid #2d3642;box-shadow:inset 0 1px #cfd8e6;min-height:56px}
-.nav h1{margin:0;font-size:18px;color:#fff;text-shadow:0 -1px rgba(0,0,0,.45);font-weight:700;flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.nbtn{min-width:64px;height:32px;padding:0 12px;color:#fff;font-weight:700;font-size:13px;text-shadow:0 -1px rgba(0,0,0,.5);border:1px solid #2d3f5e;border-radius:6px;background:linear-gradient(#8c9fbd,#56709a 50%,#47628e 51%,#5a77a3);box-shadow:inset 0 1px rgba(255,255,255,.35),0 1px rgba(255,255,255,.3)}
-.nbtn.back{padding-left:16px;position:relative;border-radius:4px 6px 6px 4px}
+/* barra superior */
+.nav{display:flex;align-items:center;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 8px) 8px 8px;background:linear-gradient(var(--nav1),var(--nav2) 50%,var(--nav3) 51%,#6f87ab);border-bottom:1px solid #26303f;box-shadow:inset 0 1px #dbe3ef;min-height:56px;flex-shrink:0}
+.nav h1{margin:0;font-size:18px;color:#fff;text-shadow:0 -1px rgba(0,0,0,.45);flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:flex;align-items:center;justify-content:center;gap:8px}
+.nbtn{min-width:70px;height:32px;padding:0 12px;color:#fff;font-weight:700;font-size:13px;text-shadow:0 -1px rgba(0,0,0,.5);border:1px solid #28395a;border-radius:6px;background:linear-gradient(#9fb0cc,#5a739d 50%,#4a6590 51%,#5f7ba7);box-shadow:inset 0 1px rgba(255,255,255,.4),0 1px rgba(255,255,255,.3);flex-shrink:0}
 .nbtn:active{filter:brightness(.8)}
+.sp{min-width:70px;flex-shrink:0}
 
-/* lista de conversas */
+/* avatar estilo foto de exibição do Messenger */
+.av{width:46px;height:46px;border-radius:9px;border:2px solid #fff;box-shadow:0 0 0 1px #8aa0b8,0 2px 4px rgba(0,0,0,.3);color:#fff;font-weight:700;font-size:18px;display:flex;align-items:center;justify-content:center;text-shadow:0 1px 2px rgba(0,0,0,.4);flex-shrink:0;position:relative;overflow:hidden}
+.av::after{content:"";position:absolute;left:0;right:0;top:0;height:50%;background:linear-gradient(rgba(255,255,255,.45),rgba(255,255,255,.05))}
+.av.sm{width:28px;height:28px;font-size:12px;border-radius:6px;border-width:1px}
+
+/* lista */
+.search{padding:8px 10px;background:linear-gradient(#c5cfdf,#a7b5cc);border-bottom:1px solid #6f7d94;flex-shrink:0}
+.search input{width:100%;height:30px;border:1px solid #66748c;border-radius:15px;padding:0 14px;font-size:15px;box-shadow:inset 0 2px 3px rgba(0,0,0,.2)}
 #list{flex:1;overflow:auto;background:#fff}
-.row{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid #d5d5d5;background:#fff;padding:10px 14px}
-.row:active{background:#3e86e8;color:#fff}
+.row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:0;border-bottom:1px solid #dcdcdc;background:#fff;padding:10px 12px 10px 12px}
+.row:active{background:linear-gradient(#5b9cf0,#2f74dc);color:#fff}
+.row .tx{flex:1;min-width:0}
 .row b{display:block;font-size:17px}
-.row span{display:block;font-size:14px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
-.row:active span{color:#dbe8ff}
-.empty{padding:40px 24px;text-align:center;color:#6f7b91;font-size:15px;line-height:1.4}
+.row .l{display:block;font-size:14px;color:#7b7b84;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.row .tm{font-size:13px;color:#3b6fb5;align-self:flex-start;margin-top:4px;flex-shrink:0}
+.row:active .l,.row:active .tm{color:#e3eeff}
+.row::after{content:"›";color:#b5b5bd;font-size:26px;line-height:1;margin-left:2px}
+.empty{padding:60px 28px;text-align:center;color:#6c778c;font-size:15px;line-height:1.5}
+.empty .big{width:72px;height:72px;margin:0 auto 14px;border-radius:50%;background:linear-gradient(#cfe0f6,#8fb3e0);display:flex;align-items:center;justify-content:center;font-size:34px;box-shadow:inset 0 0 0 2px #fff,0 2px 6px rgba(0,0,0,.2)}
 
 /* conversa */
-#msgs{flex:1;overflow:auto;padding:10px 8px 12px;display:flex;flex-direction:column}
-.date{align-self:center;color:#7f8798;font-weight:700;font-size:12px;margin:10px 0 6px;text-shadow:0 1px #fff}
-.b{max-width:74%;padding:8px 14px;margin:3px 10px;font-size:16px;line-height:1.25;border-radius:18px;position:relative;word-wrap:break-word;overflow-wrap:anywhere;white-space:pre-wrap;border:1px solid #888;box-shadow:0 1px 2px rgba(0,0,0,.35)}
-.b::before{content:"";position:absolute;left:8px;right:8px;top:2px;height:42%;border-radius:12px 12px 8px 8px;background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.12));pointer-events:none}
-.b.in{align-self:flex-start;background:linear-gradient(#e9e9ee,#cfcfd4);color:#000}
-.b.out{align-self:flex-end;background:linear-gradient(#a8e65a,#7bd02a);border-color:#3b8a00;color:#0d2200}
-.b.in::after,.b.out::after{content:"";position:absolute;bottom:-1px;width:14px;height:14px;background:inherit;border:inherit;border-top:0}
-.b.in::after{left:-6px;border-right:0;border-radius:0 0 0 14px;clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
-.b.out::after{right:-6px;border-left:0;border-radius:0 0 14px 0}
-.bar{display:flex;gap:8px;align-items:flex-end;padding:8px 8px calc(env(safe-area-inset-bottom,0px) + 8px);background:linear-gradient(#e9ecf2,#c7cdd8);border-top:1px solid #7d8594}
-.bar textarea{flex:1;resize:none;max-height:90px;min-height:34px;border:1px solid #6d7482;border-radius:17px;padding:7px 14px;font:16px/1.2 inherit;font-family:inherit;box-shadow:inset 0 2px 3px rgba(0,0,0,.2);background:#fff}
-.send{height:34px;padding:0 16px;border-radius:17px;border:1px solid #1b3f8f;color:#fff;font-weight:700;font-size:15px;text-shadow:0 -1px rgba(0,0,0,.5);background:linear-gradient(#6b95e8,#2658c9 50%,#1747b8 51%,#2e65d8)}
-.send:disabled{filter:grayscale(.7) opacity(.7)}
+#msgs{flex:1;overflow-y:auto;padding:8px 0 14px;display:flex;flex-direction:column;background:var(--bg)}
+#msgs>*{flex-shrink:0}
+.date{align-self:center;color:#7a8296;font-weight:700;font-size:12px;margin:12px 0 6px;text-shadow:0 1px #fff;white-space:nowrap}
+.r{display:flex;padding:0 16px;margin-top:2px}
+.r.out{justify-content:flex-end}
+.r.end{margin-bottom:6px}
+.b{position:relative;max-width:78%;padding:8px 14px 9px;font-size:16px;line-height:1.3;border-radius:19px;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;box-shadow:0 1px 2px rgba(0,0,0,.35),inset 0 0 0 1px rgba(0,0,0,.22)}
+.in .b{--c:#d9d9de;background:linear-gradient(rgba(255,255,255,.7),rgba(255,255,255,.1) 50%,rgba(255,255,255,0) 51%),linear-gradient(var(--gray1),var(--gray2))}
+.out .b{--c:#80d02f;background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.08) 50%,rgba(255,255,255,0) 51%),linear-gradient(var(--g1),var(--g2));color:#0c2300;text-shadow:0 1px rgba(255,255,255,.25)}
+/* ponta do balão (só na última mensagem do grupo) */
+.tail::before,.tail::after{content:"";position:absolute;bottom:0}
+.tail::before{height:22px;width:20px;background:var(--c)}
+.tail::after{height:22px;width:26px;background:var(--bg)}
+.out .tail::before{right:-7px;border-bottom-left-radius:16px 14px}
+.out .tail::after{right:-26px;border-bottom-left-radius:10px}
+.in .tail::before{left:-7px;border-bottom-right-radius:16px 14px}
+.in .tail::after{left:-26px;border-bottom-right-radius:10px}
+.out .tail{box-shadow:0 1px 2px rgba(0,0,0,.35),inset 0 0 0 1px rgba(0,0,0,.22)}
+.status{align-self:flex-end;padding:2px 18px 0;font-size:11px;color:#7a8296;font-weight:700}
+.bar{display:flex;gap:8px;align-items:flex-end;padding:8px 8px calc(env(safe-area-inset-bottom,0px) + 8px);background:linear-gradient(#eef0f5,#c3cad7);border-top:1px solid #7d8594;flex-shrink:0}
+.emo{width:34px;height:34px;border-radius:50%;border:1px solid #5d6778;background:linear-gradient(#fbfbfd,#c4c9d3);font-size:18px;flex-shrink:0;box-shadow:0 1px rgba(255,255,255,.7)}
+.bar textarea{flex:1;resize:none;max-height:96px;height:34px;border:1px solid #6d7482;border-radius:17px;padding:7px 14px;font-size:16px;line-height:1.2;box-shadow:inset 0 2px 3px rgba(0,0,0,.2);background:#fff}
+.send{height:34px;padding:0 16px;border-radius:17px;border:1px solid #1b3f8f;color:#fff;font-weight:700;font-size:15px;text-shadow:0 -1px rgba(0,0,0,.5);background:linear-gradient(#7ba3ee,#2d5fce 50%,#1747b8 51%,#3a70dd);box-shadow:inset 0 1px rgba(255,255,255,.4)}
+.send:disabled{filter:grayscale(.8) opacity(.65)}
+#tray{display:none;gap:4px;padding:6px 10px;background:#eef0f5;border-top:1px solid #b5bccb;flex-shrink:0;overflow-x:auto}
+#tray.on{display:flex}
+#tray button{border:0;background:none;font-size:26px;padding:2px 6px;border-radius:8px}
+#tray button:active{background:#cbd5e8}
 
-/* login estilo Windows Live Messenger */
-#login{background:radial-gradient(circle at 50% 0,#cfe8fb,#8fbfe6 55%,#5a93c4);align-items:center;justify-content:center;padding:16px}
-.win{width:100%;max-width:340px;background:linear-gradient(#e7f2fb,#bcd9f0);border:1px solid #2a4a68;border-radius:8px;box-shadow:0 0 0 1px rgba(255,255,255,.7) inset,0 10px 30px rgba(0,0,0,.45)}
-.win .t{padding:6px 10px;font-size:13px;color:#102a43;text-shadow:0 0 8px #fff}
-.win .in{margin:0 8px 8px;background:#fff;border:1px solid #8aa6bf;padding:14px 22px 16px;text-align:center}
-.avatar{width:110px;height:110px;margin:0 auto 6px;border:2px solid #fff;border-radius:10px;background:radial-gradient(#e9f4fc,#9cc3e2);box-shadow:0 0 0 1px #6f93b3,0 3px 8px rgba(0,0,0,.3);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
-.avatar svg{width:84px;height:84px}
-.win h2{color:#1d4f82;font-weight:400;font-size:21px;margin:8px 0}
+/* login (Windows Live Messenger) */
+#login{background:radial-gradient(ellipse at 50% -10%,#e4f3ff,#9cc9ec 50%,#4f88bc);align-items:center;justify-content:center;padding:16px;overflow:auto}
+.win{width:100%;max-width:340px;background:linear-gradient(135deg,rgba(255,255,255,.85),rgba(190,220,243,.8) 40%,rgba(160,203,234,.85));border:1px solid #29476a;border-radius:9px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.75),0 12px 34px rgba(0,0,0,.5)}
+.win .t{padding:7px 12px;font-size:13px;color:#102a43;text-shadow:0 0 8px #fff;display:flex;justify-content:space-between}
+.win .in{margin:0 8px 8px;background:#fff;border:1px solid #86a3be;padding:16px 22px 14px;text-align:center}
+.avatar{width:112px;height:112px;margin:0 auto 4px;border:3px solid #fff;border-radius:12px;background:radial-gradient(#f0f8fe,#8fbde0);box-shadow:0 0 0 1px #6b90b0,0 4px 10px rgba(0,0,0,.35);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.avatar svg{width:86px;height:86px}
+.win h2{color:#1d4f82;font-weight:400;font-size:22px;margin:10px 0 4px}
 .win p{font-size:13px;color:#333;margin:0 0 10px}
-.fields{border:1px solid #cfd8e0;padding:10px;text-align:left;background:#fafcfe}
-.fields input{width:100%;height:28px;margin-bottom:8px;padding:0 6px;border:1px solid #7f9db9;font-size:14px;font-family:inherit}
-.fields input:last-child{margin-bottom:0}
-.go{margin:14px auto 4px;height:26px;min-width:80px;padding:0 14px;font-size:13px;color:#111;border:1px solid #707070;border-radius:3px;background:linear-gradient(#f2f2f2,#ebebeb 50%,#dddddd 51%,#cfcfcf)}
-.go:hover{border-color:#3c7fb1;box-shadow:inset 0 0 0 1px #8dd1f8}
+.fields{border:1px solid #d3dce5;padding:10px;text-align:left;background:#f9fbfd}
+.fields input[type=text],.fields input[type=email],.fields input[type=password]{width:100%;height:30px;margin-bottom:8px;padding:0 7px;border:1px solid #7f9db9;font-size:14px}
+.chk{display:flex;align-items:center;gap:7px;font-size:13px;color:#222;margin-top:2px}
+.go{display:block;margin:14px auto 4px;height:28px;min-width:92px;padding:0 16px;font-size:13px;color:#111;border:1px solid #707070;border-radius:3px;background:linear-gradient(#f4f4f4,#ececec 50%,#dedede 51%,#d0d0d0)}
+.go:hover,.go:focus-visible{border-color:#3c7fb1;box-shadow:inset 0 0 0 1px #8dd1f8}
+.go:disabled{opacity:.6}
 .link{background:none;border:0;color:#0066cc;font-size:13px;padding:2px;text-decoration:underline}
 .err{color:#b00020;font-size:13px;min-height:18px;margin:8px 0 0}
-.foot{display:flex;justify-content:space-between;margin-top:12px}
-@media (prefers-reduced-motion:no-preference){.b{animation:pop .18s ease-out}@keyframes pop{from{transform:scale(.9);opacity:0}}}
+.foot{display:flex;justify-content:space-between;margin-top:10px}
+
+/* modal e aviso */
+#modal{position:absolute;inset:0;background:rgba(10,20,40,.55);display:none;align-items:center;justify-content:center;padding:20px;z-index:5}
+#modal.on{display:flex}
+.card{width:100%;max-width:320px;background:linear-gradient(#f6f8fc,#d5dbe7);border:1px solid #3a4a66;border-radius:12px;padding:16px;box-shadow:0 10px 30px rgba(0,0,0,.5)}
+.card h3{margin:0 0 4px;font-size:18px}
+.card p{margin:0 0 10px;font-size:13px;color:#505a6e}
+.card input{width:100%;height:36px;border:1px solid #6d7482;border-radius:8px;padding:0 10px;font-size:16px;box-shadow:inset 0 2px 3px rgba(0,0,0,.15)}
+.card .btns{display:flex;gap:8px;margin-top:12px}
+.card .btns button{flex:1}
+.card .nbtn.dark{background:linear-gradient(#e5e7ec,#b9bec9);color:#222;text-shadow:0 1px #fff;border-color:#6d7482}
+.card .err{margin:6px 0 0}
+#toast{position:absolute;left:50%;bottom:90px;transform:translateX(-50%);background:rgba(20,28,45,.92);color:#fff;font-size:14px;padding:9px 16px;border-radius:18px;opacity:0;pointer-events:none;transition:opacity .2s;max-width:86%;text-align:center;z-index:6}
+#toast.on{opacity:1}
+@media(prefers-reduced-motion:no-preference){.r.fresh .b{animation:pop .18s ease-out}@keyframes pop{from{transform:scale(.92);opacity:0}}}
 </style>
 </head>
 <body>
 <div id="app">
 
-  <!-- LOGIN -->
   <section id="login" class="screen on">
     <div class="win">
-      <div class="t">Messenger</div>
+      <div class="t"><span>Messenger</span></div>
       <div class="in">
         <div class="avatar"><svg viewBox="0 0 80 80"><circle cx="40" cy="26" r="14" fill="#fff" stroke="#9db6cb"/><path d="M10 80c0-22 14-30 30-30s30 8 30 30z" fill="#fff" stroke="#9db6cb"/></svg></div>
-        <h2>Entrar</h2>
+        <h2 id="ttl">Entrar</h2>
         <p id="sub">Entre com seu e-mail e senha.</p>
         <form id="f" class="fields">
-          <input id="name" placeholder="Seu nome" autocomplete="nickname" hidden>
+          <input id="name" type="text" placeholder="Seu nome" autocomplete="nickname" maxlength="40" hidden>
           <input id="email" type="email" placeholder="E-mail" autocomplete="email" required>
           <input id="pass" type="password" placeholder="Senha (mínimo 6 caracteres)" autocomplete="current-password" minlength="6" required>
-          <button class="go" id="gobtn" style="display:block">Entrar</button>
+          <label class="chk"><input type="checkbox" id="remember" checked> Lembrar de mim</label>
+          <button class="go" id="gobtn">Entrar</button>
         </form>
         <p class="err" id="err" role="alert"></p>
-        <div class="foot"><button class="link" id="toggle" type="button">Criar uma conta</button></div>
+        <div class="foot"><button class="link" id="toggle" type="button">Criar uma conta</button><button class="link" id="forgot" type="button">Esqueci a senha</button></div>
       </div>
     </div>
   </section>
 
-  <!-- LISTA -->
   <section id="home" class="screen">
-    <div class="nav"><button class="nbtn" id="out">Sair</button><h1>Mensagens</h1><button class="nbtn" id="new">Nova</button></div>
+    <div class="nav"><button class="nbtn" id="out">Sair</button><h1 id="hi">Mensagens</h1><button class="nbtn" id="new">+ Nova</button></div>
+    <div class="search"><input id="q" type="search" placeholder="Buscar conversas" aria-label="Buscar conversas"></div>
     <div id="list"></div>
   </section>
 
-  <!-- CONVERSA -->
   <section id="chat" class="screen">
-    <div class="nav"><button class="nbtn back" id="back">Mensagens</button><h1 id="who"></h1><span style="min-width:12px"></span></div>
+    <div class="nav"><button class="nbtn" id="back">‹ Mensagens</button><h1><span class="av sm" id="cav"></span><span id="who"></span></h1><span class="sp"></span></div>
     <div id="msgs"></div>
+    <div id="tray"></div>
     <form class="bar" id="sendf">
+      <button type="button" class="emo" id="emo" aria-label="Emojis">☺</button>
       <textarea id="txt" rows="1" maxlength="1000" placeholder="Mensagem" aria-label="Mensagem"></textarea>
       <button class="send" id="sendbtn" disabled>Enviar</button>
     </form>
   </section>
+
+  <div id="modal"><form class="card" id="nf">
+    <h3>Nova conversa</h3><p>Digite o e-mail de quem já criou conta.</p>
+    <input id="nemail" type="email" placeholder="amigo@email.com" required autocomplete="off">
+    <p class="err" id="nerr" role="alert"></p>
+    <div class="btns"><button type="button" class="nbtn dark" id="ncancel">Cancelar</button><button class="nbtn" id="nok">Conversar</button></div>
+  </form></div>
+  <div id="toast" role="status"></div>
 </div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -120,111 +174,150 @@ firebase.initializeApp({
 
 const auth = firebase.auth(), db = firebase.firestore(), TS = firebase.firestore.FieldValue.serverTimestamp;
 const $ = id => document.getElementById(id);
-let me = null, myName = "", unsubList = null, unsubMsgs = null, curChat = null, signup = false;
+let me = null, myName = "", unsubList = null, unsubMsgs = null, curChat = null, signup = false, busy = false, chats = [], firstLoad = true;
 
-function show(id){ document.querySelectorAll(".screen").forEach(s => s.classList.toggle("on", s.id === id)); }
-function esc(s){ return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+const show = id => document.querySelectorAll(".screen").forEach(s => s.classList.toggle("on", s.id === id));
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function toast(t){ const e = $("toast"); e.textContent = t; e.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => e.classList.remove("on"), 2800); }
+function avatar(name, cls = ""){
+  const n = (name || "?").trim(); let h = 0; for (const c of n) h = (h * 31 + c.charCodeAt(0)) % 360;
+  return `<span class="av ${cls}" style="background:linear-gradient(hsl(${h},60%,62%),hsl(${h},65%,42%))">${esc(n[0].toUpperCase())}</span>`;
+}
+const hhmm = d => d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+const sameDay = (a, b) => a.toDateString() === b.toDateString();
+function stamp(d){ return (sameDay(d, new Date()) ? "Hoje" : d.toLocaleDateString("pt-BR")) + " " + hhmm(d); }
 
 /* ---------- login ---------- */
-$("toggle").onclick = () => {
-  signup = !signup;
-  $("name").hidden = !signup; $("name").required = signup;
-  $("gobtn").textContent = signup ? "Criar conta" : "Entrar";
-  $("toggle").textContent = signup ? "Já tenho conta" : "Criar uma conta";
-  $("sub").textContent = signup ? "Crie sua conta para conversar." : "Entre com seu e-mail e senha.";
-  $("pass").autocomplete = signup ? "new-password" : "current-password";
+function setMode(s){
+  signup = s;
+  $("name").hidden = !s; $("name").required = s;
+  $("ttl").textContent = s ? "Criar conta" : "Entrar";
+  $("gobtn").textContent = s ? "Criar conta" : "Entrar";
+  $("toggle").textContent = s ? "Já tenho conta" : "Criar uma conta";
+  $("sub").textContent = s ? "Escolha um nome para seus amigos." : "Entre com seu e-mail e senha.";
+  $("pass").autocomplete = s ? "new-password" : "current-password";
   $("err").textContent = "";
+}
+$("toggle").onclick = () => setMode(!signup);
+$("forgot").onclick = async () => {
+  const email = $("email").value.trim();
+  if (!email) { $("err").textContent = "Digite seu e-mail e toque de novo."; return; }
+  try { await auth.sendPasswordResetEmail(email); $("err").style.color = "#1a6b1a"; $("err").textContent = "Enviamos um link para redefinir a senha."; }
+  catch { $("err").style.color = ""; $("err").textContent = "Não foi possível enviar. Confira o e-mail."; }
 };
 $("f").onsubmit = async e => {
-  e.preventDefault(); $("err").textContent = "";
-  const email = $("email").value.trim(), pass = $("pass").value;
+  e.preventDefault(); $("err").style.color = ""; $("err").textContent = ""; $("gobtn").disabled = true;
+  const email = $("email").value.trim(), pass = $("pass").value; busy = true;
   try {
+    await auth.setPersistence($("remember").checked ? firebase.auth.Auth.Persistence.LOCAL : firebase.auth.Auth.Persistence.SESSION);
     if (signup) {
       const name = $("name").value.trim();
       const cred = await auth.createUserWithEmailAndPassword(email, pass);
       await db.doc("users/" + cred.user.uid).set({ name, email: email.toLowerCase() });
-      myName = name; await onUser(cred.user);
-    } else {
-      await auth.signInWithEmailAndPassword(email, pass);
-    }
+      myName = name; busy = false; await onUser(cred.user);
+    } else { busy = false; await auth.signInWithEmailAndPassword(email, pass); }
   } catch (x) {
-    const m = { "auth/invalid-credential":"E-mail ou senha incorretos.", "auth/email-already-in-use":"Este e-mail já tem conta.", "auth/weak-password":"Use uma senha de 6 ou mais caracteres.", "auth/invalid-email":"E-mail inválido." };
+    busy = false;
+    const m = { "auth/invalid-credential":"E-mail ou senha incorretos.", "auth/email-already-in-use":"Este e-mail já tem conta.", "auth/weak-password":"Use uma senha de 6 ou mais caracteres.", "auth/invalid-email":"E-mail inválido.", "auth/too-many-requests":"Muitas tentativas. Aguarde um pouco." };
     $("err").textContent = m[x.code] || "Não foi possível entrar: " + x.message;
-  }
+  } finally { $("gobtn").disabled = false; }
 };
 $("out").onclick = () => auth.signOut();
-
-auth.onAuthStateChanged(u => { if (u && !signup) onUser(u); else if (!u) { cleanup(); show("login"); } });
+auth.onAuthStateChanged(u => { if (busy) return; if (u) onUser(u); else { cleanup(); show("login"); } });
 
 async function onUser(u){
   me = u;
-  if (!myName) { const d = await db.doc("users/" + u.uid).get(); myName = d.exists ? d.data().name : u.email; }
+  if (!myName) { try { const d = await db.doc("users/" + u.uid).get(); myName = d.exists ? d.data().name : u.email; } catch { myName = u.email; } }
+  $("hi").textContent = "Olá, " + myName.split(" ")[0];
   show("home"); watchList();
 }
-function cleanup(){ unsubList && unsubList(); unsubMsgs && unsubMsgs(); me = null; myName = ""; curChat = null; }
+function cleanup(){ unsubList && unsubList(); unsubMsgs && unsubMsgs(); me = null; myName = ""; curChat = null; chats = []; $("pass").value = ""; }
 
-/* ---------- lista de conversas ---------- */
+/* ---------- lista ---------- */
+function drawList(){
+  const q = $("q").value.trim().toLowerCase();
+  const rows = chats.filter(c => !q || (c.names?.[c.other] || "").toLowerCase().includes(q));
+  $("list").innerHTML = rows.length ? rows.map(c => {
+    const n = c.names?.[c.other] || "Contato", d = c.lastAt ? c.lastAt.toDate() : null;
+    const tm = d ? (sameDay(d, new Date()) ? hhmm(d) : d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })) : "";
+    return `<button class="row" data-id="${c.id}" data-name="${esc(n)}">${avatar(n)}<span class="tx"><b>${esc(n)}</b><span class="l">${esc(c.lastText || "Nova conversa")}</span></span><span class="tm">${tm}</span></button>`;
+  }).join("") : `<div class="empty"><div class="big">💬</div>${q ? "Nenhuma conversa encontrada." : "Nenhuma conversa ainda.<br>Toque em <b>+ Nova</b> e digite o e-mail de um amigo que já criou conta."}</div>`;
+}
 function watchList(){
   unsubList && unsubList();
   unsubList = db.collection("chats").where("members", "array-contains", me.uid).onSnapshot(snap => {
-    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.lastAt?.seconds || 0) - (a.lastAt?.seconds || 0));
-    $("list").innerHTML = docs.length ? docs.map(c => {
-      const other = c.members.find(m => m !== me.uid);
-      return `<button class="row" data-id="${c.id}" data-other="${other}" data-name="${esc(c.names?.[other] || "Contato")}"><b>${esc(c.names?.[other] || "Contato")}</b><span>${esc(c.lastText || "Nova conversa")}</span></button>`;
-    }).join("") : `<div class="empty">Nenhuma conversa ainda.<br>Toque em <b>Nova</b> e digite o e-mail de um amigo que já criou conta.</div>`;
+    chats = snap.docs.map(d => { const c = d.data({ serverTimestamps: "estimate" }); return { id: d.id, ...c, other: c.members.find(m => m !== me.uid) }; })
+      .sort((a, b) => (b.lastAt?.seconds || 0) - (a.lastAt?.seconds || 0));
+    drawList();
   }, err => { $("list").innerHTML = `<div class="empty">Erro ao carregar: ${esc(err.message)}</div>`; });
 }
-$("list").onclick = e => {
-  const r = e.target.closest(".row"); if (r) openChat(r.dataset.id, r.dataset.name);
-};
-$("new").onclick = async () => {
-  const email = (prompt("E-mail do contato:") || "").trim().toLowerCase();
-  if (!email) return;
-  const q = await db.collection("users").where("email", "==", email).limit(1).get();
-  if (q.empty) return alert("Nenhum usuário com esse e-mail. Peça para a pessoa criar uma conta.");
-  const other = q.docs[0];
-  if (other.id === me.uid) return alert("Esse é o seu próprio e-mail.");
-  const id = [me.uid, other.id].sort().join("_"), ref = db.doc("chats/" + id);
-  const ex = await ref.get().catch(() => null);
-  if (!ex || !ex.exists) {
-    await ref.set({ members: [me.uid, other.id], names: { [me.uid]: myName, [other.id]: other.data().name }, lastText: "", lastAt: TS() });
-  }
-  openChat(id, other.data().name);
+$("q").oninput = drawList;
+$("list").onclick = e => { const r = e.target.closest(".row"); if (r) openChat(r.dataset.id, r.dataset.name); };
+
+/* nova conversa */
+$("new").onclick = () => { $("nerr").textContent = ""; $("nemail").value = ""; $("modal").classList.add("on"); $("nemail").focus(); };
+$("ncancel").onclick = () => $("modal").classList.remove("on");
+$("modal").onclick = e => { if (e.target.id === "modal") $("modal").classList.remove("on"); };
+$("nf").onsubmit = async e => {
+  e.preventDefault(); $("nerr").textContent = ""; $("nok").disabled = true;
+  try {
+    const email = $("nemail").value.trim().toLowerCase();
+    const q = await db.collection("users").where("email", "==", email).limit(1).get();
+    if (q.empty) { $("nerr").textContent = "Nenhuma conta com esse e-mail."; return; }
+    const other = q.docs[0];
+    if (other.id === me.uid) { $("nerr").textContent = "Esse é o seu próprio e-mail."; return; }
+    const id = [me.uid, other.id].sort().join("_"), ref = db.doc("chats/" + id);
+    const ex = await ref.get().catch(() => null);
+    if (!ex || !ex.exists) await ref.set({ members: [me.uid, other.id], names: { [me.uid]: myName, [other.id]: other.data().name }, lastText: "", lastAt: TS() });
+    $("modal").classList.remove("on"); openChat(id, other.data().name);
+  } catch (x) { $("nerr").textContent = "Erro: " + x.message; }
+  finally { $("nok").disabled = false; }
 };
 
 /* ---------- conversa ---------- */
 function openChat(id, name){
-  curChat = id; $("who").textContent = name; $("msgs").innerHTML = ""; show("chat");
+  curChat = id; firstLoad = true;
+  $("who").textContent = name; $("cav").outerHTML = avatar(name, "sm").replace("<span", '<span id="cav"');
+  $("msgs").innerHTML = ""; $("tray").classList.remove("on"); show("chat");
   unsubMsgs && unsubMsgs();
-  let lastDay = "";
   unsubMsgs = db.collection("chats/" + id + "/messages").orderBy("ts").onSnapshot(snap => {
-    const box = $("msgs"), atEnd = box.scrollHeight - box.scrollTop - box.clientHeight < 80;
-    let html = "";
-    snap.docs.forEach(d => {
-      const m = d.data(), t = m.ts ? m.ts.toDate() : new Date();
-      const day = t.toLocaleDateString("pt-BR", { day: "numeric", month: "short", year: "numeric" }) + " " + t.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
-      const key = day.slice(0, -5) + Math.floor(t.getTime() / 1.8e6);
-      if (key !== lastDay) { html += `<div class="date">${day}</div>`; lastDay = key; }
-      html += `<div class="b ${m.from === me.uid ? "out" : "in"}">${esc(m.text)}</div>`;
+    const box = $("msgs"), nearEnd = box.scrollHeight - box.scrollTop - box.clientHeight < 120;
+    const list = snap.docs.map(d => { const m = d.data({ serverTimestamps: "estimate" }); return { ...m, t: m.ts ? m.ts.toDate() : new Date() }; });
+    let html = "", prevT = 0;
+    list.forEach((m, i) => {
+      if (m.t - prevT > 30 * 60 * 1000) html += `<div class="date">${stamp(m.t)}</div>`;
+      prevT = m.t;
+      const next = list[i + 1], last = !next || next.from !== m.from || next.t - m.t > 30 * 60 * 1000;
+      const fresh = !firstLoad && i === list.length - 1;
+      html += `<div class="r ${m.from === me.uid ? "out" : "in"}${last ? " end" : ""}${fresh ? " fresh" : ""}"><div class="b${last ? " tail" : ""}">${esc(m.text)}</div></div>`;
     });
-    lastDay = ""; box.innerHTML = html;
-    if (atEnd || snap.metadata.hasPendingWrites) box.scrollTop = box.scrollHeight;
-  });
+    const lastM = list[list.length - 1];
+    if (lastM && lastM.from === me.uid) html += `<div class="status">${snap.metadata.hasPendingWrites ? "Enviando…" : "Enviada"}</div>`;
+    box.innerHTML = html || `<div class="date">Diga oi 👋</div>`;
+    if (nearEnd || firstLoad || snap.metadata.hasPendingWrites) box.scrollTop = box.scrollHeight;
+    firstLoad = false;
+  }, err => toast("Erro: " + err.message));
 }
 $("back").onclick = () => { unsubMsgs && unsubMsgs(); curChat = null; show("home"); };
+
+const EMOJIS = ["😀","😂","😍","😎","😢","😡","👍","👋","🙏","🎉","❤️","🔥"];
+$("tray").innerHTML = EMOJIS.map(x => `<button type="button">${x}</button>`).join("");
+$("emo").onclick = () => $("tray").classList.toggle("on");
+$("tray").onclick = e => { if (e.target.tagName === "BUTTON") { $("txt").value += e.target.textContent; $("txt").dispatchEvent(new Event("input")); } };
+
 $("txt").oninput = () => {
-  const t = $("txt"); t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight, 90) + "px";
+  const t = $("txt"); t.style.height = "34px"; t.style.height = Math.min(t.scrollHeight, 96) + "px";
   $("sendbtn").disabled = !t.value.trim();
 };
 $("txt").onkeydown = e => { if (e.key === "Enter" && !e.shiftKey && matchMedia("(pointer:fine)").matches) { e.preventDefault(); $("sendf").requestSubmit(); } };
 $("sendf").onsubmit = async e => {
   e.preventDefault();
   const text = $("txt").value.trim(); if (!text || !curChat) return;
-  $("txt").value = ""; $("txt").style.height = "auto"; $("sendbtn").disabled = true;
+  const id = curChat; $("txt").value = ""; $("txt").style.height = "34px"; $("sendbtn").disabled = true; $("tray").classList.remove("on");
   try {
-    await db.collection("chats/" + curChat + "/messages").add({ from: me.uid, text, ts: TS() });
-    await db.doc("chats/" + curChat).update({ lastText: text.slice(0, 80), lastAt: TS() });
-  } catch (x) { alert("Não foi possível enviar: " + x.message); $("txt").value = text; $("sendbtn").disabled = false; }
+    await db.collection("chats/" + id + "/messages").add({ from: me.uid, text, ts: TS() });
+    await db.doc("chats/" + id).update({ lastText: text.slice(0, 80), lastAt: TS() });
+  } catch (x) { toast("Não foi possível enviar: " + x.message); $("txt").value = text; $("txt").dispatchEvent(new Event("input")); }
 };
 </script>
 </body>
