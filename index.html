@@ -157,6 +157,20 @@ svg.ic{width:20px;height:20px;display:block}
 @media(prefers-reduced-motion:no-preference){.dots i{animation:bl 1.2s infinite}.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}@keyframes bl{0%,60%,100%{opacity:.25}30%{opacity:1}}}
 .card .chk{margin-top:8px}
 .card .chk input{width:auto;height:auto;box-shadow:none}
+
+#selbar.on{flex-wrap:wrap}#selbar .nbtn{min-width:0;padding:0 9px;flex:1}
+.rt{display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0}.rt .tm{margin:0}
+.bd{min-width:20px;height:20px;padding:0 6px;border-radius:10px;border:2px solid #fff;color:#fff;font:700 12px/16px var(--ff);text-align:center;background:linear-gradient(#f88a7e,#d2281a 50%,#b81608 51%,#d3301f);box-shadow:0 0 0 1px #7d1409,0 1px 3px rgba(0,0,0,.5)}
+.row.un .l{color:#111;font-weight:700}
+.row.pn:not(:active){background:#eef4fd}
+.pinb{display:none;width:30px;height:30px;align-items:center;justify-content:center;color:#8a97ad;border:1px solid #b5bccb;border-radius:4px;flex-shrink:0}
+.row.pn .pinb,#list.editing .pinb{display:flex}.row.pn .pinb{color:#2f74dc}.row:active .pinb{color:#fff}
+#rbar{display:flex;align-items:center;gap:8px;padding:5px 10px;background:#e3e8f1;border-top:1px solid #b5bccb;font-size:12px;color:#334;flex-shrink:0}
+#rtx{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.q{border-left:3px solid rgba(0,0,0,.35);background:rgba(0,0,0,.08);border-radius:4px;padding:2px 6px;margin-bottom:4px;font-size:12px;cursor:pointer;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.q b{display:block;font-size:11px}.ed{opacity:.6;font-size:10px}
+.b.fl{outline:3px solid #f5b400;outline-offset:1px}
+@media(prefers-reduced-motion:no-preference){.b.pop{animation:pop .3s cubic-bezier(.2,.9,.3,1.25)}.out .b.pop{transform-origin:100% 100%}.in .b.pop{transform-origin:0 100%}@keyframes pop{from{opacity:0;transform:translateY(16px) scale(.55)}to{opacity:1;transform:none}}}
 </style>
 </head>
 <body>
@@ -196,8 +210,9 @@ svg.ic{width:20px;height:20px;display:block}
     <div class="nav"><button class="nbtn" id="back">Voltar</button><h1><span class="av sm" id="cav"></span><span class="ttl"><span id="who"></span><small id="stat"></small></span></h1><button class="nbtn" id="ginfo" type="button" hidden>Grupo</button><span class="sp" id="gsp"></span></div>
     <div id="msgs"></div>
     <div id="typing" hidden><span class="dots"><i></i><i></i><i></i></span><span id="typtx"></span></div>
-    <div id="selbar"><span>Mensagem selecionada</span><button class="nbtn dark" id="sopen" type="button">Abrir</button><button class="nbtn danger" id="sdel" type="button">Excluir</button><button class="nbtn dark" id="scan" type="button">Cancelar</button></div>
+    <div id="selbar"><button class="nbtn dark" id="srep" type="button">Responder</button><button class="nbtn dark" id="sedit" type="button">Editar</button><button class="nbtn dark" id="sopen" type="button">Abrir</button><button class="nbtn danger" id="sdel" type="button">Excluir</button><button class="nbtn dark" id="scan" type="button">Cancelar</button></div>
     <div id="tray"></div>
+    <div id="rbar" hidden><span id="rtx"></span><button type="button" class="link" id="rx">Cancelar</button></div>
     <form class="bar" id="sendf">
       <button type="button" class="ib" id="att" aria-label="Enviar foto ou vídeo"><svg class="ic" viewBox="0 0 24 24"><path d="M16.5 6.5l-8 8a2.2 2.2 0 003.1 3.1l8.4-8.4a4.2 4.2 0 00-6-6L5.7 11.8a6.2 6.2 0 008.8 8.8l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
       <button type="button" class="ib" id="emo" aria-label="Emoticons"></button>
@@ -216,6 +231,8 @@ svg.ic{width:20px;height:20px;display:block}
       <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button class="nbtn danger" id="cok">Excluir</button></div></form>
     <form class="card" id="af" hidden><h3>Minha conta</h3><p id="amail"></p>
       <input id="aname" type="text" maxlength="40" placeholder="Nome de usuário" required>
+      <div class="row2" style="align-items:center"><span id="apv"></span><button type="button" class="nbtn dark" id="aph">Trocar foto</button><button type="button" class="nbtn dark" id="aphx">Remover</button></div>
+      <label class="chk"><input type="checkbox" id="asnd"> Sons de mensagem</label>
       <label class="chk"><input type="checkbox" id="ashow"> Mostrar quando estou online e digitando</label><p class="err" id="aerr" role="alert"></p>
       <div class="btns"><button type="button" class="nbtn dark" data-close>Fechar</button><button class="nbtn">Salvar nome</button></div>
       <div class="btns"><button type="button" class="nbtn danger" id="aout">Sair da conta</button></div></form>
@@ -235,10 +252,12 @@ svg.ic{width:20px;height:20px;display:block}
     <div class="card wide" id="gi" hidden><h3 id="gititle"></h3><p id="gicount"></p>
       <div class="box" id="gmem"></div>
       <div id="gadm"><div class="sec">Adicionar integrante</div><div class="row2"><input id="giemail" type="email" placeholder="E-mail da pessoa"><button type="button" class="nbtn" id="giadd">Adicionar</button></div>
-      <div class="sec">Nome do grupo</div><div class="row2"><input id="grename" type="text" maxlength="40"><button type="button" class="nbtn" id="girename">Salvar</button></div></div>
+      <div class="sec">Nome do grupo</div><div class="row2"><input id="grename" type="text" maxlength="40"><button type="button" class="nbtn" id="girename">Salvar</button></div>
+      <div class="sec">Foto do grupo</div><div class="row2"><button type="button" class="nbtn" id="gph">Trocar foto</button><button type="button" class="nbtn dark" id="gphx">Remover</button></div></div>
       <p class="err" id="gierr" role="alert"></p>
       <div class="btns"><button type="button" class="nbtn dark" data-close>Fechar</button><button type="button" class="nbtn danger" id="gleave">Sair do grupo</button><button type="button" class="nbtn danger" id="gdel">Excluir grupo</button></div></div>
   </div>
+  <input type="file" id="pfile" accept="image/*" hidden>
   <div id="lb"><img alt="Foto ampliada"></div>
   <div id="toast" role="status"></div>
 </div>
@@ -261,17 +280,17 @@ storage.setMaxUploadRetryTime(20000); storage.setMaxOperationRetryTime(15000);
 // false = fotos salvas direto no Firestore (sem Storage). true = usa o Firebase Storage (necessário para vídeos).
 const USE_STORAGE = false;
 const $ = id => document.getElementById(id);
-let me = null, myName = "", unsubList = null, unsubMsgs = null, curChat = null, signup = false, busy = false, chats = [], firstLoad = true, editing = false, sel = null, msgMap = {}, pending = null, curMeta = null, curSeen = false, pool = new Map(), picked = new Set(), myShow = true, pres = {}, presUnsubs = [], presSig = "", beatT = null, typSent = 0, lastSig = "";
+let me = null, myName = "", unsubList = null, unsubMsgs = null, curChat = null, signup = false, busy = false, chats = [], firstLoad = true, editing = false, sel = null, msgMap = {}, pending = null, curMeta = null, curSeen = false, pool = new Map(), picked = new Set(), myShow = true, pres = {}, presUnsubs = [], presSig = "", beatT = null, typSent = 0, lastSig = "", myPins = [], myPhoto = "", curList = [], curPend = false, seenIds = new Set(), fresh = new Set(), reply = null, edit = null, bodySig = null, stSig = "", rdT = 0, prevUn = null, phT = "", AC = null;
 
 const show = id => document.querySelectorAll(".screen").forEach(s => s.classList.toggle("on", s.id === id));
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function toast(t){ const e = $("toast"); e.textContent = t; e.classList.add("on"); clearTimeout(toast.t); toast.t = setTimeout(() => e.classList.remove("on"), 2800); }
-function avatar(name, cls = ""){
+function avatar(name, cls = "", ph = ""){
   const n = (name || "?").trim(); let h = 0; for (const c of n) h = (h * 31 + c.charCodeAt(0)) % 360;
-  return `<span class="av ${cls}" style="background:linear-gradient(hsl(${h},60%,62%),hsl(${h},65%,42%))">${esc(n[0].toUpperCase())}</span>`;
+  return `<span class="av ${cls}" style="${ph ? `background:url('${esc(ph)}') center/cover` : `background:linear-gradient(hsl(${h},60%,62%),hsl(${h},65%,42%))`}">${ph ? "" : esc(n[0].toUpperCase())}</span>`;
 }
 const hueOf = s => { let h = 0; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
-const groupAv = (cls = "") => `<span class="av grp ${cls}" style="background:linear-gradient(#86b6ec,#2f6bb8)"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="3" fill="#fff"/><circle cx="16.5" cy="9.5" r="2.6" fill="#e6eefb"/><path d="M2 20c0-4 3-6 6-6s6 2 6 6zM13.5 20c.2-2.800 1.800-4.600 4.200-4.600 2.700 0 4.300 2 4.300 4.600z" fill="#fff"/></svg></span>`;
+const groupAv = (cls = "", ph = "") => ph ? avatar("g", "grp " + cls, ph) : `<span class="av grp ${cls}" style="background:linear-gradient(#86b6ec,#2f6bb8)"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="3" fill="#fff"/><circle cx="16.5" cy="9.5" r="2.6" fill="#e6eefb"/><path d="M2 20c0-4 3-6 6-6s6 2 6 6zM13.5 20c.2-2.800 1.800-4.600 4.200-4.600 2.700 0 4.300 2 4.300 4.600z" fill="#fff"/></svg></span>`;
 const hhmm = d => d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
 const sameDay = (a, b) => a.toDateString() === b.toDateString();
 const stamp = d => (sameDay(d, new Date()) ? "Hoje" : d.toLocaleDateString("pt-BR")) + " " + hhmm(d);
@@ -345,14 +364,14 @@ $("f").onsubmit = async e => {
 auth.onAuthStateChanged(u => { if (busy) return; if (u) onUser(u); else { cleanup(); show("login"); } });
 async function onUser(u){
   me = u;
-  try { const d = await db.doc("users/" + u.uid).get(); if (d.exists) { if (!myName) myName = d.data().name; myShow = d.data().showStatus !== false; } } catch {}
+  try { const d = await db.doc("users/" + u.uid).get(); if (d.exists) { if (!myName) myName = d.data().name; myShow = d.data().showStatus !== false; myPins = d.data().pinned || []; myPhoto = d.data().photo || ""; } } catch {}
   if (!myName) myName = u.email;
   show("home"); watchList(); startBeat();
 }
-function cleanup(){ stopBeat(); presUnsubs.forEach(f => f()); presUnsubs = []; presSig = ""; pres = {}; myShow = true; unsubList && unsubList(); unsubMsgs && unsubMsgs(); me = null; myName = ""; curChat = null; chats = []; $("pass").value = ""; editing = false; }
+function cleanup(){ stopBeat(); presUnsubs.forEach(f => f()); presUnsubs = []; presSig = ""; pres = {}; myShow = true; myPins = []; myPhoto = ""; prevUn = null; unsubList && unsubList(); unsubMsgs && unsubMsgs(); me = null; myName = ""; curChat = null; chats = []; $("pass").value = ""; editing = false; }
 
 /* ---------- conta ---------- */
-$("acc").onclick = () => { $("amail").textContent = me.email; $("aname").value = myName; $("ashow").checked = myShow; $("aerr").textContent = ""; openModal("af"); };
+$("acc").onclick = () => { $("amail").textContent = me.email; $("aname").value = myName; $("ashow").checked = myShow; $("aerr").textContent = ""; $("apv").innerHTML = avatar(myName, "", myPhoto); $("asnd").checked = sndOn(); openModal("af"); };
 $("aout").onclick = () => { closeModal(); beat(false); auth.signOut(); };
 $("af").onsubmit = async e => {
   e.preventDefault(); const n = $("aname").value.trim(); if (!n) return;
@@ -380,23 +399,23 @@ function drawList(){
     const n = chatTitle(c), d = c.lastAt ? c.lastAt.toDate() : null;
     const tm = d ? (sameDay(d, new Date()) ? hhmm(d) : d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })) : "";
     const ty = typers(c), pr = c.isGroup ? null : presOf(c.other);
-    const av = c.isGroup ? groupAv() : `<span class="avw">${avatar(n)}${pr ? `<span class="dot${pr.on ? " on" : ""}"></span>` : ""}</span>`;
+    const av = c.isGroup ? groupAv("", c.photo) : `<span class="avw">${avatar(n, "", pres[c.other]?.photo)}${pr ? `<span class="dot${pr.on ? " on" : ""}"></span>` : ""}</span>`;
     const line = ty.length ? `<span class="l typ">${esc(c.isGroup ? ty.map(u => (c.names?.[u] || "").split(" ")[0]).join(", ") + " digitando…" : "digitando…")}</span>` : `<span class="l">${esc(c.lastText || (c.isGroup ? "Novo grupo" : "Nova conversa"))}</span>`;
-    return `<button class="row" data-id="${c.id}"><span class="minus"></span>${av}<span class="tx"><b>${esc(n)}</b>${line}</span><span class="tm">${tm}</span></button>`;
+    const un = c.unread?.[me.uid] || 0;
+    return `<button class="row${myPins.includes(c.id) ? " pn" : ""}${un ? " un" : ""}" data-id="${c.id}"><span class="minus"></span>${av}<span class="tx"><b>${esc(n)}</b>${line}</span><span class="rt"><span class="tm">${tm}</span>${un ? `<span class="bd">${un > 99 ? "99+" : un}</span>` : ""}</span><span class="pinb">${PIN}</span></button>`;
   }).join("") : `<div class="empty"><svg viewBox="0 0 48 48"><rect x="4" y="6" width="40" height="28" rx="8" fill="#e4eefb" stroke="#6f93b3" stroke-width="2"/><path d="M13 34l-3 9 11-9z" fill="#e4eefb" stroke="#6f93b3" stroke-width="2" stroke-linejoin="round"/></svg>${q ? "Nenhuma conversa encontrada." : "Nenhuma conversa ainda.<br>Toque em <b>Nova</b> para começar uma conversa ou criar um grupo."}</div>`;
 }
 function watchList(){
   unsubList && unsubList();
   unsubList = db.collection("chats").where("members", "array-contains", me.uid).onSnapshot(snap => {
-    chats = snap.docs.map(d => { const c = d.data({ serverTimestamps: "estimate" }); return { id: d.id, ...c, other: c.members.find(m => m !== me.uid) }; })
-      .sort((a, b) => (b.lastAt?.seconds || 0) - (a.lastAt?.seconds || 0));
-    drawList(); syncOpen(); watchPresence();
+    chats = snap.docs.map(d => { const c = d.data({ serverTimestamps: "estimate" }); return { id: d.id, ...c, other: c.members.find(m => m !== me.uid) }; });
+    sortChats(); unreadFx(); drawList(); syncOpen(); watchPresence();
   }, err => { $("list").innerHTML = `<div class="empty">Erro ao carregar: ${esc(err.message)}</div>`; });
 }
 function syncOpen(){
   if (!curChat) return;
   const c = chats.find(x => x.id === curChat);
-  if (c) { curMeta = c; curSeen = true; setHeader(); if ($("modal").classList.contains("on") && !$("gi").hidden) renderInfo(); }
+  if (c) { curMeta = c; curSeen = true; setHeader(); markRead(); if ($("modal").classList.contains("on") && !$("gi").hidden) renderInfo(); }
   else if (curSeen) { toast(curMeta?.isGroup ? "Você não está mais neste grupo." : "Esta conversa foi encerrada."); goHome(); }
 }
 function goHome(){ $("typing").hidden = true; unsubMsgs && unsubMsgs(); curChat = null; curMeta = null; clearSel(); closeModal(); show("home"); }
@@ -406,6 +425,7 @@ const leaveGroup = id => db.doc("chats/" + id).update({ members: FV.arrayRemove(
 $("list").onclick = async e => {
   const r = e.target.closest(".row"); if (!r) return;
   const c = chats.find(x => x.id === r.dataset.id); if (!c) return;
+  if (editing && e.target.closest(".pinb")) return togglePin(c.id);
   if (!editing) return openChat(c.id, c);
   const n = chatTitle(c);
   try {
@@ -478,7 +498,7 @@ function clearSel(){ sel = null; $("selbar").classList.remove("on"); document.qu
 function setHeader(){
   const c = curMeta, g = c.isGroup, t = chatTitle(c);
   $("who").textContent = t;
-  $("cav").outerHTML = (g ? groupAv("sm") : avatar(t, "sm")).replace("<span", '<span id="cav"');
+  $("cav").outerHTML = (g ? groupAv("sm", c.photo) : avatar(t, "sm", phOf(c.other))).replace("<span", '<span id="cav"');
   $("ginfo").hidden = !g; $("gsp").hidden = g; renderLive();
 }
 function pollHtml(m){
@@ -490,32 +510,17 @@ function pollHtml(m){
 }
 function openChat(id, meta){
   curChat = id; curMeta = meta; curSeen = chats.some(x => x.id === id); firstLoad = true; clearSel();
-  setHeader(); $("msgs").innerHTML = ""; $("tray").classList.remove("on"); show("chat");
+  curList = []; curPend = false; seenIds = new Set(); fresh = new Set(); bodySig = null; stSig = ""; reply = edit = null; setBar();
+  setHeader(); $("msgs").innerHTML = ""; $("tray").classList.remove("on"); show("chat"); markRead();
   unsubMsgs && unsubMsgs();
   unsubMsgs = db.collection("chats/" + id + "/messages").orderBy("ts").onSnapshot(snap => {
-    const box = $("msgs"), nearEnd = box.scrollHeight - box.scrollTop - box.clientHeight < 120, GAP = 30 * 60 * 1000;
-    const list = snap.docs.map(d => { const m = d.data({ serverTimestamps: "estimate" }); return { id: d.id, ...m, t: m.ts ? m.ts.toDate() : new Date() }; });
-    msgMap = {}; let html = "", prevT = 0;
-    list.forEach((m, i) => {
-      msgMap[m.id] = m;
-      if (m.t - prevT > GAP) html += `<div class="date">${stamp(m.t)}</div>`;
-      prevT = m.t;
-      const prev = list[i - 1], next = list[i + 1], mine = m.from === me.uid;
-      const first = !prev || prev.from !== m.from || m.t - prev.t > GAP, last = !next || next.from !== m.from || next.t - m.t > GAP;
-      const sn = curMeta.isGroup && !mine && first ? `<span class="sn" style="color:hsl(${hueOf(m.from)},60%,32%)">${esc(nameOf(m.from))}</span>` : "";
-      let inner, cls = "";
-      if (m.kind === "image") { inner = `<img class="med" loading="lazy" src="${esc(m.url)}" alt="Foto">`; cls = " m"; }
-      else if (m.kind === "video") { inner = `<video class="med" src="${esc(m.url)}" controls preload="metadata" playsinline></video>`; cls = " m"; }
-      else if (m.kind === "poll") { inner = pollHtml(m); cls = " p"; }
-      else inner = fmt(m.text);
-      html += `<div class="r ${mine ? "out" : "in"}${last ? " end" : ""}"><div class="b${cls}${sel && sel.id === m.id ? " sel" : ""}" data-id="${m.id}">${sn}${inner}</div></div>`;
-    });
-    const lm = list[list.length - 1];
-    if (lm && lm.from === me.uid) html += `<div class="status">${snap.metadata.hasPendingWrites ? "Enviando…" : "Enviada"}</div>`;
-    box.innerHTML = html || `<div class="date">Nenhuma mensagem. Diga oi!</div>`;
-    if (sel && !msgMap[sel.id]) clearSel();
-    if (nearEnd || firstLoad || snap.metadata.hasPendingWrites) box.scrollTop = box.scrollHeight;
-    firstLoad = false;
+    curList = snap.docs.map(d => { const m = d.data({ serverTimestamps: "estimate" }); return { id: d.id, ...m, t: m.ts ? m.ts.toDate() : new Date() }; });
+    curPend = snap.metadata.hasPendingWrites;
+    const nw = curList.filter(m => !seenIds.has(m.id));
+    fresh = new Set(firstLoad ? [] : nw.map(m => m.id));
+    if (!firstLoad && nw.some(m => m.from !== me.uid)) beep("r");
+    nw.forEach(m => seenIds.add(m.id));
+    drawMsgs(firstLoad || curPend); firstLoad = false; markRead();
   }, err => toast("Erro: " + err.message));
 }
 $("back").onclick = goHome;
@@ -529,11 +534,12 @@ async function vote(id, i){
 }
 $("msgs").onclick = e => {
   const b = e.target.closest(".b");
+  const qq = e.target.closest(".q"); if (qq) return jump(qq.dataset.q);
   if (!b || e.target.closest("video")) return clearSel();
   const o = e.target.closest(".opt"); if (o) return vote(b.dataset.id, +o.dataset.i);
   const m = msgMap[b.dataset.id]; if (!m) return;
   clearSel(); sel = m; b.classList.add("sel");
-  $("sopen").hidden = m.kind !== "image";
+  $("sopen").hidden = m.kind !== "image"; $("sedit").hidden = !(m.from === me.uid && m.kind === "text");
   $("sdel").hidden = !(m.from === me.uid || (curMeta.isGroup && curMeta.admin === me.uid));
   $("selbar").classList.add("on");
 };
@@ -569,6 +575,7 @@ function typers(c){
 const typText = n => n.length === 1 ? n[0] + " está digitando…" : n.length === 2 ? n[0] + " e " + n[1] + " estão digitando…" : n[0] + ", " + n[1] + " e mais " + (n.length - 2) + " estão digitando…";
 function renderLive(){
   if (!curChat || !curMeta || !me) return;
+  chkStatus();
   const c = curMeta, ty = typers(c), box = $("msgs");
   const atEnd = box.scrollHeight - box.scrollTop - box.clientHeight < 80;
   $("typing").hidden = !ty.length;
@@ -585,7 +592,7 @@ function renderLive(){
   }
   $("stat").textContent = st; $("stat").className = cls;
 }
-const liveSig = () => chats.map(c => c.id + (c.isGroup ? "" : (presOf(c.other)?.on ? 1 : 0) + (presOf(c.other) ? "p" : "")) + typers(c).join()).join("|");
+const liveSig = () => chats.map(c => c.id + (c.isGroup ? "" : (presOf(c.other)?.on ? 1 : 0) + (presOf(c.other) ? "p" : "")) + typers(c).join() + (pres[c.other]?.photo || "").length).join("|");
 function tick(){
   if (!me) return;
   renderLive();
@@ -611,7 +618,7 @@ function pingTyping(){
 function beat(on = true){ if (me && myShow) db.doc("users/" + me.uid).update({ online: on, lastSeen: TS() }).catch(() => {}); }
 function startBeat(){ stopBeat(); beat(); beatT = setInterval(() => { if (!document.hidden) beat(); }, 40000); }
 function stopBeat(){ clearInterval(beatT); beatT = null; }
-document.addEventListener("visibilitychange", () => beat(!document.hidden));
+document.addEventListener("visibilitychange", () => { beat(!document.hidden); markRead(); });
 addEventListener("pagehide", () => beat(false));
 $("ashow").onchange = async () => {
   myShow = $("ashow").checked;
@@ -642,7 +649,7 @@ function renderInfo(){
   $("gititle").textContent = c.title; $("gicount").textContent = c.members.length + " integrantes";
   $("gmem").innerHTML = c.members.map(u => {
     const n = c.names?.[u] || "Integrante";
-    return `<div class="mem">${avatar(n, "sm")}<span class="mn">${esc(n)}${u === me.uid ? " (você)" : ""}</span>${u === c.admin ? '<span class="badge">Admin</span>' : ""}${adm && u !== me.uid ? `<button class="link" data-rm="${u}">Remover</button>` : ""}</div>`;
+    return `<div class="mem">${avatar(n, "sm", phOf(u))}<span class="mn">${esc(n)}${u === me.uid ? " (você)" : ""}</span>${u === c.admin ? '<span class="badge">Admin</span>' : ""}${adm && u !== me.uid ? `<button class="link" data-rm="${u}">Remover</button>` : ""}</div>`;
   }).join("");
   $("gadm").hidden = !adm; $("gdel").hidden = !adm; $("gleave").hidden = adm;
   if (adm && document.activeElement !== $("grename")) $("grename").value = c.title;
@@ -692,16 +699,24 @@ $("txt").oninput = () => {
 };
 $("txt").onkeydown = e => { if (e.key === "Enter" && !e.shiftKey && matchMedia("(pointer:fine)").matches) { e.preventDefault(); $("sendf").requestSubmit(); } };
 async function sendMsg(data, preview){
-  const id = curChat;
+  const id = curChat; beep("s");
   await db.collection("chats/" + id + "/messages").add({ from: me.uid, text: "", kind: "text", ts: TS(), ...data });
-  await db.doc("chats/" + id).update({ lastText: withName(me.uid, preview).slice(0, 80), lastAt: TS() });
+  const up = { lastText: withName(me.uid, preview).slice(0, 80), lastAt: TS(), ["read." + me.uid]: TS(), ["unread." + me.uid]: 0 };
+  curMeta.members.forEach(u => { if (u !== me.uid) up["unread." + u] = FV.increment(1); });
+  await db.doc("chats/" + id).update(up);
 }
 $("sendf").onsubmit = async e => {
   e.preventDefault();
   const text = $("txt").value.trim(); if (!text || !curChat) return;
+  const ed = edit, rp = reply; edit = reply = null; setBar();
   $("txt").value = ""; $("txt").style.height = "32px"; $("sendbtn").disabled = true; $("tray").classList.remove("on");
-  try { await sendMsg({ text }, text); }
-  catch (x) { toast("Não foi possível enviar: " + x.message); $("txt").value = text; $("txt").dispatchEvent(new Event("input")); }
+  try {
+    if (ed) {
+      if (text === ed.text) return;
+      await db.doc("chats/" + curChat + "/messages/" + ed.id).update({ text, edited: true });
+      if (curList[curList.length - 1]?.id === ed.id) await db.doc("chats/" + curChat).update({ lastText: withName(me.uid, text).slice(0, 80) });
+    } else await sendMsg({ text, ...(rp ? { reply: { id: rp.id, from: rp.from, text: rp.text } } : {}) }, text);
+  } catch (x) { toast("Não foi possível " + (ed ? "editar" : "enviar") + ": " + x.message); $("txt").value = text; $("txt").dispatchEvent(new Event("input")); edit = ed; reply = rp; setBar(); }
 };
 
 /* ---------- fotos e vídeos ---------- */
@@ -750,6 +765,112 @@ $("file").onchange = async e => {
       catch (x) { toast("Vídeos precisam do Firebase Storage ativado."); }
     } else toast("Escolha uma foto ou um vídeo.");
   } catch (x) { toast("Erro: " + x.message); }
+};
+/* ---------- recursos novos ---------- */
+const PIN = '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M9 3h6l-1 6 3 3v2h-4v7l-1 1-1-1v-7H7v-2l3-3z" fill="currentColor"/></svg>';
+const sndOn = () => { try { return localStorage.getItem("snd") !== "0"; } catch { return true; } };
+function beep(k){
+  if (!sndOn()) return;
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === "suspended") AC.resume();
+    const o = AC.createOscillator(), g = AC.createGain(), n = AC.currentTime, f = k === "s" ? [700, 1400] : [1250, 880];
+    o.type = "sine"; o.frequency.setValueAtTime(f[0], n); o.frequency.exponentialRampToValueAtTime(f[1], n + .14);
+    g.gain.setValueAtTime(.0001, n); g.gain.exponentialRampToValueAtTime(.18, n + .02); g.gain.exponentialRampToValueAtTime(.0001, n + .3);
+    o.connect(g); g.connect(AC.destination); o.start(n); o.stop(n + .32);
+  } catch {}
+}
+$("asnd").onchange = () => { try { localStorage.setItem("snd", $("asnd").checked ? "1" : "0"); } catch {} if ($("asnd").checked) beep("s"); };
+const phOf = u => u === me?.uid ? myPhoto : (pres[u]?.photo || "");
+const sortChats = () => chats.sort((a, b) => (myPins.includes(b.id) - myPins.includes(a.id)) || (b.lastAt?.seconds || 0) - (a.lastAt?.seconds || 0));
+function unreadFx(){
+  const n = c => c.unread?.[me.uid] || 0, all = chats.reduce((s, c) => s + n(c), 0), oth = chats.reduce((s, c) => s + (c.id === curChat ? 0 : n(c)), 0);
+  document.title = (all ? "(" + all + ") " : "") + "Messenger";
+  if (prevUn !== null && oth > prevUn) beep("r"); prevUn = oth;
+}
+async function togglePin(id){
+  myPins = myPins.includes(id) ? myPins.filter(x => x !== id) : [...myPins, id]; sortChats(); drawList();
+  try { await db.doc("users/" + me.uid).update({ pinned: myPins }); } catch (x) { toast("Erro: " + x.message); }
+}
+const dsep = d => { const n = new Date(); return (sameDay(d, n) ? "Hoje" : sameDay(d, new Date(n - 864e5)) ? "Ontem" : d.toLocaleDateString("pt-BR", { day: "numeric", month: "short", year: "numeric" })) + " " + hhmm(d); };
+function statusOf(m){
+  if (curPend) return "Enviando…";
+  const c = curMeta, rd = c.read || {}, t = m.t.getTime(), ok = c.members.filter(u => u !== me.uid && tsMs(rd[u]) >= t);
+  if (c.isGroup) return ok.length ? "Lida por " + ok.length : "Enviada";
+  if (ok.length) return "Lida " + stamp(new Date(tsMs(rd[c.other]))).replace("Hoje ", "");
+  return presOf(c.other)?.on ? "Entregue" : "Enviada";
+}
+function chkStatus(){
+  if (!curChat || !curMeta || !me || !curList.length) return;
+  const lm = curList[curList.length - 1], st = lm.from === me.uid ? statusOf(lm) : "";
+  if (st !== stSig) drawMsgs();
+}
+function drawMsgs(force){
+  const box = $("msgs"), list = curList, near = box.scrollHeight - box.scrollTop - box.clientHeight < 120;
+  const lm = list[list.length - 1], st = lm && lm.from === me.uid ? statusOf(lm) : "";
+  msgMap = {}; list.forEach(m => msgMap[m.id] = m);
+  const sg = list.map(m => m.id + "|" + m.text + "|" + (m.edited ? 1 : 0) + "|" + JSON.stringify(m.votes || 0)).join("\n");
+  if (sg === bodySig) {
+    const s = box.querySelector(".status");
+    if (s && st) { s.textContent = st; stSig = st; return; }
+    if (!s && !st) { stSig = st; return; }
+  }
+  bodySig = sg; stSig = st; let html = "";
+  list.forEach((m, i) => {
+    const prev = list[i - 1], next = list[i + 1], mine = m.from === me.uid, GAP = 30 * 60 * 1000;
+    if (!prev || m.t - prev.t > 36e5 || !sameDay(m.t, prev.t)) html += `<div class="date">${dsep(m.t)}</div>`;
+    const first = !prev || prev.from !== m.from || m.t - prev.t > GAP, last = !next || next.from !== m.from || next.t - m.t > GAP;
+    const sn = curMeta.isGroup && !mine && first ? `<span class="sn" style="color:hsl(${hueOf(m.from)},60%,32%)">${esc(nameOf(m.from))}</span>` : "";
+    let inner, cls = "";
+    if (m.kind === "image") { inner = `<img class="med" loading="lazy" src="${esc(m.url)}" alt="Foto">`; cls = " m"; }
+    else if (m.kind === "video") { inner = `<video class="med" src="${esc(m.url)}" controls preload="metadata" playsinline></video>`; cls = " m"; }
+    else if (m.kind === "poll") { inner = pollHtml(m); cls = " p"; }
+    else inner = fmt(m.text) + (m.edited ? ' <small class="ed">(editada)</small>' : "");
+    const q = m.reply ? `<div class="q" data-q="${esc(m.reply.id)}"><b>${esc(m.reply.from === me.uid ? "Você" : nameOf(m.reply.from))}</b>${esc(m.reply.text)}</div>` : "";
+    html += `<div class="r ${mine ? "out" : "in"}${last ? " end" : ""}"><div class="b${cls}${sel && sel.id === m.id ? " sel" : ""}${fresh.has(m.id) ? " pop" : ""}" data-id="${m.id}">${sn}${q}${inner}</div></div>`;
+  });
+  if (st) html += `<div class="status">${st}</div>`;
+  box.innerHTML = html || `<div class="date">Nenhuma mensagem. Diga oi!</div>`;
+  if (sel && !msgMap[sel.id]) clearSel();
+  if (near || force) box.scrollTop = box.scrollHeight;
+}
+function markRead(){
+  if (!curChat || !curMeta || !me || document.hidden) return;
+  const lo = curList.filter(m => m.from !== me.uid).pop();
+  if (!(curMeta.unread?.[me.uid] > 0) && !(lo && tsMs(curMeta.read?.[me.uid]) < lo.t.getTime())) return;
+  if (Date.now() - rdT < 2000) return; rdT = Date.now();
+  db.doc("chats/" + curChat).update({ ["read." + me.uid]: TS(), ["unread." + me.uid]: 0 }).catch(() => {});
+}
+function jump(id){
+  const el = document.querySelector('.b[data-id="' + CSS.escape(id) + '"]'); if (!el) return toast("A mensagem original foi excluída.");
+  el.scrollIntoView({ block: "center", behavior: "smooth" }); el.classList.add("fl"); setTimeout(() => el.classList.remove("fl"), 1400);
+}
+function setBar(){
+  const t = edit ? "Editando mensagem" : reply ? "Respondendo a " + (reply.from === me.uid ? "você" : nameOf(reply.from)) + ": " + reply.text : "";
+  $("rbar").hidden = !t; $("rtx").textContent = t;
+}
+$("srep").onclick = () => { const m = sel; if (!m) return; edit = null; reply = { id: m.id, from: m.from, text: previewOf(m).slice(0, 80) }; clearSel(); setBar(); $("txt").focus(); };
+$("sedit").onclick = () => { const m = sel; if (!m) return; reply = null; edit = m; clearSel(); setBar(); $("txt").value = m.text; $("txt").dispatchEvent(new Event("input")); $("txt").focus(); };
+$("rx").onclick = () => { if (edit) { $("txt").value = ""; $("txt").dispatchEvent(new Event("input")); } reply = edit = null; setBar(); };
+
+/* fotos de perfil e de grupo */
+async function sq(f){
+  const c = await toCanvas(f, 640), k = Math.min(c.width, c.height), o = document.createElement("canvas"); o.width = o.height = 160;
+  o.getContext("2d").drawImage(c, (c.width - k) / 2, (c.height - k) / 2, k, k, 0, 0, 160, 160); return o.toDataURL("image/jpeg", .8);
+}
+async function setPhoto(url){
+  try {
+    if (phT === "me") { await db.doc("users/" + me.uid).update({ photo: url || FV.delete() }); myPhoto = url; $("apv").innerHTML = avatar(myName, "", url); drawList(); }
+    else await upd({ photo: url || FV.delete() });
+    toast(url ? "Foto atualizada" : "Foto removida");
+  } catch (x) { toast("Erro: " + x.message); }
+}
+$("aph").onclick = () => { phT = "me"; $("pfile").click(); };
+$("gph").onclick = () => { phT = "grp"; $("pfile").click(); };
+$("aphx").onclick = () => { phT = "me"; setPhoto(""); };
+$("gphx").onclick = () => { phT = "grp"; setPhoto(""); };
+$("pfile").onchange = async e => {
+  const f = e.target.files[0]; e.target.value = ""; if (!f || !f.type.startsWith("image/")) return;
+  try { await setPhoto(await sq(f)); } catch (x) { toast(x.message); }
 };
 </script>
 </body>
