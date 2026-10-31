@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mensagens</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0}
+body{background:#2b3a55;font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;display:flex;justify-content:center}
+#app{width:100%;max-width:480px;height:100%;background:#dbe0ec;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.screen{display:none;flex-direction:column;height:100%}
+.screen.on{display:flex}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:2px solid #1f6fe0;outline-offset:2px}
+
+/* barra de navegação estilo iOS */
+.nav{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(env(safe-area-inset-top,0px) + 8px) 8px 8px;background:linear-gradient(#a9b6cc,#7389ab 50%,#6b82a5);border-bottom:1px solid #2d3642;box-shadow:inset 0 1px #cfd8e6;min-height:56px}
+.nav h1{margin:0;font-size:18px;color:#fff;text-shadow:0 -1px rgba(0,0,0,.45);font-weight:700;flex:1;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.nbtn{min-width:64px;height:32px;padding:0 12px;color:#fff;font-weight:700;font-size:13px;text-shadow:0 -1px rgba(0,0,0,.5);border:1px solid #2d3f5e;border-radius:6px;background:linear-gradient(#8c9fbd,#56709a 50%,#47628e 51%,#5a77a3);box-shadow:inset 0 1px rgba(255,255,255,.35),0 1px rgba(255,255,255,.3)}
+.nbtn.back{padding-left:16px;position:relative;border-radius:4px 6px 6px 4px}
+.nbtn:active{filter:brightness(.8)}
+
+/* lista de conversas */
+#list{flex:1;overflow:auto;background:#fff}
+.row{display:block;width:100%;text-align:left;border:0;border-bottom:1px solid #d5d5d5;background:#fff;padding:10px 14px}
+.row:active{background:#3e86e8;color:#fff}
+.row b{display:block;font-size:17px}
+.row span{display:block;font-size:14px;color:#777;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px}
+.row:active span{color:#dbe8ff}
+.empty{padding:40px 24px;text-align:center;color:#6f7b91;font-size:15px;line-height:1.4}
+
+/* conversa */
+#msgs{flex:1;overflow:auto;padding:10px 8px 12px;display:flex;flex-direction:column}
+.date{align-self:center;color:#7f8798;font-weight:700;font-size:12px;margin:10px 0 6px;text-shadow:0 1px #fff}
+.b{max-width:74%;padding:8px 14px;margin:3px 10px;font-size:16px;line-height:1.25;border-radius:18px;position:relative;word-wrap:break-word;overflow-wrap:anywhere;white-space:pre-wrap;border:1px solid #888;box-shadow:0 1px 2px rgba(0,0,0,.35)}
+.b::before{content:"";position:absolute;left:8px;right:8px;top:2px;height:42%;border-radius:12px 12px 8px 8px;background:linear-gradient(rgba(255,255,255,.55),rgba(255,255,255,.12));pointer-events:none}
+.b.in{align-self:flex-start;background:linear-gradient(#e9e9ee,#cfcfd4);color:#000}
+.b.out{align-self:flex-end;background:linear-gradient(#a8e65a,#7bd02a);border-color:#3b8a00;color:#0d2200}
+.b.in::after,.b.out::after{content:"";position:absolute;bottom:-1px;width:14px;height:14px;background:inherit;border:inherit;border-top:0}
+.b.in::after{left:-6px;border-right:0;border-radius:0 0 0 14px;clip-path:polygon(0 0,100% 0,100% 100%,0 100%)}
+.b.out::after{right:-6px;border-left:0;border-radius:0 0 14px 0}
+.bar{display:flex;gap:8px;align-items:flex-end;padding:8px 8px calc(env(safe-area-inset-bottom,0px) + 8px);background:linear-gradient(#e9ecf2,#c7cdd8);border-top:1px solid #7d8594}
+.bar textarea{flex:1;resize:none;max-height:90px;min-height:34px;border:1px solid #6d7482;border-radius:17px;padding:7px 14px;font:16px/1.2 inherit;font-family:inherit;box-shadow:inset 0 2px 3px rgba(0,0,0,.2);background:#fff}
+.send{height:34px;padding:0 16px;border-radius:17px;border:1px solid #1b3f8f;color:#fff;font-weight:700;font-size:15px;text-shadow:0 -1px rgba(0,0,0,.5);background:linear-gradient(#6b95e8,#2658c9 50%,#1747b8 51%,#2e65d8)}
+.send:disabled{filter:grayscale(.7) opacity(.7)}
+
+/* login estilo Windows Live Messenger */
+#login{background:radial-gradient(circle at 50% 0,#cfe8fb,#8fbfe6 55%,#5a93c4);align-items:center;justify-content:center;padding:16px}
+.win{width:100%;max-width:340px;background:linear-gradient(#e7f2fb,#bcd9f0);border:1px solid #2a4a68;border-radius:8px;box-shadow:0 0 0 1px rgba(255,255,255,.7) inset,0 10px 30px rgba(0,0,0,.45)}
+.win .t{padding:6px 10px;font-size:13px;color:#102a43;text-shadow:0 0 8px #fff}
+.win .in{margin:0 8px 8px;background:#fff;border:1px solid #8aa6bf;padding:14px 22px 16px;text-align:center}
+.avatar{width:110px;height:110px;margin:0 auto 6px;border:2px solid #fff;border-radius:10px;background:radial-gradient(#e9f4fc,#9cc3e2);box-shadow:0 0 0 1px #6f93b3,0 3px 8px rgba(0,0,0,.3);display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.avatar svg{width:84px;height:84px}
+.win h2{color:#1d4f82;font-weight:400;font-size:21px;margin:8px 0}
+.win p{font-size:13px;color:#333;margin:0 0 10px}
+.fields{border:1px solid #cfd8e0;padding:10px;text-align:left;background:#fafcfe}
+.fields input{width:100%;height:28px;margin-bottom:8px;padding:0 6px;border:1px solid #7f9db9;font-size:14px;font-family:inherit}
+.fields input:last-child{margin-bottom:0}
+.go{margin:14px auto 4px;height:26px;min-width:80px;padding:0 14px;font-size:13px;color:#111;border:1px solid #707070;border-radius:3px;background:linear-gradient(#f2f2f2,#ebebeb 50%,#dddddd 51%,#cfcfcf)}
+.go:hover{border-color:#3c7fb1;box-shadow:inset 0 0 0 1px #8dd1f8}
+.link{background:none;border:0;color:#0066cc;font-size:13px;padding:2px;text-decoration:underline}
+.err{color:#b00020;font-size:13px;min-height:18px;margin:8px 0 0}
+.foot{display:flex;justify-content:space-between;margin-top:12px}
+@media (prefers-reduced-motion:no-preference){.b{animation:pop .18s ease-out}@keyframes pop{from{transform:scale(.9);opacity:0}}}
+</style>
+</head>
+<body>
+<div id="app">
+
+  <!-- LOGIN -->
+  <section id="login" class="screen on">
+    <div class="win">
+      <div class="t">Messenger</div>
+      <div class="in">
+        <div class="avatar"><svg viewBox="0 0 80 80"><circle cx="40" cy="26" r="14" fill="#fff" stroke="#9db6cb"/><path d="M10 80c0-22 14-30 30-30s30 8 30 30z" fill="#fff" stroke="#9db6cb"/></svg></div>
+        <h2>Entrar</h2>
+        <p id="sub">Entre com seu e-mail e senha.</p>
+        <form id="f" class="fields">
+          <input id="name" placeholder="Seu nome" autocomplete="nickname" hidden>
+          <input id="email" type="email" placeholder="E-mail" autocomplete="email" required>
+          <input id="pass" type="password" placeholder="Senha (mínimo 6 caracteres)" autocomplete="current-password" minlength="6" required>
+          <button class="go" id="gobtn" style="display:block">Entrar</button>
+        </form>
+        <p class="err" id="err" role="alert"></p>
+        <div class="foot"><button class="link" id="toggle" type="button">Criar uma conta</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LISTA -->
+  <section id="home" class="screen">
+    <div class="nav"><button class="nbtn" id="out">Sair</button><h1>Mensagens</h1><button class="nbtn" id="new">Nova</button></div>
+    <div id="list"></div>
+  </section>
+
+  <!-- CONVERSA -->
+  <section id="chat" class="screen">
+    <div class="nav"><button class="nbtn back" id="back">Mensagens</button><h1 id="who"></h1><span style="min-width:12px"></span></div>
+    <div id="msgs"></div>
+    <form class="bar" id="sendf">
+      <textarea id="txt" rows="1" maxlength="1000" placeholder="Mensagem" aria-label="Mensagem"></textarea>
+      <button class="send" id="sendbtn" disabled>Enviar</button>
+    </form>
+  </section>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+<script>
+firebase.initializeApp({
+  apiKey: "AIzaSyBE4pFvb_1_QxZnKIE5DItzrAald2X3RDs",
+  authDomain: "messenger-7d396.firebaseapp.com",
+  projectId: "messenger-7d396",
+  storageBucket: "messenger-7d396.firebasestorage.app",
+  messagingSenderId: "61251675073",
+  appId: "1:61251675073:web:6c9ba0ecfbbc449172c540"
+});
+
+const auth = firebase.auth(), db = firebase.firestore(), TS = firebase.firestore.FieldValue.serverTimestamp;
+const $ = id => document.getElementById(id);
+let me = null, myName = "", unsubList = null, unsubMsgs = null, curChat = null, signup = false;
+
+function show(id){ document.querySelectorAll(".screen").forEach(s => s.classList.toggle("on", s.id === id)); }
+function esc(s){ return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+
+/* ---------- login ---------- */
+$("toggle").onclick = () => {
+  signup = !signup;
+  $("name").hidden = !signup; $("name").required = signup;
+  $("gobtn").textContent = signup ? "Criar conta" : "Entrar";
+  $("toggle").textContent = signup ? "Já tenho conta" : "Criar uma conta";
+  $("sub").textContent = signup ? "Crie sua conta para conversar." : "Entre com seu e-mail e senha.";
+  $("pass").autocomplete = signup ? "new-password" : "current-password";
+  $("err").textContent = "";
+};
+$("f").onsubmit = async e => {
+  e.preventDefault(); $("err").textContent = "";
+  const email = $("email").value.trim(), pass = $("pass").value;
+  try {
+    if (signup) {
+      const name = $("name").value.trim();
+      const cred = await auth.createUserWithEmailAndPassword(email, pass);
+      await db.doc("users/" + cred.user.uid).set({ name, email: email.toLowerCase() });
+      myName = name; await onUser(cred.user);
+    } else {
+      await auth.signInWithEmailAndPassword(email, pass);
+    }
+  } catch (x) {
+    const m = { "auth/invalid-credential":"E-mail ou senha incorretos.", "auth/email-already-in-use":"Este e-mail já tem conta.", "auth/weak-password":"Use uma senha de 6 ou mais caracteres.", "auth/invalid-email":"E-mail inválido." };
+    $("err").textContent = m[x.code] || "Não foi possível entrar: " + x.message;
+  }
+};
+$("out").onclick = () => auth.signOut();
+
+auth.onAuthStateChanged(u => { if (u && !signup) onUser(u); else if (!u) { cleanup(); show("login"); } });
+
+async function onUser(u){
+  me = u;
+  if (!myName) { const d = await db.doc("users/" + u.uid).get(); myName = d.exists ? d.data().name : u.email; }
+  show("home"); watchList();
+}
+function cleanup(){ unsubList && unsubList(); unsubMsgs && unsubMsgs(); me = null; myName = ""; curChat = null; }
+
+/* ---------- lista de conversas ---------- */
+function watchList(){
+  unsubList && unsubList();
+  unsubList = db.collection("chats").where("members", "array-contains", me.uid).onSnapshot(snap => {
+    const docs = snap.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.lastAt?.seconds || 0) - (a.lastAt?.seconds || 0));
+    $("list").innerHTML = docs.length ? docs.map(c => {
+      const other = c.members.find(m => m !== me.uid);
+      return `<button class="row" data-id="${c.id}" data-other="${other}" data-name="${esc(c.names?.[other] || "Contato")}"><b>${esc(c.names?.[other] || "Contato")}</b><span>${esc(c.lastText || "Nova conversa")}</span></button>`;
+    }).join("") : `<div class="empty">Nenhuma conversa ainda.<br>Toque em <b>Nova</b> e digite o e-mail de um amigo que já criou conta.</div>`;
+  }, err => { $("list").innerHTML = `<div class="empty">Erro ao carregar: ${esc(err.message)}</div>`; });
+}
+$("list").onclick = e => {
+  const r = e.target.closest(".row"); if (r) openChat(r.dataset.id, r.dataset.name);
+};
+$("new").onclick = async () => {
+  const email = (prompt("E-mail do contato:") || "").trim().toLowerCase();
+  if (!email) return;
+  const q = await db.collection("users").where("email", "==", email).limit(1).get();
+  if (q.empty) return alert("Nenhum usuário com esse e-mail. Peça para a pessoa criar uma conta.");
+  const other = q.docs[0];
+  if (other.id === me.uid) return alert("Esse é o seu próprio e-mail.");
+  const id = [me.uid, other.id].sort().join("_"), ref = db.doc("chats/" + id);
+  const ex = await ref.get().catch(() => null);
+  if (!ex || !ex.exists) {
+    await ref.set({ members: [me.uid, other.id], names: { [me.uid]: myName, [other.id]: other.data().name }, lastText: "", lastAt: TS() });
+  }
+  openChat(id, other.data().name);
+};
+
+/* ---------- conversa ---------- */
+function openChat(id, name){
+  curChat = id; $("who").textContent = name; $("msgs").innerHTML = ""; show("chat");
+  unsubMsgs && unsubMsgs();
+  let lastDay = "";
+  unsubMsgs = db.collection("chats/" + id + "/messages").orderBy("ts").onSnapshot(snap => {
+    const box = $("msgs"), atEnd = box.scrollHeight - box.scrollTop - box.clientHeight < 80;
+    let html = "";
+    snap.docs.forEach(d => {
+      const m = d.data(), t = m.ts ? m.ts.toDate() : new Date();
+      const day = t.toLocaleDateString("pt-BR", { day: "numeric", month: "short", year: "numeric" }) + " " + t.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+      const key = day.slice(0, -5) + Math.floor(t.getTime() / 1.8e6);
+      if (key !== lastDay) { html += `<div class="date">${day}</div>`; lastDay = key; }
+      html += `<div class="b ${m.from === me.uid ? "out" : "in"}">${esc(m.text)}</div>`;
+    });
+    lastDay = ""; box.innerHTML = html;
+    if (atEnd || snap.metadata.hasPendingWrites) box.scrollTop = box.scrollHeight;
+  });
+}
+$("back").onclick = () => { unsubMsgs && unsubMsgs(); curChat = null; show("home"); };
+$("txt").oninput = () => {
+  const t = $("txt"); t.style.height = "auto"; t.style.height = Math.min(t.scrollHeight, 90) + "px";
+  $("sendbtn").disabled = !t.value.trim();
+};
+$("txt").onkeydown = e => { if (e.key === "Enter" && !e.shiftKey && matchMedia("(pointer:fine)").matches) { e.preventDefault(); $("sendf").requestSubmit(); } };
+$("sendf").onsubmit = async e => {
+  e.preventDefault();
+  const text = $("txt").value.trim(); if (!text || !curChat) return;
+  $("txt").value = ""; $("txt").style.height = "auto"; $("sendbtn").disabled = true;
+  try {
+    await db.collection("chats/" + curChat + "/messages").add({ from: me.uid, text, ts: TS() });
+    await db.doc("chats/" + curChat).update({ lastText: text.slice(0, 80), lastAt: TS() });
+  } catch (x) { alert("Não foi possível enviar: " + x.message); $("txt").value = text; $("sendbtn").disabled = false; }
+};
+</script>
+</body>
+</html>
