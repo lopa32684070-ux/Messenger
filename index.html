@@ -141,6 +141,22 @@ svg.ic{width:20px;height:20px;display:block}
 .row2 input{flex:1;width:auto;min-width:0}
 .row2 .nbtn{min-width:0}
 #pops input{margin-top:6px}
+.ttl{display:flex;flex-direction:column;min-width:0;text-align:left;line-height:1.15}
+#who{display:block;overflow:hidden;text-overflow:ellipsis}
+#stat{display:block;font-size:10px;font-weight:400;opacity:.95;min-height:11px}
+#stat.on::before,#stat.off::before{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:4px;border:1px solid #1d6f08;background:radial-gradient(circle at 35% 30%,#c8fba0,#2fa80f)}
+#stat.off::before{border-color:#58606e;background:radial-gradient(circle at 35% 30%,#e2e2e2,#8c8c8c)}
+#stat.typ{font-style:italic}
+.avw{position:relative;flex-shrink:0;display:block}
+.dot{position:absolute;right:-3px;bottom:-3px;width:13px;height:13px;border-radius:50%;border:2px solid #fff;background:radial-gradient(circle at 35% 30%,#e2e2e2,#8c8c8c);box-shadow:0 0 0 1px #58606e}
+.dot.on{background:radial-gradient(circle at 35% 30%,#c8fba0,#2fa80f);box-shadow:0 0 0 1px #1d6f08}
+.row .l.typ{color:#2a9d0f;font-style:italic}
+.row:active .l.typ{color:#d6ffc4}
+#typing{display:flex;align-items:center;gap:7px;padding:3px 14px 5px;background:var(--bg);color:#5a6680;font-size:11px;font-style:italic;flex-shrink:0}
+.dots i{display:inline-block;width:5px;height:5px;margin-right:2px;border-radius:50%;background:#7d8aa5}
+@media(prefers-reduced-motion:no-preference){.dots i{animation:bl 1.2s infinite}.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}@keyframes bl{0%,60%,100%{opacity:.25}30%{opacity:1}}}
+.card .chk{margin-top:8px}
+.card .chk input{width:auto;height:auto;box-shadow:none}
 </style>
 </head>
 <body>
@@ -177,8 +193,9 @@ svg.ic{width:20px;height:20px;display:block}
   </section>
 
   <section id="chat" class="screen">
-    <div class="nav"><button class="nbtn" id="back">Voltar</button><h1><span class="av sm" id="cav"></span><span id="who"></span></h1><button class="nbtn" id="ginfo" type="button" hidden>Grupo</button><span class="sp" id="gsp"></span></div>
+    <div class="nav"><button class="nbtn" id="back">Voltar</button><h1><span class="av sm" id="cav"></span><span class="ttl"><span id="who"></span><small id="stat"></small></span></h1><button class="nbtn" id="ginfo" type="button" hidden>Grupo</button><span class="sp" id="gsp"></span></div>
     <div id="msgs"></div>
+    <div id="typing" hidden><span class="dots"><i></i><i></i><i></i></span><span id="typtx"></span></div>
     <div id="selbar"><span>Mensagem selecionada</span><button class="nbtn dark" id="sopen" type="button">Abrir</button><button class="nbtn danger" id="sdel" type="button">Excluir</button><button class="nbtn dark" id="scan" type="button">Cancelar</button></div>
     <div id="tray"></div>
     <form class="bar" id="sendf">
@@ -198,7 +215,8 @@ svg.ic{width:20px;height:20px;display:block}
     <form class="card" id="cf" hidden><h3 id="ct"></h3><p id="cp"></p>
       <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button class="nbtn danger" id="cok">Excluir</button></div></form>
     <form class="card" id="af" hidden><h3>Minha conta</h3><p id="amail"></p>
-      <input id="aname" type="text" maxlength="40" placeholder="Nome de usuário" required><p class="err" id="aerr" role="alert"></p>
+      <input id="aname" type="text" maxlength="40" placeholder="Nome de usuário" required>
+      <label class="chk"><input type="checkbox" id="ashow"> Mostrar quando estou online e digitando</label><p class="err" id="aerr" role="alert"></p>
       <div class="btns"><button type="button" class="nbtn dark" data-close>Fechar</button><button class="nbtn">Salvar nome</button></div>
       <div class="btns"><button type="button" class="nbtn danger" id="aout">Sair da conta</button></div></form>
     <div class="card" id="nm" hidden><h3>Criar nova</h3><p>Escolha o que deseja iniciar.</p>
@@ -243,7 +261,7 @@ storage.setMaxUploadRetryTime(20000); storage.setMaxOperationRetryTime(15000);
 // false = fotos salvas direto no Firestore (sem Storage). true = usa o Firebase Storage (necessário para vídeos).
 const USE_STORAGE = false;
 const $ = id => document.getElementById(id);
-let me = null, myName = "", unsubList = null, unsubMsgs = null, curChat = null, signup = false, busy = false, chats = [], firstLoad = true, editing = false, sel = null, msgMap = {}, pending = null, curMeta = null, curSeen = false, pool = new Map(), picked = new Set();
+let me = null, myName = "", unsubList = null, unsubMsgs = null, curChat = null, signup = false, busy = false, chats = [], firstLoad = true, editing = false, sel = null, msgMap = {}, pending = null, curMeta = null, curSeen = false, pool = new Map(), picked = new Set(), myShow = true, pres = {}, presUnsubs = [], presSig = "", beatT = null, typSent = 0, lastSig = "";
 
 const show = id => document.querySelectorAll(".screen").forEach(s => s.classList.toggle("on", s.id === id));
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -327,14 +345,15 @@ $("f").onsubmit = async e => {
 auth.onAuthStateChanged(u => { if (busy) return; if (u) onUser(u); else { cleanup(); show("login"); } });
 async function onUser(u){
   me = u;
-  if (!myName) { try { const d = await db.doc("users/" + u.uid).get(); myName = d.exists ? d.data().name : u.email; } catch { myName = u.email; } }
-  show("home"); watchList();
+  try { const d = await db.doc("users/" + u.uid).get(); if (d.exists) { if (!myName) myName = d.data().name; myShow = d.data().showStatus !== false; } } catch {}
+  if (!myName) myName = u.email;
+  show("home"); watchList(); startBeat();
 }
-function cleanup(){ unsubList && unsubList(); unsubMsgs && unsubMsgs(); me = null; myName = ""; curChat = null; chats = []; $("pass").value = ""; editing = false; }
+function cleanup(){ stopBeat(); presUnsubs.forEach(f => f()); presUnsubs = []; presSig = ""; pres = {}; myShow = true; unsubList && unsubList(); unsubMsgs && unsubMsgs(); me = null; myName = ""; curChat = null; chats = []; $("pass").value = ""; editing = false; }
 
 /* ---------- conta ---------- */
-$("acc").onclick = () => { $("amail").textContent = me.email; $("aname").value = myName; $("aerr").textContent = ""; openModal("af"); };
-$("aout").onclick = () => { closeModal(); auth.signOut(); };
+$("acc").onclick = () => { $("amail").textContent = me.email; $("aname").value = myName; $("ashow").checked = myShow; $("aerr").textContent = ""; openModal("af"); };
+$("aout").onclick = () => { closeModal(); beat(false); auth.signOut(); };
 $("af").onsubmit = async e => {
   e.preventDefault(); const n = $("aname").value.trim(); if (!n) return;
   try {
@@ -360,7 +379,10 @@ function drawList(){
   $("list").innerHTML = rows.length ? rows.map(c => {
     const n = chatTitle(c), d = c.lastAt ? c.lastAt.toDate() : null;
     const tm = d ? (sameDay(d, new Date()) ? hhmm(d) : d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })) : "";
-    return `<button class="row" data-id="${c.id}"><span class="minus"></span>${c.isGroup ? groupAv() : avatar(n)}<span class="tx"><b>${esc(n)}</b><span class="l">${esc(c.lastText || (c.isGroup ? "Novo grupo" : "Nova conversa"))}</span></span><span class="tm">${tm}</span></button>`;
+    const ty = typers(c), pr = c.isGroup ? null : presOf(c.other);
+    const av = c.isGroup ? groupAv() : `<span class="avw">${avatar(n)}${pr ? `<span class="dot${pr.on ? " on" : ""}"></span>` : ""}</span>`;
+    const line = ty.length ? `<span class="l typ">${esc(c.isGroup ? ty.map(u => (c.names?.[u] || "").split(" ")[0]).join(", ") + " digitando…" : "digitando…")}</span>` : `<span class="l">${esc(c.lastText || (c.isGroup ? "Novo grupo" : "Nova conversa"))}</span>`;
+    return `<button class="row" data-id="${c.id}"><span class="minus"></span>${av}<span class="tx"><b>${esc(n)}</b>${line}</span><span class="tm">${tm}</span></button>`;
   }).join("") : `<div class="empty"><svg viewBox="0 0 48 48"><rect x="4" y="6" width="40" height="28" rx="8" fill="#e4eefb" stroke="#6f93b3" stroke-width="2"/><path d="M13 34l-3 9 11-9z" fill="#e4eefb" stroke="#6f93b3" stroke-width="2" stroke-linejoin="round"/></svg>${q ? "Nenhuma conversa encontrada." : "Nenhuma conversa ainda.<br>Toque em <b>Nova</b> para começar uma conversa ou criar um grupo."}</div>`;
 }
 function watchList(){
@@ -368,7 +390,7 @@ function watchList(){
   unsubList = db.collection("chats").where("members", "array-contains", me.uid).onSnapshot(snap => {
     chats = snap.docs.map(d => { const c = d.data({ serverTimestamps: "estimate" }); return { id: d.id, ...c, other: c.members.find(m => m !== me.uid) }; })
       .sort((a, b) => (b.lastAt?.seconds || 0) - (a.lastAt?.seconds || 0));
-    drawList(); syncOpen();
+    drawList(); syncOpen(); watchPresence();
   }, err => { $("list").innerHTML = `<div class="empty">Erro ao carregar: ${esc(err.message)}</div>`; });
 }
 function syncOpen(){
@@ -377,7 +399,7 @@ function syncOpen(){
   if (c) { curMeta = c; curSeen = true; setHeader(); if ($("modal").classList.contains("on") && !$("gi").hidden) renderInfo(); }
   else if (curSeen) { toast(curMeta?.isGroup ? "Você não está mais neste grupo." : "Esta conversa foi encerrada."); goHome(); }
 }
-function goHome(){ unsubMsgs && unsubMsgs(); curChat = null; curMeta = null; clearSel(); closeModal(); show("home"); }
+function goHome(){ $("typing").hidden = true; unsubMsgs && unsubMsgs(); curChat = null; curMeta = null; clearSel(); closeModal(); show("home"); }
 $("q").oninput = drawList;
 $("edit").onclick = () => { editing = !editing; drawList(); };
 const leaveGroup = id => db.doc("chats/" + id).update({ members: FV.arrayRemove(me.uid) });
@@ -457,7 +479,7 @@ function setHeader(){
   const c = curMeta, g = c.isGroup, t = chatTitle(c);
   $("who").textContent = t;
   $("cav").outerHTML = (g ? groupAv("sm") : avatar(t, "sm")).replace("<span", '<span id="cav"');
-  $("ginfo").hidden = !g; $("gsp").hidden = g;
+  $("ginfo").hidden = !g; $("gsp").hidden = g; renderLive();
 }
 function pollHtml(m){
   const votes = m.votes || {}, tot = Object.keys(votes).length, mine = votes[me.uid], vals = Object.values(votes);
@@ -533,6 +555,70 @@ $("sdel").onclick = async () => {
   } catch (x) { toast("Erro ao excluir: " + x.message); }
 };
 
+/* ---------- presença e "digitando" ---------- */
+const tsMs = t => t ? (t.toMillis ? t.toMillis() : (t.seconds || 0) * 1000) : 0;
+function presOf(u){
+  const p = pres[u]; if (!myShow || !p || p.show === false) return null;
+  return { on: !!(p.online && p.seen && Date.now() - p.seen < 100000), seen: p.seen };
+}
+function typers(c){
+  if (!myShow || !c || !c.typing || !me) return [];
+  const now = Date.now(), last = tsMs(c.lastAt);
+  return Object.entries(c.typing).filter(([u, t]) => u !== me.uid && now - tsMs(t) < 6000 && tsMs(t) > last && pres[u]?.show !== false).map(([u]) => u);
+}
+const typText = n => n.length === 1 ? n[0] + " está digitando…" : n.length === 2 ? n[0] + " e " + n[1] + " estão digitando…" : n[0] + ", " + n[1] + " e mais " + (n.length - 2) + " estão digitando…";
+function renderLive(){
+  if (!curChat || !curMeta || !me) return;
+  const c = curMeta, ty = typers(c), box = $("msgs");
+  const atEnd = box.scrollHeight - box.scrollTop - box.clientHeight < 80;
+  $("typing").hidden = !ty.length;
+  if (ty.length) $("typtx").textContent = typText(ty.map(u => nameOf(u).split(" ")[0]));
+  if (atEnd) box.scrollTop = box.scrollHeight;
+  let st = "", cls = "";
+  if (ty.length && !c.isGroup) { st = "digitando…"; cls = "typ"; }
+  else if (c.isGroup) {
+    const n = c.members.filter(u => u !== me.uid && presOf(u)?.on).length;
+    st = c.members.length + " integrantes" + (myShow && n ? ", " + n + " online" : "");
+  } else {
+    const s = presOf(c.other);
+    if (s) { cls = s.on ? "on" : "off"; st = s.on ? "Online" : s.seen ? "Visto por último " + stamp(new Date(s.seen)).replace("Hoje", "hoje") : "Offline"; }
+  }
+  $("stat").textContent = st; $("stat").className = cls;
+}
+const liveSig = () => chats.map(c => c.id + (c.isGroup ? "" : (presOf(c.other)?.on ? 1 : 0) + (presOf(c.other) ? "p" : "")) + typers(c).join()).join("|");
+function tick(){
+  if (!me) return;
+  renderLive();
+  const sg = liveSig(); if (sg !== lastSig) { lastSig = sg; drawList(); }
+}
+setInterval(tick, 2500);
+function watchPresence(){
+  const ids = [...new Set(chats.flatMap(c => c.isGroup ? c.members : [c.other]).filter(u => u && u !== me.uid))].sort(), sig = ids.join();
+  if (sig === presSig) return; presSig = sig;
+  presUnsubs.forEach(f => f()); presUnsubs = [];
+  for (let i = 0; i < ids.length; i += 10) {
+    presUnsubs.push(db.collection("users").where(firebase.firestore.FieldPath.documentId(), "in", ids.slice(i, i + 10)).onSnapshot(sn => {
+      sn.docs.forEach(d => { const x = d.data(); pres[d.id] = { online: x.online === true, seen: x.lastSeen?.toDate ? x.lastSeen.toDate().getTime() : 0, show: x.showStatus !== false }; });
+      tick();
+    }, () => {}));
+  }
+}
+function pingTyping(){
+  if (!curChat || !myShow) return;
+  const n = Date.now(); if (n - typSent < 3000) return; typSent = n;
+  db.doc("chats/" + curChat).update("typing." + me.uid, TS()).catch(() => {});
+}
+function beat(on = true){ if (me && myShow) db.doc("users/" + me.uid).update({ online: on, lastSeen: TS() }).catch(() => {}); }
+function startBeat(){ stopBeat(); beat(); beatT = setInterval(() => { if (!document.hidden) beat(); }, 40000); }
+function stopBeat(){ clearInterval(beatT); beatT = null; }
+document.addEventListener("visibilitychange", () => beat(!document.hidden));
+addEventListener("pagehide", () => beat(false));
+$("ashow").onchange = async () => {
+  myShow = $("ashow").checked;
+  try { await db.doc("users/" + me.uid).update({ showStatus: myShow, online: myShow, lastSeen: TS() }); } catch (x) { $("aerr").textContent = "Erro: " + x.message; }
+  tick();
+};
+
 /* ---------- enquete ---------- */
 function addOpt(){
   const n = $("pops").children.length; if (n >= 6) return;
@@ -602,6 +688,7 @@ $("tray").onclick = e => {
 $("txt").oninput = () => {
   const t = $("txt"); t.style.height = "32px"; t.style.height = Math.min(t.scrollHeight, 96) + "px";
   $("sendbtn").disabled = !t.value.trim();
+  if (t.value.trim()) pingTyping();
 };
 $("txt").onkeydown = e => { if (e.key === "Enter" && !e.shiftKey && matchMedia("(pointer:fine)").matches) { e.preventDefault(); $("sendf").requestSubmit(); } };
 async function sendMsg(data, preview){
