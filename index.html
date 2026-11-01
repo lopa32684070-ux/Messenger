@@ -266,13 +266,24 @@ svg.ic{width:20px;height:20px;display:block}
 .search input:focus,.card input:focus,#txt:focus{outline:0;border-color:#3d8cd8;box-shadow:inset 0 2px 3px rgba(0,0,0,.15),0 0 0 2px rgba(120,180,255,.5)}
 @media(hover:hover){.row:hover:not(:active){background:linear-gradient(#f4f9ff,#dcebfb);box-shadow:inset 0 0 0 1px #b8d6fb}}
 #msgs,#list,.box,.card,#tray .grid{scrollbar-width:thin;scrollbar-color:#9db3d3 #eef2f8}
+@keyframes rxpop{0%{transform:scale(.3);opacity:0}55%{transform:scale(1.35);opacity:1}100%{transform:scale(1)}}
+#app.fx .rxc.new{animation:rxpop .38s cubic-bezier(.3,1.4,.5,1)}
+
+#selbar .nbtn{flex:1 1 auto;white-space:nowrap;display:inline-flex;align-items:center;justify-content:center;line-height:1;padding:0 10px}
+.flags{display:flex;gap:6px;justify-content:center}.srow .flags{justify-content:flex-end}
+.fl{display:flex;flex-direction:column;align-items:center;min-width:58px;padding:5px 8px 4px;border:1px solid transparent;border-radius:9px;background:none;font:inherit;font-size:11px;color:#2d4263;cursor:pointer}
+.fl svg{width:36px;height:34px;margin-bottom:-3px;filter:drop-shadow(0 1.5px 1.5px rgba(0,0,0,.4));transition:transform .12s}
+.fl.on{background:linear-gradient(#e4ecfb,#bdd0f1);border-color:#7d97c6;box-shadow:inset 0 1px 3px rgba(0,0,0,.25);font-weight:700}
+.fl:active svg{transform:translateY(1px)}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
 <radialGradient id="fg" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#fff8b0"/><stop offset=".55" stop-color="#ffd12e"/><stop offset="1" stop-color="#ee9c00"/></radialGradient>
 <radialGradient id="fa" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#ffc59a"/><stop offset=".55" stop-color="#ff6a3a"/><stop offset="1" stop-color="#d12a10"/></radialGradient>
-<radialGradient id="fgr" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#e4ffb0"/><stop offset=".55" stop-color="#9be04a"/><stop offset="1" stop-color="#5a9a1c"/></radialGradient><radialGradient id="fbl" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#e0f4ff"/><stop offset=".55" stop-color="#8ccbff"/><stop offset="1" stop-color="#3a86d6"/></radialGradient><radialGradient id="fpu" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#e8c8ff"/><stop offset=".55" stop-color="#a65ad8"/><stop offset="1" stop-color="#6a22a0"/></radialGradient></defs></svg>
+<radialGradient id="fgr" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#e4ffb0"/><stop offset=".55" stop-color="#9be04a"/><stop offset="1" stop-color="#5a9a1c"/></radialGradient><radialGradient id="fbl" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#e0f4ff"/><stop offset=".55" stop-color="#8ccbff"/><stop offset="1" stop-color="#3a86d6"/></radialGradient><radialGradient id="fpu" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#e8c8ff"/><stop offset=".55" stop-color="#a65ad8"/><stop offset="1" stop-color="#6a22a0"/></radialGradient><linearGradient id="fsk" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="24"><stop offset="0" stop-color="#ffe680"/><stop offset="1" stop-color="#f2a52c"/></linearGradient>
+<filter id="shn" x="-6%" y="-6%" width="112%" height="115%" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation=".7" result="b"/><feSpecularLighting in="b" surfaceScale="2" specularConstant=".8" specularExponent="26" lighting-color="#fff" result="sp"><fePointLight x="5" y="3" z="13"/></feSpecularLighting><feComposite in="sp" in2="SourceAlpha" operator="in" result="sc"/><feComposite in="SourceGraphic" in2="sc" operator="arithmetic" k1="0" k2="1" k3=".65" k4="0" result="lit"/><feDropShadow in="lit" dx="0" dy=".6" stdDeviation=".5" flood-color="#000" flood-opacity=".25"/></filter>
+</defs></svg>
 
 <div id="app">
   <section id="login" class="screen on">
@@ -291,7 +302,7 @@ svg.ic{width:20px;height:20px;display:block}
         </form>
         <p class="err" id="err" role="alert"></p>
         <div class="foot"><button class="link" id="toggle" type="button">Criar uma conta</button><button data-t class="link" id="forgot" type="button">Esqueci a senha</button></div>
-        <div class="lgw"><select id="lglogin" class="lsel" aria-label="Idioma" data-ti="aria-label"></select></div>
+        <div class="lgw"><div id="lglogin" class="flags" role="radiogroup" aria-label="Idioma" data-ti="aria-label"></div></div>
       </div>
     </div>
   </section>
@@ -314,9 +325,9 @@ svg.ic{width:20px;height:20px;display:block}
       <div data-t class="gt">Aparência</div>
       <div class="grp"><label class="srow t"><span data-t>Animações nos botões</span><input type="checkbox" class="sw" id="afx"></label></div>
       <div data-t class="gt">Idioma</div>
-      <div class="grp"><label class="srow t"><span data-t>Idioma</span><select id="lgsel" class="lsel" aria-label="Idioma" data-ti="aria-label"></select></label></div>
+      <div class="grp"><div class="srow t"><span data-t>Idioma</span><div id="lgsel" class="flags" role="radiogroup" aria-label="Idioma" data-ti="aria-label"></div></div></div>
       <div data-t class="gt">Sobre</div>
-      <div class="grp"><div class="srow t"><span data-t>Versão</span><small>Messenger v10</small></div></div>
+      <div class="grp"><div class="srow t"><span data-t>Versão</span><small>Messenger v11</small></div></div>
     </div>
   </section>
 
@@ -944,7 +955,7 @@ const FACES = {
   sleepy:[[], ln("M5.8 10.2q2.4 2.4 4.8 0M13.4 10.2q2.4 2.4 4.8 0M9.6 16.6h4.8") + '<path d="M17.4 3.4h3.600l-3.600 4h3.600" fill="none" stroke="#2a5db0" stroke-width="1.3" stroke-linejoin="round"/>'],
   heart:[["(L)","(l)"], ""]
 };
-function face(k){
+function faceRaw(k){
   if (X[k]) return xsvg(k);
   if (k === "heart") return '<svg class="em" viewBox="0 0 24 24" role="img" aria-label="coração"><path d="M12 21C5 15.4 2 11.8 2 8.3 2 5.2 4.3 3 7 3c2 0 3.8 1 5 2.8C13.2 4 15 3 17 3c2.700 0 5 2.200 5 5.300 0 3.500-3 7.100-10 12.700z" fill="#e0243a" stroke="#8c0f1f"/><ellipse cx="7.6" cy="7" rx="2.6" ry="1.5" fill="#fff" opacity=".5"/></svg>';
   return `<svg class="em" viewBox="0 0 24 24" role="img" aria-label="${k}"><circle cx="12" cy="12" r="10.6" fill="url(#${k === "angry" ? "fa" : "fg"})" stroke="#b07a00"/><ellipse cx="9.5" cy="5.4" rx="5.4" ry="2.6" fill="#fff" opacity=".42"/>${FACES[k][1]}</svg>`;
@@ -974,6 +985,12 @@ const X = (() => {
   const hrt = (c, s) => F(HP, c, s) + '<ellipse cx="7.6" cy="7" rx="2.6" ry="1.5" fill="#fff" opacity=".5"/>';
   const TU = R(2.4, 10.6, 5.4, 11, 1.4, "#4a86d8", "#2a4f94") + F("M9.4 10.8l3.2-7q1.4-.4 2.2.8.6 1.2 0 3.2h5.2q1.8.2 1.8 2 0 .8-.6 1.4.6.6.6 1.4 0 .8-.6 1.4.6.6.4 1.4-.2 1-1 1.4.4.8 0 1.4-.6 1-1.8 1H11.2q-1.8 0-1.8-1.6z", SK[0], SK[1]);
   const sun = [...Array(8)].map((_, i) => { const a = i * Math.PI / 4, q = (r, f) => (12 + r * Math[f](a)).toFixed(1); return P(`M${q(7.6, "cos")} ${q(7.6, "sin")}L${q(10.6, "cos")} ${q(10.6, "sin")}`, 1.8, "#ffb000"); }).join("");
+  const OL = "#b87a00", SKN = "url(#fsk)", dl = d => P(d, .8, "#c98a10");
+  const rr = (x, y, w, h, r, t) => (f, q) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${r}" fill="${f}" stroke="${f}" stroke-width="${q}" stroke-linejoin="round"${t ? ` transform="${t}"` : ""}/>`;
+  const pa = d => (f, q) => `<path d="${d}" fill="${f}" stroke="${f}" stroke-width="${q}" stroke-linejoin="round"/>`;
+  const H = (a, d = "") => a.map(f => f(OL, 2)).join("") + a.map(f => f(SKN, 0)).join("") + d;
+  const palm = H([rr(5.6, 5.4, 3, 10, 1.5), rr(8.8, 2.6, 3, 12.6, 1.5), rr(12, 3.4, 3, 11.8, 1.5), rr(15.2, 7, 3, 9, 1.5), rr(5.6, 11, 12.6, 9.6, 4.6), rr(2.8, 10.4, 3.2, 8.4, 1.6, "rotate(-38 4.4 14.6)")], dl("M8.8 9v5.6M12 7v7.4M15.2 9.6v5M8.4 17.4q3.4 1.8 7 0"));
+  const tu = R(2.2, 10.4, 5.6, 11.6, 1.4, "#4a86d8", "#2a4f94") + H([rr(9.6, 2.2, 3.6, 10, 1.8, "rotate(-8 11.4 8)"), rr(8.4, 9.6, 12.8, 12.2, 4.6)], dl("M13.4 13.4h6.6M13.4 16.4h6.6M13.4 19.2h5"));
   return {
     laughsq: ["😆", "y", eS + mG], sweat: ["😅", "y", eyes + mG + drop],
     halo: ["😇", "y", eH + mS + '<ellipse cx="12" cy="2" rx="5.2" ry="1.3" fill="none" stroke="#e8b800" stroke-width="1.4"/>'],
@@ -1010,12 +1027,12 @@ const X = (() => {
     chick: ["🐥 🐤 🐣", "", C(12, 12.4, 9.4, "#ffd84a", "#c99a00") + P("M10 3.2q2-2 4 0", 1.2, "#c99a00") + E(8.6, 11, 1.2, 1.6, K) + E(15.4, 11, 1.2, 1.6, K) + F("M9.8 13.8h4.4l-2.2 3z", "#ff8a1e", "#b85a00") + C(5.8, 14.6, 1.6, "#ff9a7a")],
     parrot: ["🦜 🐦", "", C(12, 12.2, 9.6, "#5ccf4a", "#2e8a22") + F("M4.2 8q7.8-7 15.6 0-7.800 2.200-15.600 0z", "#ffe24a") + C(6.8, 14.8, 2.2, "#4aa8ff") + C(17.2, 14.8, 2.2, "#4aa8ff") + C(8.8, 10.8, 2, "#fff", K) + C(15.2, 10.8, 2, "#fff", K) + C(8.8, 10.8, 1, K) + C(15.2, 10.8, 1, K) + F("M10 13q2-1.8 4 0l-2 3.6z", "#f4a52a", "#a86a10") + P("M8 6.4h.1M12 5.2h.1M16 6.4h.1", 1.4)],
     penguin: ["🐧", "", E(12, 13, 8.4, 9.4, "#2b3340") + E(12, 15, 5.4, 6.8, "#fff") + C(9, 9.4, 1.6, "#fff") + C(15, 9.4, 1.6, "#fff") + C(9.2, 9.6, .8, K) + C(14.8, 9.6, .8, K) + F("M10 11.8h4l-2 2.8z", "#ff9a1e", "#b85a00")],
-    thumbup: ["👍", "", TU], thumbdown: ["👎", "", G("rotate(180 12 12)", TU)],
-    hand: ["✋ 🖐 👋 🤚", "", R(5.6, 5, 3, 11, 1.5, SK[0], SK[1]) + R(8.8, 2.6, 3, 12, 1.5, SK[0], SK[1]) + R(12.2, 2.6, 3, 12, 1.5, SK[0], SK[1]) + R(15.4, 5, 3, 11, 1.5, SK[0], SK[1]) + E(12, 15.4, 6.6, 5.8, SK[0], SK[1]) + G("rotate(-35 5.4 15.6)", R(3.8, 11, 3.2, 8, 1.6, SK[0], SK[1])) + P("M2 6q-1 3 0 6M22 6q1 3 0 6", 1.2, SK[1])],
-    victory: ["✌ 🤞", "", G("rotate(-14 10 14)", R(7.4, 2, 3.2, 13, 1.6, SK[0], SK[1])) + G("rotate(14 14 14)", R(13.4, 2, 3.2, 13, 1.6, SK[0], SK[1])) + E(12, 16.8, 6, 5.2, SK[0], SK[1]) + E(7, 17, 1.8, 2.6, SK[0], SK[1])],
-    fist: ["👊 ✊", "", R(4.6, 7.6, 14.8, 12, 4, SK[0], SK[1]) + P("M8.3 7.6v5M12 7.6v5M15.7 7.6v5M6.8 15.6h10.4", 1.1, SK[1])],
-    clap: ["👏", "", G("rotate(-22 12 19)", R(7, 4, 6, 15, 3, SK[0], SK[1])) + G("rotate(22 12 19)", R(11, 4, 6, 15, 3, SK[0], SK[1])) + P("M3 4l2 2M21 4l-2 2M12 1v2.4", 1.3, "#ffb000")],
-    pray: ["🙏", "", F("M12 22C8.6 22 5.4 17.8 5.4 13.2c0-3 2.6-6.8 6.6-11.2 4 4.4 6.6 8.2 6.6 11.2 0 4.6-3.2 8.8-6.6 8.8z", SK[0], SK[1]) + P("M12 6v15.4", 1.1, SK[1])],
+    thumbup: ["👍", "", tu], thumbdown: ["👎", "", G("translate(0 24) scale(1 -1)", tu)],
+    hand: ["✋ 🖐 🤚", "", palm], wave: ["👋", "", G("translate(12 14) scale(.92) rotate(14) translate(-12 -14)", palm) + P("M2.4 5.4q-1.4 3 0 6.2M21.6 4.4q1.8 3.4.2 7", 1.3, OL)],
+    victory: ["✌ 🤞", "", H([rr(7.2, 1.8, 3.2, 13.6, 1.6, "rotate(-13 9 14)"), rr(13.6, 1.8, 3.2, 13.6, 1.6, "rotate(13 15 14)"), rr(12.6, 12, 3, 6, 1.5), rr(15.6, 12.8, 2.8, 5, 1.4), rr(5.4, 13.2, 13, 8.8, 4.2), rr(4.6, 15.4, 6.4, 3.2, 1.6)], dl("M12.6 13v5M15.6 13.8v4"))],
+    fist: ["👊 ✊", "", H([rr(4.4, 8, 15.2, 12.4, 4.6), rr(5, 5.4, 3.4, 7, 1.7), rr(8.4, 4.8, 3.4, 7.6, 1.7), rr(11.8, 4.8, 3.4, 7.6, 1.7), rr(15.2, 5.4, 3.4, 7, 1.7), rr(6.2, 14.6, 11.8, 3.8, 1.9)], dl("M8.4 6.4v5.6M11.8 6.4v5.6M15.2 6.4v5.6M7 14.7h10"))],
+    clap: ["👏", "", H([rr(6, 5.4, 6.4, 13.6, 3.2, "rotate(-22 9.2 19)"), rr(11.6, 5.4, 6.4, 13.6, 3.2, "rotate(22 14.8 19)")]) + P("M3 3.6l2 2M21 3.6l-2 2M12 1.2v2.6", 1.4, "#ff9a1a")],
+    pray: ["🙏", "", H([pa("M12 22C8.4 22 5.2 18 5.2 13c0-3 2.8-7 6.8-11 4 4 6.8 8 6.8 11 0 5-3.2 9-6.8 9z")], dl("M12 4.6v16.6M8.4 11q3.6-1.2 7.2 0"))],
     eyes: ["👀", "", E(8, 12, 4.4, 6, "#fff", "#555") + E(16, 12, 4.4, 6, "#fff", "#555") + C(9, 13.4, 2, K) + C(17, 13.4, 2, K) + C(9.6, 12.6, .6, "#fff") + C(17.6, 12.6, .6, "#fff")],
     lips: ["👄 💋", "", F("M2.4 12q4-5.4 9.6-3.6 5.6-1.8 9.6 3.6-4 7.2-9.6 7.2T2.4 12z", "#e0243a", "#8c0f1f") + P("M3 12.2q9 2 18 0", 1, "#8c0f1f")],
     hOrange: ["🧡", "", hrt("#ff8a1e", "#b85a00")], hYellow: ["💛", "", hrt("#ffd21e", "#b88a00")], hGreen: ["💚", "", hrt("#3cc04a", "#1f7a2a")],
@@ -1061,12 +1078,14 @@ const X = (() => {
     arrowr: ["➡", "", F("M2.4 9h10V4l9.2 8-9.2 8v-5h-10z", "#2f7de0", "#1a4f9a")], arrowl: ["⬅", "", G("rotate(180 12 12)", F("M2.4 9h10V4l9.2 8-9.2 8v-5h-10z", "#2f7de0", "#1a4f9a"))]
   };
 })();
+const shn = s => s.replace(/(<svg[^>]*>)([\s\S]*)(<\/svg>)/, (m, a, b, c) => a + '<g filter="url(#shn)">' + b + "</g>" + c);
+const face = k => shn(faceRaw(k));
 const XG = { y: ["fg", "#b07a00"], r: ["fa", "#b07a00"], g: ["fgr", "#3e8a22"], b: ["fbl", "#2a6ab0"], p: ["fpu", "#5a1a7a"] };
-const xsvg = k => { const [, b, s] = X[k], g = XG[b]; return `<svg class="em" viewBox="0 0 24 24" role="img" aria-label="${k}">${g ? `<circle cx="12" cy="12" r="10.6" fill="url(#${g[0]})" stroke="${g[1]}"/><ellipse cx="9.5" cy="5.4" rx="5.4" ry="2.6" fill="#fff" opacity=".42"/>` : ""}${s}</svg>`; };
+const xsvg = k => { const [, b, s] = X[k], g = XG[b]; return `<svg class="em" viewBox="0 0 24 24" role="img" aria-label="${k}">${g ? `<circle cx="12" cy="12" r="10.6" fill="url(#${g[0]})" stroke="${g[1]}"/><ellipse cx="9.5" cy="5.4" rx="5.4" ry="2.6" fill="#fff" opacity=".42"/><ellipse cx="12" cy="19.4" rx="5.4" ry="1.7" fill="#fff" opacity=".2"/>` : ""}${s}</svg>`; };
 const XCAT = [
   ["Rostos", "smile", [...Object.keys(FACES).filter(k => k !== "heart"), "laughsq", "sweat", "halo", "devil", "smirk", "neutral", "rolleye", "grimace", "zip", "think", "party", "sick", "mask", "dizzy", "starstruck", "plead", "fear", "scream", "hot", "cold", "skull", "ghost", "clown", "poop", "alien", "robot"]],
   ["Animais", "cat", ["cat", "dog", "monkey", "pig", "fox", "panda", "rabbit", "frog", "chick", "parrot", "penguin"]],
-  ["Gestos", "thumbup", ["thumbup", "thumbdown", "hand", "victory", "fist", "clap", "pray", "eyes", "lips", "heart", "hOrange", "hYellow", "hGreen", "hBlue", "hPurple", "hBlack", "hWhite", "hBrown", "hBroken"]],
+  ["Gestos", "thumbup", ["thumbup", "thumbdown", "hand", "wave", "victory", "fist", "clap", "pray", "eyes", "lips", "heart", "hOrange", "hYellow", "hGreen", "hBlue", "hPurple", "hBlack", "hWhite", "hBrown", "hBroken"]],
   ["Diversão", "tada", ["sparkles", "star", "fire", "hundred", "boom", "drops", "zzz", "tada", "cake", "gift", "balloon", "rose", "rainbow", "sun", "moon", "bolt", "pizza", "burger", "icecream", "donut", "apple", "coffee"]],
   ["Objetos", "game", ["soccer", "game", "music", "phone", "camera", "bulb", "money", "car", "clock", "key", "house", "check", "cross", "question", "exclam", "warning", "arrowr", "arrowl"]]
 ];
@@ -1305,7 +1324,7 @@ function pollHtml(m){
     return `<div class="opt${multi ? " multi" : ""}${mine.includes(i) ? " mine" : ""}${top > 0 && n === top ? " lead" : ""}${closed ? " off" : ""}" data-i="${i}" role="button" tabindex="0" aria-pressed="${mine.includes(i)}"><div class="fill" style="width:${prev}%" data-w="${pc}"></div><span class="ck"></span><span class="ot">${esc(o)}</span><span class="oc">${n} · ${pc}%</span></div>`;
   }).join("") + `<div class="pt"><span>${tot === 1 ? tr("{n} voto", { n: tot }) : tr("{n} votos", { n: tot })}</span>${tot ? `<button type="button" class="link pvl">${tr("Ver quem votou")}</button>` : ""}</div>`;
 }
-function openChat(id, meta){
+function openChat(id, meta){ rxPrev = {};
   curChat = id; curMeta = meta; curSeen = chats.some(x => x.id === id); firstLoad = true; clearSel();
   curList = []; curPend = false; seenIds = new Set(); fresh = new Set(); bodySig = null; stSig = ""; reply = edit = null; setBar();
   setHeader(); $("msgs").innerHTML = ""; $("tray").classList.remove("on"); $("mpick").classList.remove("on"); show("chat"); markRead();
@@ -1387,6 +1406,7 @@ $("sdel").onclick = async () => {
     (curMeta.members || []).forEach(u => { if (u !== m.from && tsMs(curMeta.read?.[u]) < t) dec["unread." + u] = FV.increment(-1); });
     await db.doc("chats/" + curChat + "/messages/" + m.id).delete();
     if (m.path) storage.ref(m.path).delete().catch(() => {});
+    if (curMeta.isGroup && curMeta.pinMsg?.id === m.id && isAdm(curMeta)) upd({ pinMsg: FV.delete() }).catch(() => {});
     clearSel();
     const q = await db.collection("chats/" + curChat + "/messages").orderBy("ts", "desc").limit(1).get();
     const l = q.empty ? null : q.docs[0].data({ serverTimestamps: "estimate" });
@@ -1543,8 +1563,9 @@ $("emo").onclick = () => $("tray").classList.toggle("on");
 $("tray").onclick = e => {
   const b = e.target.closest("button"); if (!b) return;
   if (b.dataset.tab) { trayTab = +b.dataset.tab; drawTray(); applyStatic(); return; }
-  const t = $("txt"); t.value += b.dataset.c; t.dispatchEvent(new Event("input")); t.focus();
+  const t = $("txt"), had = document.activeElement === t; t.value += b.dataset.c; t.dispatchEvent(new Event("input")); if (had) t.focus();
 };
+$("tray").addEventListener("mousedown", e => e.preventDefault());
 $("txt").oninput = () => {
   const t = $("txt"); t.style.height = "32px"; t.style.height = Math.min(t.scrollHeight, 96) + "px";
   $("sendbtn").disabled = !t.value.trim();
@@ -1887,10 +1908,12 @@ $("thr").onclick = async () => {
 let myBlocked = [], fwdMsg = null;
 const RXK = { up: "thumbup", love: "heart", joy: "joy", wow: "wow", cry: "cry", pray: "pray" };
 $("rpick").innerHTML = Object.entries(RXK).map(([k, f]) => `<button type="button" data-r="${k}" aria-label="${f}">${face(f)}</button>`).join("");
+let rxPrev = {};
 const rxHtml = m => {
   const rc = {}; Object.values(m.reacts || {}).forEach(k => { if (RXK[k]) rc[k] = (rc[k] || 0) + 1; });
+  const old = rxPrev[m.id]; rxPrev[m.id] = rc;
   const ks = Object.keys(rc);
-  return ks.length ? '<div class="rxs">' + ks.map(k => `<span class="rxc${m.reacts[me.uid] === k ? " me" : ""}">${face(RXK[k])}${rc[k] > 1 ? rc[k] : ""}</span>`).join("") + "</div>" : "";
+  return ks.length ? '<div class="rxs">' + ks.map(k => `<span class="rxc${m.reacts[me.uid] === k ? " me" : ""}${old && rc[k] > (old[k] || 0) ? " new" : ""}">${face(RXK[k])}${rc[k] > 1 ? rc[k] : ""}</span>`).join("") + "</div>" : "";
 };
 const fwTag = m => m.fwd ? `<small class="fw">${tr("Encaminhada")}</small>` : "";
 $("rpick").onclick = async e => {
@@ -1901,8 +1924,10 @@ $("rpick").onclick = async e => {
 };
 
 /* mensagem fixada (grupos, só admins) */
+let stalePin = "";
 function drawPin(){
-  const p = curMeta?.isGroup && curMeta.pinMsg; $("pinbar").hidden = !p;
+  const p0 = curMeta?.isGroup && curMeta.pinMsg, p = p0 && curList.some(m => m.id === p0.id) ? p0 : null; $("pinbar").hidden = !p;
+  if (p0 && !p && curList.length && isAdm(curMeta) && stalePin !== p0.id) { stalePin = p0.id; upd({ pinMsg: FV.delete() }).catch(() => {}); }
   if (p) { $("pinbar").dataset.q = p.id; $("pinbar").innerHTML = PIN + "<span><b>" + tr("Mensagem fixada") + "</b>" + esc(plain(locStored(p.text))) + "</span>"; }
 }
 $("pinbar").onclick = () => jump($("pinbar").dataset.q);
@@ -1971,17 +1996,37 @@ function setLang(code){
   lang = code; try { localStorage.setItem("lang", code); } catch {}
   document.documentElement.lang = LANGS[code].loc;
   applyStatic();
-  $("lgsel").value = $("lglogin").value = code;
+  drawFlags();
   setMode(signup);
   if (me) {
     fillSettings(); drawList();
     if (curChat && curMeta) { setHeader(); renderLive(); bodySig = null; stSig = ""; drawMsgs(); setBar(); }
   }
 }
-["lgsel", "lglogin"].forEach(id => {
-  $(id).innerHTML = Object.entries(LANGS).map(([c, o]) => `<option value="${c}">${o.n}</option>`).join("");
-  $(id).onchange = e => setLang(e.target.value);
-});
+let flagN = 0;
+const flagSvg = c => {
+  const u = "f" + (++flagN);
+  const dots = [0, 1, 2, 3].flatMap(j => [0, 1, 2, 3, 4].map(i => `<circle cx="${(1.7 + i * 2.75).toFixed(2)}" cy="${(1.7 + j * 3.1).toFixed(2)}" r=".55" fill="#fff"/>`)).join("");
+  const art = {
+    pt: '<rect width="36" height="24" fill="#009c3b"/><path d="M18 2.6 33.2 12 18 21.4 2.8 12z" fill="#ffdf00"/><circle cx="18" cy="12" r="5.3" fill="#002776"/><path d="M12.9 12.9Q18.6 9.2 23.1 10.6" fill="none" stroke="#fff" stroke-width="1.3"/>',
+    en: '<rect width="36" height="24" fill="#fff"/>' + [0, 2, 4, 6, 8, 10, 12].map(i => `<rect y="${(i * 24 / 13).toFixed(2)}" width="36" height="${(24 / 13).toFixed(2)}" fill="#b22234"/>`).join("") + '<rect width="14.4" height="12.92" fill="#3c3b6e"/>' + dots,
+    es: '<rect width="36" height="24" fill="#aa151b"/><rect y="6" width="36" height="12" fill="#f1bf00"/><rect x="7.3" y="8.8" width=".9" height="6.4" fill="#c9c9c9"/><rect x="12.6" y="8.8" width=".9" height="6.4" fill="#c9c9c9"/><path d="M8.9 9.4h3.2v3.6q0 2-1.6 2.6-1.6-.6-1.6-2.6z" fill="#c8102e" stroke="#8a1a1a" stroke-width=".4"/><rect x="9" y="8.3" width="3" height=".9" fill="#b8860b"/>'
+  }[c];
+  const st = (o, c2, a) => `<stop offset="${o}" stop-color="${c2}" stop-opacity="${a}"/>`;
+  return `<svg viewBox="0 0 36 34" aria-hidden="true"><defs><clipPath id="${u}c"><rect width="36" height="24" rx="3.2"/></clipPath>` +
+    `<linearGradient id="${u}w">${st(0, "#000", .22)}${st(.2, "#fff", .2)}${st(.48, "#000", .1)}${st(.76, "#fff", .22)}${st(1, "#000", .25)}</linearGradient>` +
+    `<linearGradient id="${u}g" x2="0" y2="1">${st(0, "#fff", .7)}${st(1, "#fff", .05)}</linearGradient>` +
+    `<linearGradient id="${u}v" x2="0" y2="1">${st(.5, "#000", 0)}${st(1, "#000", .28)}</linearGradient>` +
+    `<linearGradient id="${u}r" x2="0" y2="1">${st(0, "#fff", .45)}${st(1, "#fff", 0)}</linearGradient>` +
+    `<mask id="${u}m"><rect y="24" width="36" height="10" fill="url(#${u}r)"/></mask>` +
+    `<g id="${u}a" clip-path="url(#${u}c)">${art}<rect width="36" height="24" fill="url(#${u}w)"/><rect width="36" height="24" fill="url(#${u}v)"/><path d="M0 0H36V8.6C27 12 13 4 0 9.4Z" fill="url(#${u}g)"/><rect x=".35" y=".35" width="35.3" height="23.3" rx="2.9" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width=".7"/></g></defs>` +
+    `<g mask="url(#${u}m)"><g transform="translate(0 48) scale(1 -1)"><use href="#${u}a"/></g></g><use href="#${u}a"/>` +
+    `<rect x=".25" y=".25" width="35.5" height="23.5" rx="3" fill="none" stroke="#000" stroke-opacity=".5" stroke-width=".5"/></svg>`;
+};
+function drawFlags(){
+  ["lgsel", "lglogin"].forEach(id => { $(id).innerHTML = Object.entries(LANGS).map(([c, o]) => `<button type="button" class="fl${c === lang ? " on" : ""}" data-l="${c}" role="radio" aria-checked="${c === lang}" title="${o.n}">${flagSvg(c)}<span>${o.n}</span></button>`).join(""); });
+}
+["lgsel", "lglogin"].forEach(id => { $(id).onclick = e => { const b = e.target.closest("[data-l]"); if (b) setLang(b.dataset.l); }; });
 setLang(lang);
 </script>
 </body>
