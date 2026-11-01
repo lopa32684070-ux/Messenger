@@ -79,6 +79,7 @@ svg.ic{width:20px;height:20px;display:block}
 .bar{display:flex;gap:7px;align-items:flex-end;padding:7px 8px calc(env(safe-area-inset-bottom,0px) + 7px);background:linear-gradient(#eef0f5,#c3cad7);border-top:1px solid #7d8594;flex-shrink:0}
 .ib{width:32px;height:32px;border-radius:4px;border:1px solid #5d6778;background:linear-gradient(#fbfbfd,#c4c9d3);flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#3f4b63;padding:0;box-shadow:0 1px rgba(255,255,255,.7)}
 .ib .em{margin:0;vertical-align:0}
+.big .em{width:34px;height:34px;vertical-align:-8px;margin:0 2px}
 .ib:active{filter:brightness(.85)}
 .bar textarea{flex:1;min-width:0;resize:none;max-height:96px;height:32px;border:1px solid #6d7482;border-radius:4px;padding:6px 9px;font-size:14px;line-height:1.2;box-shadow:inset 0 2px 3px rgba(0,0,0,.2);background:#fff}
 .send{height:32px;padding:0 13px;border-radius:4px;border:1px solid #1b3f8f;color:#fff;font-weight:700;font-size:12px;text-shadow:0 -1px rgba(0,0,0,.5);background:linear-gradient(#7ba3ee,#2d5fce 50%,#1747b8 51%,#3a70dd);box-shadow:inset 0 1px rgba(255,255,255,.4)}
@@ -188,17 +189,17 @@ svg.ic{width:20px;height:20px;display:block}
 .sbody{flex:1;overflow-y:auto;background:var(--bg);padding:6px 10px calc(env(safe-area-inset-bottom,0px) + 16px)}
 .gt{margin:14px 8px 6px;font-weight:700;font-size:13px;color:#4c566c;text-shadow:0 1px #fff}
 .grp{background:#fff;border:1px solid #a7b0c0;border-radius:9px;overflow:hidden;box-shadow:0 1px 0 #fff}
-.srow{display:flex;align-items:center;gap:10px;width:100%;min-height:46px;padding:8px 12px;background:#fff;border:0;border-bottom:1px solid #d0d4db;font:inherit;color:#111;text-align:left;cursor:pointer}
+.srow{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:7px 12px;background:#fff;border:0;border-bottom:1px solid #d0d4db;font:inherit;color:#111;text-align:left;cursor:pointer}
 .srow:last-child{border-bottom:0}.srow:active{background:linear-gradient(#4b8ee6,#1c63c9);color:#fff}
 .srow.t>span:first-child{flex:1}.srow small{color:#6b7587}
 .srow .tx{flex:1;min-width:0;display:flex;flex-direction:column}.srow .tx small{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .srow .chev{color:#9aa3b3;font-size:22px;line-height:1}
-.srow input.sw{-webkit-appearance:none;appearance:none;position:relative;flex-shrink:0;width:78px;height:27px;margin:0;padding:0;border-radius:14px;border:1px solid #7c8596;background:linear-gradient(#fafafa,#d8dbe0);box-shadow:inset 0 2px 4px rgba(0,0,0,.35);transition:background .2s}
-.srow input.sw::before{content:"OFF";position:absolute;right:10px;top:0;line-height:25px;font:700 13px var(--ff);color:#7b8494}
-.srow input.sw::after{content:"";position:absolute;left:-1px;top:-1px;width:39px;height:27px;border-radius:14px;border:1px solid #6e7889;background:linear-gradient(#fdfdfd,#bfc3cb);box-shadow:0 1px 2px rgba(0,0,0,.4);transition:left .2s}
+.srow input.sw{-webkit-appearance:none;appearance:none;position:relative;flex-shrink:0;width:62px;height:26px;margin:0;padding:0;border-radius:13px;border:1px solid #7c8596;background:linear-gradient(#f4f5f7,#d3d7de);box-shadow:inset 0 2px 3px rgba(0,0,0,.3);transition:background .2s,border-color .2s}
+.srow input.sw::before{content:"OFF";position:absolute;left:31px;top:0;width:29px;text-align:center;font-family:var(--ff);font-weight:700;font-size:10px;line-height:24px;color:#7b8494}
+.srow input.sw::after{content:"";position:absolute;left:-1px;top:-1px;width:31px;height:26px;border-radius:13px;border:1px solid #6e7889;background:linear-gradient(#fdfdfd,#c3c7cf);box-shadow:0 1px 2px rgba(0,0,0,.35);transition:left .2s}
 .srow input.sw:checked{background:linear-gradient(#2a68c8,#5b9bf0);border-color:#1f4f9c}
-.srow input.sw:checked::before{content:"ON";left:11px;right:auto;color:#fff;text-shadow:0 -1px rgba(0,0,0,.4)}
-.srow input.sw:checked::after{left:37px}
+.srow input.sw:checked::before{content:"ON";left:0;color:#fff;text-shadow:0 -1px rgba(0,0,0,.35)}
+.srow input.sw:checked::after{left:30px}
 </style>
 </head>
 <body>
@@ -353,17 +354,29 @@ const FACES = {
   cool:[["(H)","(h)"], '<path d="M3.6 8h7.8v4.2q0 2.2-2.2 2.2H5.8q-2.2 0-2.2-2.4zM12.6 8h7.8v4.2q0 2.2-2.2 2.2h-3.4q-2.2 0-2.2-2.4z" fill="#1a1a1a"/><path d="M11.4 9.2h1.2" stroke="#1a1a1a" stroke-width="1.4"/>' + ln("M7.2 16.8q4.8 3.8 9.6 0")],
   confused:[[":S",":s",":-S"], eyes + ln("M7 16.6q2.4-2.4 5 0t5 0")],
   blush:[[":$",":-$"], eyes + '<circle cx="5.4" cy="13.2" r="2" fill="#ff7a7a" opacity=".7"/><circle cx="18.6" cy="13.2" r="2" fill="#ff7a7a" opacity=".7"/>' + ln("M7.6 15q4.4 3.6 8.8 0")],
+  joy:[[], ln("M5.6 10.2q2.4-3 4.8 0M13.6 10.2q2.4-3 4.8 0") + '<path d="M6.5 13.4q5.5 8.6 11 0z" fill="#6b1414" stroke="#3a2a00" stroke-width="1.2"/><path d="M4.2 11.6q-2.6 1.2-1.8 3.4 2.4-.2 1.8-3.4zM19.8 11.6q2.6 1.2 1.8 3.4-2.4-.2-1.8-3.4z" fill="#4aa8ff"/>'],
+  love:[[], '<path id="lh" d="M8.4 12.4C5 10.2 4.4 8.8 4.4 7.9c0-1.2 1-2 2-2 .8 0 1.6.4 2 1.1.4-.7 1.2-1.1 2-1.1 1 0 2 .8 2 2 0 .9-.6 2.300-4 4.500z" fill="#e0243a"/><path d="M16.2 12.4c-3.400-2.200-4-3.600-4-4.500 0-1.200 1-2 2-2 .8 0 1.600.4 2 1.100.4-.7 1.200-1.100 2-1.100 1 0 2 .8 2 2 0 .9-.6 2.300-4 4.500z" fill="#e0243a"/>' + ln("M7 14.8q5 5.4 10 0")],
+  kiss:[[], '<ellipse cx="8.6" cy="9.6" rx="1.3" ry="1.9" fill="#3a2a00"/>' + ln("M13.6 10.4q1.8-1.8 3.6 0") + '<ellipse cx="11.6" cy="16.2" rx="1.7" ry="1.9" fill="#d23a4a" stroke="#6b1414" stroke-width=".8"/><path d="M19.6 13.6c-1.700-1.200-2.100-1.900-2.100-2.400 0-.6.5-1.100 1.100-1.100.4 0 .8.2 1 .6.2-.4.6-.6 1-.6.6 0 1.100.5 1.100 1.100 0 .5-.4 1.200-2.100 2.400z" fill="#e0243a"/>'],
+  sleepy:[[], ln("M5.8 10.2q2.4 2.4 4.8 0M13.4 10.2q2.4 2.4 4.8 0M9.6 16.6h4.8") + '<path d="M17.4 3.4h3.600l-3.600 4h3.600" fill="none" stroke="#2a5db0" stroke-width="1.3" stroke-linejoin="round"/>'],
   heart:[["(L)","(l)"], ""]
 };
 function face(k){
   if (k === "heart") return '<svg class="em" viewBox="0 0 24 24" role="img" aria-label="coração"><path d="M12 21C5 15.4 2 11.8 2 8.3 2 5.2 4.3 3 7 3c2 0 3.8 1 5 2.8C13.2 4 15 3 17 3c2.700 0 5 2.200 5 5.300 0 3.500-3 7.100-10 12.700z" fill="#e0243a" stroke="#8c0f1f"/><ellipse cx="7.6" cy="7" rx="2.6" ry="1.5" fill="#fff" opacity=".5"/></svg>';
   return `<svg class="em" viewBox="0 0 24 24" role="img" aria-label="${k}"><circle cx="12" cy="12" r="10.6" fill="url(#${k === "angry" ? "fa" : "fg"})" stroke="#b07a00"/><ellipse cx="9.5" cy="5.4" rx="5.4" ry="2.6" fill="#fff" opacity=".42"/>${FACES[k][1]}</svg>`;
 }
-const CODE = {}; Object.entries(FACES).forEach(([k, v]) => v[0].forEach(c => CODE[esc(c)] = k));
-const reCodes = new RegExp("(?<![^\\s])(" + Object.keys(CODE).sort((a, b) => b.length - a.length).map(c => c.replace(/[.*+?^${}()|[\]\\$]/g, "\\$&")).join("|") + ")(?![^\\s])", "g");
-const fmt = t => esc(t).replace(reCodes, m => face(CODE[m]));
+const U = {
+  smile:"🙂 🙃 ☺", grin:"😀 😃 😄 😁 😆 😅", joy:"😂 🤣", wink:"😉", sad:"🙁 ☹ 😞 😔 😟", cry:"😭 😢 😥",
+  tongue:"😛 😜 😝", wow:"😮 😯 😲 😱", angry:"😠 😡 🤬", cool:"😎", confused:"😕 😖 🫤 🤔", blush:"😊 😳",
+  love:"😍 🥰 😻", kiss:"😘 😗 😙 😚", sleepy:"😴 😪", heart:"❤ ♥ 💖 💕 💗"
+};
+const EMAP = {}; Object.entries(U).forEach(([k, v]) => v.split(" ").forEach(c => EMAP[c] = k));
+const reEmoji = new RegExp("(?<!\\u200D)(" + Object.keys(EMAP).join("|") + ")\\uFE0F?(?!\\u200D)", "gu");
+const fmt = t => {
+  const h = esc(t).replace(reEmoji, (m, c) => face(EMAP[c]));
+  return /^\s*(<svg class="em"[\s\S]*?<\/svg>\s*){1,3}$/.test(h) ? '<span class="big">' + h + "</span>" : h;
+};
 $("emo").innerHTML = face("smile");
-$("tray").innerHTML = Object.keys(FACES).map(k => `<button type="button" data-c="${FACES[k][0][0]}" aria-label="${k}">${face(k)}</button>`).join("");
+$("tray").innerHTML = Object.keys(FACES).map(k => `<button type="button" data-c="${U[k].split(" ")[0]}" aria-label="${k}">${face(k)}</button>`).join("");
 
 /* ---------- janelas ---------- */
 function openModal(id){ document.querySelectorAll(".card").forEach(c => c.hidden = c.id !== id); $("modal").classList.add("on"); }
@@ -735,7 +748,7 @@ $("gdel").onclick = async () => {
 $("emo").onclick = () => $("tray").classList.toggle("on");
 $("tray").onclick = e => {
   const b = e.target.closest("button"); if (!b) return;
-  const t = $("txt"); t.value += (t.value && !/\s$/.test(t.value) ? " " : "") + b.dataset.c + " "; t.dispatchEvent(new Event("input")); t.focus();
+  const t = $("txt"); t.value += b.dataset.c; t.dispatchEvent(new Event("input")); t.focus();
 };
 $("txt").oninput = () => {
   const t = $("txt"); t.style.height = "32px"; t.style.height = Math.min(t.scrollHeight, 96) + "px";
