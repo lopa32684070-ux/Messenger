@@ -282,7 +282,7 @@ svg.ic{width:20px;height:20px;display:block}
 <radialGradient id="fg" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#fff8b0"/><stop offset=".55" stop-color="#ffd12e"/><stop offset="1" stop-color="#ee9c00"/></radialGradient>
 <radialGradient id="fa" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#ffc59a"/><stop offset=".55" stop-color="#ff6a3a"/><stop offset="1" stop-color="#d12a10"/></radialGradient>
 <radialGradient id="fgr" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#e4ffb0"/><stop offset=".55" stop-color="#9be04a"/><stop offset="1" stop-color="#5a9a1c"/></radialGradient><radialGradient id="fbl" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#e0f4ff"/><stop offset=".55" stop-color="#8ccbff"/><stop offset="1" stop-color="#3a86d6"/></radialGradient><radialGradient id="fpu" cx=".38" cy=".3" r=".85"><stop offset="0" stop-color="#e8c8ff"/><stop offset=".55" stop-color="#a65ad8"/><stop offset="1" stop-color="#6a22a0"/></radialGradient><linearGradient id="fsk" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="24"><stop offset="0" stop-color="#ffe680"/><stop offset="1" stop-color="#f2a52c"/></linearGradient>
-<filter id="shn" x="-6%" y="-6%" width="112%" height="115%" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation=".7" result="b"/><feSpecularLighting in="b" surfaceScale="2" specularConstant=".8" specularExponent="26" lighting-color="#fff" result="sp"><fePointLight x="5" y="3" z="13"/></feSpecularLighting><feComposite in="sp" in2="SourceAlpha" operator="in" result="sc"/><feComposite in="SourceGraphic" in2="sc" operator="arithmetic" k1="0" k2="1" k3=".65" k4="0" result="lit"/><feDropShadow in="lit" dx="0" dy=".6" stdDeviation=".5" flood-color="#000" flood-opacity=".25"/></filter>
+<filter id="shn" filterUnits="userSpaceOnUse" x="-1" y="-1" width="26" height="26" color-interpolation-filters="sRGB"><feGaussianBlur in="SourceAlpha" stdDeviation=".7" result="b"/><feSpecularLighting in="b" surfaceScale="2" specularConstant=".8" specularExponent="26" lighting-color="#fff" result="sp"><fePointLight x="5" y="3" z="13"/></feSpecularLighting><feComposite in="sp" in2="SourceAlpha" operator="in" result="sc"/><feComposite in="SourceGraphic" in2="sc" operator="arithmetic" k1="0" k2="1" k3=".65" k4="0" result="lit"/><feDropShadow in="lit" dx="0" dy=".6" stdDeviation=".5" flood-color="#000" flood-opacity=".25"/></filter>
 </defs></svg>
 
 <div id="app">
@@ -991,6 +991,33 @@ const X = (() => {
   const H = (a, d = "") => a.map(f => f(OL, 2)).join("") + a.map(f => f(SKN, 0)).join("") + d;
   const palm = H([rr(5.6, 5.4, 3, 10, 1.5), rr(8.8, 2.6, 3, 12.6, 1.5), rr(12, 3.4, 3, 11.8, 1.5), rr(15.2, 7, 3, 9, 1.5), rr(5.6, 11, 12.6, 9.6, 4.6), rr(2.8, 10.4, 3.2, 8.4, 1.6, "rotate(-38 4.4 14.6)")], dl("M8.8 9v5.6M12 7v7.4M15.2 9.6v5M8.4 17.4q3.4 1.8 7 0"));
   const tu = R(2.2, 10.4, 5.6, 11.6, 1.4, "#4a86d8", "#2a4f94") + H([rr(9.6, 2.2, 3.6, 10, 1.8, "rotate(-8 11.4 8)"), rr(8.4, 9.6, 12.8, 12.2, 4.6)], dl("M13.4 13.4h6.6M13.4 16.4h6.6M13.4 19.2h5"));
+  const OX = "#a86a00", CX = "#c98a10";
+  const cp = (x1, y1, x2, y2, w) => ({ o: `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${OX}" stroke-width="${w + 1.7}" stroke-linecap="round"/>`, f: `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="url(#fsk)" stroke-width="${w}" stroke-linecap="round"/>` });
+  const bl = d => ({ o: `<path d="${d}" fill="${OX}" stroke="${OX}" stroke-width="1.7" stroke-linejoin="round"/>`, f: `<path d="${d}" fill="url(#fsk)"/>` });
+  const lx = (d, c = CX, w = .8, op = 1) => `<path d="${d}" fill="none" stroke="${c}" stroke-width="${w}" stroke-opacity="${op}" stroke-linecap="round" stroke-linejoin="round"/>`;
+  const hx = d => lx(d, "#fff", 1, .45);
+  const Hx = (a, d = "") => a.map(p => p.o).join("") + a.map(p => p.f).join("") + d;
+const hPalmP="M5.8 12.4H18.8V16.8Q18.8 22.6 12.4 22.6T5.8 16.8z";
+const hdHand=Hx([cp(8.4,12.6,8.6,6,3),cp(11.7,12.6,11.8,4.6,3.1),cp(15,12.6,15,5.8,3),cp(17.9,13,17.8,8.6,2.6),cp(7.2,16.4,4,11.6,3.2),bl(hPalmP)],
+  lx("M10.1 8.6V12.6M13.3 7.4V12.6M16.4 9.4V13")+lx("M7.8 18.6Q10.4 20.8 14.4 19.6")+hx("M7.4 7.6V10.6M10.7 5.8V9.6M14 7V10"));
+const hdWave=G("translate(12 14.4) scale(.86) rotate(16) translate(-12 -14.4)",hdHand)+lx("M2.2 6Q.9 9 2.2 12M4.2 4.4Q3.2 5.8 3.2 7.4",OX,1.3)+lx("M21.8 5Q23.1 8.4 21.8 12M19.8 3.4Q21 4.8 21 6.6",OX,1.3);
+const hdVic=Hx([cp(9.2,13.4,7.2,5.4,3.1),cp(14.6,13.4,16.8,5.4,3.1),bl("M5.8 13.6Q5.8 11.6 8 11.6H16.6Q18.8 11.6 18.8 13.6V17.6Q18.8 22.8 12.3 22.8T5.8 17.6z"),cp(13.6,15,17.8,15,2.8),cp(14.4,17.8,17.6,17.8,2.6),cp(5.8,16,11.6,18.4,3.1)],
+  lx("M12 12.8V10")+lx("M13.6 15h4.2M14.4 17.8h3.2")+hx("M8.2 8.4l-.8 3M15.8 8.4l.8 3"));
+const hdRock=Hx([cp(8.6,13.4,7.8,5.4,3),cp(17,13.6,17.8,7.4,2.8),bl("M5.8 13.6Q5.8 11.6 8 11.6H16.6Q18.8 11.6 18.8 13.6V17.6Q18.8 22.8 12.3 22.8T5.8 17.6z"),cp(11.6,14.8,15,14.8,2.8),cp(11.2,17.6,14.4,17.6,2.6),cp(5.8,16,11.4,18.4,3.1)],lx("M11.4 14.8h3.6M11.2 17.6h3.2")+hx("M8.4 8.4l-.4 3"));
+const hdCall=Hx([bl("M6.8 12.2H17.4V17.8Q17.4 22.6 12.1 22.6T6.8 17.8z"),cp(7.8,15,15.6,15,2.8),cp(8,17.8,15,17.8,2.6),cp(7.2,13.6,3.8,6.6,3.2),cp(16.6,13,20.2,6.2,2.8)],lx("M8.4 15h6.6M8.6 17.8h5.6")+hx("M5.2 9.6l.6 1.2"));
+const hdFist=Hx([bl("M5.8 12.4H19.2V17.8Q19.2 22.6 12.5 22.6T5.8 17.8z"),cp(7.4,9.4,7.4,13,3.2),cp(10.5,8.4,10.5,13,3.2),cp(13.6,8.4,13.6,13,3.2),cp(16.7,9.4,16.7,13,3.2),cp(6.8,17.4,15.6,17.4,3.6)],
+  lx("M9 9.6V13M12.1 9.6V13M15.2 9.6V13")+hx("M6.8 8.2V10M9.9 7.2V9.4M13 7.2V9.4M16.1 8.2V10"));
+const hdTu=Hx([bl("M8 11.4L10.8 10.8Q12.4 7.6 12.8 5Q13.2 3.4 15 3.6Q16.8 4.2 16.1 6.8L15.4 9.4H20Q22 9.6 22 11.6Q22 12.8 21.2 13.4Q22.2 14 22.2 15Q22.2 16.1 21.4 16.7Q22 17.4 21.9 18.2Q21.7 19.4 20.7 19.9Q21 20.8 20.4 21.6Q19.6 22.6 18.2 22.6H10.8Q8 22.6 8 20z")],
+  lx("M11.4 13.4H20.6M11.4 16.6H20.6M11.4 19.7H19.6")+hx("M13.4 7.2L13.9 5.2"));
+const hdCuff=`<rect x="1.8" y="10.4" width="5.6" height="12.2" rx="1.6" fill="#3d78d0" stroke="#234c8f" stroke-width=".9"/><rect x="2.6" y="11.2" width="1.4" height="10.4" rx=".7" fill="#fff" opacity=".35"/>`;
+const hdTUp=hdCuff+hdTu;
+const hdTDn=G("translate(0 24) scale(1 -1)",hdTUp);
+const hdCH=(r)=>G(`rotate(${r} 12 23)`,Hx([bl("M7.8 12.4Q7.8 9.6 10.2 9.6H13.8Q16.2 9.6 16.2 12.4V17.6Q16.2 22.6 12 22.6T7.8 17.6z"),cp(9,12,9,6.6,2.1),cp(11,12,11,5,2.2),cp(13,12,13,5,2.2),cp(15,12,15,6.4,2),],lx("M10 8V12M12 6.8V12M14 7.4V12")));
+const hdClap=hdCH(-22)+hdCH(22)+lx("M3.4 5.4l2 1.8M20.6 5.4l-2 1.8M12 1.8v2.2","#ff9a1a",1.4);
+const hdPF=(dx,r,th)=>G(`rotate(${r} 12 23) translate(${dx} 0)`,Hx([cp(9.4,13,9.8,7,2.8),cp(12,13,12.2,5.4,2.9),cp(14.6,13,14.6,6.2,2.8),bl("M7.8 13Q7.8 11.6 9.4 11.6H15.4Q17 11.6 17 13V18Q17 22.6 12.4 22.6T7.8 18z"),...(th?[cp(8.4,18,10.4,12.4,2.9)]:[])],lx("M10.6 9V13M13.3 8V13")+(th?"":"")));
+const hdPray=hdPF(-1.2,-7,false)+hdPF(1.2,7,true);
+const hdOk=Hx([cp(11.2,13.4,10.6,5,3),cp(14.8,14,15.4,6.4,2.9),cp(18,14.8,19.2,9,2.6),bl("M6.4 15.2Q6.4 13 9 13H17.8Q19.8 13 19.8 15.2V17.8Q19.8 22.6 13 22.6T6.4 17.8z"),`<circle cx="6.8" cy="11.4" r="3.4" fill="none" stroke="${OX}" stroke-width="4.4"/><circle cx="6.8" cy="11.4" r="3.4" fill="none" stroke="${SKN}" stroke-width="2.7"/>`].map(x=>typeof x==="string"?{o:"",f:x}:x),lx("M12.9 9.4V13M16.2 9.8V13.4")+hx("M10.6 7.4V10M14.2 8.6V11"));
+const hdPtR=Hx([bl("M3.6 8.6Q3.6 6.2 6.2 6.2H11.6V19.2Q11.6 22.4 8.4 22.4H6.4Q3.6 22.4 3.6 19.4z"),cp(4.8,12.6,11.4,12.6,2.8),cp(4.8,15.8,11,15.8,2.7),cp(5.2,18.8,10.4,18.8,2.5),cp(9.8,9.6,20.6,9.6,3.4),cp(5,8.2,10,10.2,3)],lx("M5 12.6h6M5 15.8h5.6M5.4 18.8h4.6")+hx("M13.4 8.6h5.8"));
   return {
     laughsq: ["😆", "y", eS + mG], sweat: ["😅", "y", eyes + mG + drop],
     halo: ["😇", "y", eH + mS + '<ellipse cx="12" cy="2" rx="5.2" ry="1.3" fill="none" stroke="#e8b800" stroke-width="1.4"/>'],
@@ -1027,12 +1054,11 @@ const X = (() => {
     chick: ["🐥 🐤 🐣", "", C(12, 12.4, 9.4, "#ffd84a", "#c99a00") + P("M10 3.2q2-2 4 0", 1.2, "#c99a00") + E(8.6, 11, 1.2, 1.6, K) + E(15.4, 11, 1.2, 1.6, K) + F("M9.8 13.8h4.4l-2.2 3z", "#ff8a1e", "#b85a00") + C(5.8, 14.6, 1.6, "#ff9a7a")],
     parrot: ["🦜 🐦", "", C(12, 12.2, 9.6, "#5ccf4a", "#2e8a22") + F("M4.2 8q7.8-7 15.6 0-7.800 2.200-15.600 0z", "#ffe24a") + C(6.8, 14.8, 2.2, "#4aa8ff") + C(17.2, 14.8, 2.2, "#4aa8ff") + C(8.8, 10.8, 2, "#fff", K) + C(15.2, 10.8, 2, "#fff", K) + C(8.8, 10.8, 1, K) + C(15.2, 10.8, 1, K) + F("M10 13q2-1.8 4 0l-2 3.6z", "#f4a52a", "#a86a10") + P("M8 6.4h.1M12 5.2h.1M16 6.4h.1", 1.4)],
     penguin: ["🐧", "", E(12, 13, 8.4, 9.4, "#2b3340") + E(12, 15, 5.4, 6.8, "#fff") + C(9, 9.4, 1.6, "#fff") + C(15, 9.4, 1.6, "#fff") + C(9.2, 9.6, .8, K) + C(14.8, 9.6, .8, K) + F("M10 11.8h4l-2 2.8z", "#ff9a1e", "#b85a00")],
-    thumbup: ["👍", "", tu], thumbdown: ["👎", "", G("translate(0 24) scale(1 -1)", tu)],
-    hand: ["✋ 🖐 🤚", "", palm], wave: ["👋", "", G("translate(12 14) scale(.92) rotate(14) translate(-12 -14)", palm) + P("M2.4 5.4q-1.4 3 0 6.2M21.6 4.4q1.8 3.4.2 7", 1.3, OL)],
-    victory: ["✌ 🤞", "", H([rr(7.2, 1.8, 3.2, 13.6, 1.6, "rotate(-13 9 14)"), rr(13.6, 1.8, 3.2, 13.6, 1.6, "rotate(13 15 14)"), rr(12.6, 12, 3, 6, 1.5), rr(15.6, 12.8, 2.8, 5, 1.4), rr(5.4, 13.2, 13, 8.8, 4.2), rr(4.6, 15.4, 6.4, 3.2, 1.6)], dl("M12.6 13v5M15.6 13.8v4"))],
-    fist: ["👊 ✊", "", H([rr(4.4, 8, 15.2, 12.4, 4.6), rr(5, 5.4, 3.4, 7, 1.7), rr(8.4, 4.8, 3.4, 7.6, 1.7), rr(11.8, 4.8, 3.4, 7.6, 1.7), rr(15.2, 5.4, 3.4, 7, 1.7), rr(6.2, 14.6, 11.8, 3.8, 1.9)], dl("M8.4 6.4v5.6M11.8 6.4v5.6M15.2 6.4v5.6M7 14.7h10"))],
-    clap: ["👏", "", H([rr(6, 5.4, 6.4, 13.6, 3.2, "rotate(-22 9.2 19)"), rr(11.6, 5.4, 6.4, 13.6, 3.2, "rotate(22 14.8 19)")]) + P("M3 3.6l2 2M21 3.6l-2 2M12 1.2v2.6", 1.4, "#ff9a1a")],
-    pray: ["🙏", "", H([pa("M12 22C8.4 22 5.2 18 5.2 13c0-3 2.8-7 6.8-11 4 4 6.8 8 6.8 11 0 5-3.2 9-6.8 9z")], dl("M12 4.6v16.6M8.4 11q3.6-1.2 7.2 0"))],
+    thumbup: ["👍", "", hdTUp], thumbdown: ["👎", "", hdTDn],
+    hand: ["✋ 🖐 🤚", "", hdHand], wave: ["👋", "", hdWave],
+    victory: ["✌ 🤞", "", hdVic], rock: ["🤘 🤟", "", hdRock], call: ["🤙", "", hdCall], ok: ["👌 🤌", "", hdOk],
+    fist: ["👊 ✊", "", hdFist], clap: ["👏", "", hdClap], pray: ["🙏", "", hdPray],
+    pointr: ["👉", "", hdPtR], pointl: ["👈", "", G("translate(24 0) scale(-1 1)", hdPtR)], pointu: ["☝ 👆", "", G("rotate(-90 12 12)", hdPtR)], pointd: ["👇", "", G("rotate(90 12 12)", hdPtR)],
     eyes: ["👀", "", E(8, 12, 4.4, 6, "#fff", "#555") + E(16, 12, 4.4, 6, "#fff", "#555") + C(9, 13.4, 2, K) + C(17, 13.4, 2, K) + C(9.6, 12.6, .6, "#fff") + C(17.6, 12.6, .6, "#fff")],
     lips: ["👄 💋", "", F("M2.4 12q4-5.4 9.6-3.6 5.6-1.8 9.6 3.6-4 7.2-9.6 7.2T2.4 12z", "#e0243a", "#8c0f1f") + P("M3 12.2q9 2 18 0", 1, "#8c0f1f")],
     hOrange: ["🧡", "", hrt("#ff8a1e", "#b85a00")], hYellow: ["💛", "", hrt("#ffd21e", "#b88a00")], hGreen: ["💚", "", hrt("#3cc04a", "#1f7a2a")],
@@ -1085,7 +1111,7 @@ const xsvg = k => { const [, b, s] = X[k], g = XG[b]; return `<svg class="em" vi
 const XCAT = [
   ["Rostos", "smile", [...Object.keys(FACES).filter(k => k !== "heart"), "laughsq", "sweat", "halo", "devil", "smirk", "neutral", "rolleye", "grimace", "zip", "think", "party", "sick", "mask", "dizzy", "starstruck", "plead", "fear", "scream", "hot", "cold", "skull", "ghost", "clown", "poop", "alien", "robot"]],
   ["Animais", "cat", ["cat", "dog", "monkey", "pig", "fox", "panda", "rabbit", "frog", "chick", "parrot", "penguin"]],
-  ["Gestos", "thumbup", ["thumbup", "thumbdown", "hand", "wave", "victory", "fist", "clap", "pray", "eyes", "lips", "heart", "hOrange", "hYellow", "hGreen", "hBlue", "hPurple", "hBlack", "hWhite", "hBrown", "hBroken"]],
+  ["Gestos", "thumbup", ["thumbup", "thumbdown", "hand", "wave", "victory", "rock", "call", "ok", "pointr", "pointl", "pointu", "pointd", "fist", "clap", "pray", "eyes", "lips", "heart", "hOrange", "hYellow", "hGreen", "hBlue", "hPurple", "hBlack", "hWhite", "hBrown", "hBroken"]],
   ["Diversão", "tada", ["sparkles", "star", "fire", "hundred", "boom", "drops", "zzz", "tada", "cake", "gift", "balloon", "rose", "rainbow", "sun", "moon", "bolt", "pizza", "burger", "icecream", "donut", "apple", "coffee"]],
   ["Objetos", "game", ["soccer", "game", "music", "phone", "camera", "bulb", "money", "car", "clock", "key", "house", "check", "cross", "question", "exclam", "warning", "arrowr", "arrowl"]]
 ];
