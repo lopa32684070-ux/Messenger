@@ -233,6 +233,9 @@ svg.ic{width:20px;height:20px;display:block}
 .seg .nbtn{flex:1;min-width:0;padding:0 4px}
 #thp{display:flex;flex-direction:column;padding:4px 0 8px;margin:8px 0 2px;border:1px solid #828790;border-radius:5px;background:var(--cbg,#dde1ec);overflow:hidden}
 #thp .r{padding:0 10px}
+
+.lsel{max-width:58%;font:inherit;font-size:14px;color:#2d4263;background:linear-gradient(#fff,#e9edf4);border:1px solid #9aa5b8;border-radius:5px;padding:4px 6px}
+.lgw{margin-top:10px;text-align:center}
 </style>
 </head>
 <body>
@@ -250,107 +253,110 @@ svg.ic{width:20px;height:20px;display:block}
         <h2 id="ttl">Entrar</h2>
         <p id="sub">Entre com seu e-mail e senha.</p>
         <form id="f" class="fields">
-          <input id="name" type="text" placeholder="Seu nome" autocomplete="nickname" maxlength="40" hidden>
-          <input id="email" type="email" placeholder="E-mail" autocomplete="email" required>
-          <input id="pass" type="password" placeholder="Senha (mínimo 6 caracteres)" autocomplete="current-password" minlength="6" required>
-          <label class="chk"><input type="checkbox" id="remember" checked> Lembrar de mim</label>
+          <input id="name" type="text" placeholder="Seu nome" autocomplete="nickname" maxlength="40" hidden data-ti="placeholder">
+          <input id="email" type="email" placeholder="E-mail" autocomplete="email" required data-ti="placeholder">
+          <input id="pass" type="password" placeholder="Senha (mínimo 6 caracteres)" autocomplete="current-password" minlength="6" required data-ti="placeholder">
+          <label class="chk"><input type="checkbox" id="remember" checked> <span data-t>Lembrar de mim</span></label>
           <button class="go" id="gobtn">Entrar</button>
         </form>
         <p class="err" id="err" role="alert"></p>
-        <div class="foot"><button class="link" id="toggle" type="button">Criar uma conta</button><button class="link" id="forgot" type="button">Esqueci a senha</button></div>
+        <div class="foot"><button class="link" id="toggle" type="button">Criar uma conta</button><button data-t class="link" id="forgot" type="button">Esqueci a senha</button></div>
+        <div class="lgw"><select id="lglogin" class="lsel" aria-label="Idioma" data-ti="aria-label"></select></div>
       </div>
     </div>
   </section>
 
   <section id="home" class="screen">
-    <div class="nav"><button class="nbtn" id="cfg">Configurações</button><h1>Mensagens</h1><button class="nbtn" id="new">Nova</button></div>
-    <div class="search"><input id="q" type="search" placeholder="Buscar conversas" aria-label="Buscar conversas"><button class="link" id="edit" type="button">Editar</button></div>
+    <div class="nav"><button data-t class="nbtn" id="cfg">Configurações</button><h1 data-t>Mensagens</h1><button data-t class="nbtn" id="new">Nova</button></div>
+    <div class="search"><input id="q" type="search" placeholder="Buscar conversas" aria-label="Buscar conversas" data-ti="placeholder aria-label"><button class="link" id="edit" type="button">Editar</button></div>
     <div id="list"></div>
   </section>
 
   <section id="settings" class="screen">
-    <div class="nav"><button class="nbtn" id="sback" type="button">Voltar</button><h1>Configurações</h1><span style="min-width:68px"></span></div>
+    <div class="nav"><button data-t class="nbtn" id="sback" type="button">Voltar</button><h1 data-t>Configurações</h1><span style="min-width:68px"></span></div>
     <div class="sbody">
-      <div class="gt">Perfil</div>
+      <div data-t class="gt">Perfil</div>
       <div class="grp"><button class="srow" id="acc" type="button"><span id="sav"></span><span class="tx"><b id="snm"></b><small id="sml"></small></span><span class="chev">›</span></button></div>
-      <div class="gt">Mensagens</div>
-      <div class="grp"><label class="srow t"><span>Sons de mensagem</span><input type="checkbox" class="sw" id="asnd"></label></div>
-      <div class="gt">Privacidade</div>
-      <div class="grp"><label class="srow t"><span>Mostrar quando estou online e digitando</span><input type="checkbox" class="sw" id="ashow"></label></div>
-      <div class="gt">Aparência</div>
-      <div class="grp"><label class="srow t"><span>Animações nos botões</span><input type="checkbox" class="sw" id="afx"></label></div>
-      <div class="gt">Sobre</div>
-      <div class="grp"><div class="srow t"><span>Versão</span><small>Messenger v7</small></div></div>
+      <div data-t class="gt">Mensagens</div>
+      <div class="grp"><label class="srow t"><span data-t>Sons de mensagem</span><input type="checkbox" class="sw" id="asnd"></label></div>
+      <div data-t class="gt">Privacidade</div>
+      <div class="grp"><label class="srow t"><span data-t>Mostrar quando estou online e digitando</span><input type="checkbox" class="sw" id="ashow"></label></div>
+      <div data-t class="gt">Aparência</div>
+      <div class="grp"><label class="srow t"><span data-t>Animações nos botões</span><input type="checkbox" class="sw" id="afx"></label></div>
+      <div data-t class="gt">Idioma</div>
+      <div class="grp"><label class="srow t"><span data-t>Idioma</span><select id="lgsel" class="lsel" aria-label="Idioma" data-ti="aria-label"></select></label></div>
+      <div data-t class="gt">Sobre</div>
+      <div class="grp"><div class="srow t"><span data-t>Versão</span><small>Messenger v8</small></div></div>
     </div>
   </section>
 
   <section id="chat" class="screen">
-    <div class="nav"><button class="nbtn" id="back">Voltar</button><h1><span class="av sm" id="cav"></span><span class="ttl"><span id="who"></span><small id="stat"></small></span></h1><button class="nbtn" id="ginfo" type="button" hidden>Grupo</button><button class="nbtn" id="cset" type="button" hidden>Ajustes</button></div>
+    <div class="nav"><button data-t class="nbtn" id="back">Voltar</button><h1><span class="av sm" id="cav"></span><span class="ttl"><span id="who"></span><small id="stat"></small></span></h1><button data-t class="nbtn" id="ginfo" type="button" hidden>Grupo</button><button data-t class="nbtn" id="cset" type="button" hidden>Ajustes</button></div>
     <div id="msgs"></div>
     <div id="typing" hidden><span class="dots"><i></i><i></i><i></i></span><span id="typtx"></span></div>
-    <div id="selbar"><button class="nbtn dark" id="srep" type="button">Responder</button><button class="nbtn dark" id="sedit" type="button">Editar</button><button class="nbtn dark" id="sopen" type="button">Abrir</button><button class="nbtn dark" id="sclose" type="button">Encerrar</button><button class="nbtn danger" id="sdel" type="button">Excluir</button><button class="nbtn dark" id="scan" type="button">Cancelar</button></div>
+    <div id="selbar"><button data-t class="nbtn dark" id="srep" type="button">Responder</button><button data-t class="nbtn dark" id="sedit" type="button">Editar</button><button data-t class="nbtn dark" id="sopen" type="button">Abrir</button><button data-t class="nbtn dark" id="sclose" type="button">Encerrar</button><button data-t class="nbtn danger" id="sdel" type="button">Excluir</button><button data-t class="nbtn dark" id="scan" type="button">Cancelar</button></div>
     <div id="tray"></div>
     <div id="mpick"></div>
-    <div id="rbar" hidden><span id="rtx"></span><button type="button" class="link" id="rx">Cancelar</button></div>
+    <div id="rbar" hidden><span id="rtx"></span><button data-t type="button" class="link" id="rx">Cancelar</button></div>
     <form class="bar" id="sendf">
-      <button type="button" class="ib" id="att" aria-label="Enviar foto ou vídeo"><svg class="ic" viewBox="0 0 24 24"><path d="M16.5 6.5l-8 8a2.2 2.2 0 003.1 3.1l8.4-8.4a4.2 4.2 0 00-6-6L5.7 11.8a6.2 6.2 0 008.8 8.8l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
-      <button type="button" class="ib" id="emo" aria-label="Emoticons"></button>
-      <button type="button" class="ib" id="pollb" aria-label="Criar enquete"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
-      <textarea id="txt" rows="1" maxlength="1000" placeholder="Digite sua mensagem" aria-label="Mensagem"></textarea>
-      <button class="send" id="sendbtn" disabled>Enviar</button>
+      <button type="button" class="ib" id="att" aria-label="Enviar foto ou vídeo" data-ti="aria-label"><svg class="ic" viewBox="0 0 24 24"><path d="M16.5 6.5l-8 8a2.2 2.2 0 003.1 3.1l8.4-8.4a4.2 4.2 0 00-6-6L5.7 11.8a6.2 6.2 0 008.8 8.8l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
+      <button type="button" class="ib" id="emo" aria-label="Emoticons" data-ti="aria-label"></button>
+      <button type="button" class="ib" id="pollb" aria-label="Criar enquete" data-ti="aria-label"><svg class="ic" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button>
+      <textarea id="txt" rows="1" maxlength="1000" placeholder="Digite sua mensagem" aria-label="Mensagem" data-ti="placeholder aria-label"></textarea>
+      <button data-t class="send" id="sendbtn" disabled>Enviar</button>
       <input type="file" id="file" accept="image/*,video/*" hidden>
     </form>
   </section>
 
   <div id="modal">
-    <form class="card" id="nf" hidden><h3>Nova conversa</h3><p>Digite o e-mail de quem já criou conta.</p>
+    <form class="card" id="nf" hidden><h3 data-t>Nova conversa</h3><p data-t>Digite o e-mail de quem já criou conta.</p>
       <input id="nemail" type="email" placeholder="amigo@email.com" required autocomplete="off"><p class="err" id="nerr" role="alert"></p>
-      <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button class="nbtn" id="nok">Conversar</button></div></form>
+      <div class="btns"><button data-t type="button" class="nbtn dark" data-close>Cancelar</button><button data-t class="nbtn" id="nok">Conversar</button></div></form>
     <form class="card" id="cf" hidden><h3 id="ct"></h3><p id="cp"></p>
-      <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button class="nbtn danger" id="cok">Excluir</button></div></form>
-    <form class="card" id="af" hidden><h3>Minha conta</h3><p id="amail"></p>
-      <input id="aname" type="text" maxlength="40" placeholder="Nome de usuário" required>
-      <div class="row2" style="align-items:center"><span id="apv"></span><button type="button" class="nbtn dark" id="aph">Trocar foto</button><button type="button" class="nbtn dark" id="aphx">Remover</button></div>
+      <div class="btns"><button data-t type="button" class="nbtn dark" data-close>Cancelar</button><button class="nbtn danger" id="cok">Excluir</button></div></form>
+    <form class="card" id="af" hidden><h3 data-t>Minha conta</h3><p id="amail"></p>
+      <input id="aname" type="text" maxlength="40" placeholder="Nome de usuário" required data-ti="placeholder">
+      <div class="row2" style="align-items:center"><span id="apv"></span><button data-t type="button" class="nbtn dark" id="aph">Trocar foto</button><button data-t type="button" class="nbtn dark" id="aphx">Remover</button></div>
       <p class="err" id="aerr" role="alert"></p>
-      <div class="btns"><button type="button" class="nbtn dark" data-close>Fechar</button><button class="nbtn">Salvar nome</button></div>
-      <div class="btns"><button type="button" class="nbtn danger" id="aout">Sair da conta</button></div></form>
-    <div class="card" id="nm" hidden><h3>Criar nova</h3><p>Escolha o que deseja iniciar.</p>
-      <div class="btns" style="flex-direction:column"><button type="button" class="nbtn" id="nm1">Conversa com uma pessoa</button><button type="button" class="nbtn" id="nm2">Grupo com várias pessoas</button><button type="button" class="nbtn dark" data-close>Cancelar</button></div></div>
-    <form class="card wide" id="gf" hidden><h3>Novo grupo</h3><p>Você será o administrador.</p>
-      <input id="gname" type="text" maxlength="40" placeholder="Nome do grupo" required>
-      <div class="sec">Integrantes</div><div class="box" id="gpool"></div>
-      <div class="row2"><input id="gemail" type="email" placeholder="Adicionar por e-mail" autocomplete="off"><button type="button" class="nbtn dark" id="gadd">Adicionar</button></div>
+      <div class="btns"><button data-t type="button" class="nbtn dark" data-close>Fechar</button><button data-t class="nbtn">Salvar nome</button></div>
+      <div class="btns"><button data-t type="button" class="nbtn danger" id="aout">Sair da conta</button></div></form>
+    <div class="card" id="nm" hidden><h3 data-t>Criar nova</h3><p data-t>Escolha o que deseja iniciar.</p>
+      <div class="btns" style="flex-direction:column"><button data-t type="button" class="nbtn" id="nm1">Conversa com uma pessoa</button><button data-t type="button" class="nbtn" id="nm2">Grupo com várias pessoas</button><button data-t type="button" class="nbtn dark" data-close>Cancelar</button></div></div>
+    <form class="card wide" id="gf" hidden><h3 data-t>Novo grupo</h3><p data-t>Você será o administrador.</p>
+      <input id="gname" type="text" maxlength="40" placeholder="Nome do grupo" required data-ti="placeholder">
+      <div data-t class="sec">Integrantes</div><div class="box" id="gpool"></div>
+      <div class="row2"><input id="gemail" type="email" placeholder="Adicionar por e-mail" autocomplete="off" data-ti="placeholder"><button data-t type="button" class="nbtn dark" id="gadd">Adicionar</button></div>
       <p class="err" id="gerr" role="alert"></p>
-      <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button class="nbtn">Criar grupo</button></div></form>
-    <form class="card" id="np" hidden><h3>Nova enquete</h3>
-      <input id="pq" type="text" maxlength="120" placeholder="Pergunta" required><div id="pops"></div>
-      <div class="row2"><button type="button" class="nbtn dark" id="padd">+ Opção</button></div>
-      <label class="chk"><input type="checkbox" id="pmulti"> Permitir mais de uma resposta</label>
+      <div class="btns"><button data-t type="button" class="nbtn dark" data-close>Cancelar</button><button data-t class="nbtn">Criar grupo</button></div></form>
+    <form class="card" id="np" hidden><h3 data-t>Nova enquete</h3>
+      <input id="pq" type="text" maxlength="120" placeholder="Pergunta" required data-ti="placeholder"><div id="pops"></div>
+      <div class="row2"><button data-t type="button" class="nbtn dark" id="padd">+ Opção</button></div>
+      <label class="chk"><input type="checkbox" id="pmulti"> <span data-t>Permitir mais de uma resposta</span></label>
       <p class="err" id="nperr" role="alert"></p>
-      <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button class="nbtn">Criar enquete</button></div></form>
+      <div class="btns"><button data-t type="button" class="nbtn dark" data-close>Cancelar</button><button data-t class="nbtn">Criar enquete</button></div></form>
     <div class="card wide" id="gi" hidden><h3 id="gititle"></h3><p id="gicount"></p>
       <div class="box" id="gmem"></div>
-      <div id="gadm"><div class="sec">Adicionar integrante</div><div class="row2"><input id="giemail" type="email" placeholder="E-mail da pessoa"><button type="button" class="nbtn" id="giadd">Adicionar</button></div>
-      <div class="sec">Nome do grupo</div><div class="row2"><input id="grename" type="text" maxlength="40"><button type="button" class="nbtn" id="girename">Salvar</button></div>
-      <div class="sec">Foto do grupo</div><div class="row2"><button type="button" class="nbtn" id="gph">Trocar foto</button><button type="button" class="nbtn dark" id="gphx">Remover</button></div>
-      <div class="sec">Aparência</div><div class="row2"><button type="button" class="nbtn" id="gth">Personalizar conversa</button></div></div>
+      <div id="gadm"><div data-t class="sec">Adicionar integrante</div><div class="row2"><input id="giemail" type="email" placeholder="E-mail da pessoa" data-ti="placeholder"><button data-t type="button" class="nbtn" id="giadd">Adicionar</button></div>
+      <div data-t class="sec">Nome do grupo</div><div class="row2"><input id="grename" type="text" maxlength="40"><button data-t type="button" class="nbtn" id="girename">Salvar</button></div>
+      <div data-t class="sec">Foto do grupo</div><div class="row2"><button data-t type="button" class="nbtn" id="gph">Trocar foto</button><button data-t type="button" class="nbtn dark" id="gphx">Remover</button></div>
+      <div data-t class="sec">Aparência</div><div class="row2"><button data-t type="button" class="nbtn" id="gth">Personalizar conversa</button></div></div>
       <p class="err" id="gierr" role="alert"></p>
-      <div class="btns"><button type="button" class="nbtn dark" data-close>Fechar</button><button type="button" class="nbtn danger" id="gleave">Sair do grupo</button><button type="button" class="nbtn danger" id="gdel">Excluir grupo</button></div></div>
-    <div class="card wide" id="th" hidden><h3>Aparência da conversa</h3><p id="thn"></p>
-      <div id="thp"><div class="date">Hoje 10:47</div><div class="r in"><div class="b">Oi! Tudo bem?</div></div><div class="r out end"><div class="b">Tudo ótimo!</div></div></div>
-      <div class="sec">Minhas mensagens</div><div class="sws" id="thout"></div>
-      <div class="sec">Mensagens recebidas</div><div class="sws" id="thinn"></div>
-      <div class="sec">Fundo</div><div class="sws" id="thbg"></div>
-      <div class="sec">Estilo do balão</div><div class="seg" id="thstyle"></div>
-      <div class="sec">Tamanho do texto</div><div class="seg" id="thsize"></div>
-      <div class="sec">Fonte</div><div class="seg" id="thfont"></div>
+      <div class="btns"><button data-t type="button" class="nbtn dark" data-close>Fechar</button><button data-t type="button" class="nbtn danger" id="gleave">Sair do grupo</button><button data-t type="button" class="nbtn danger" id="gdel">Excluir grupo</button></div></div>
+    <div class="card wide" id="th" hidden><h3 data-t>Aparência da conversa</h3><p id="thn"></p>
+      <div id="thp"><div data-t class="date">Hoje 10:47</div><div class="r in"><div data-t class="b">Oi! Tudo bem?</div></div><div class="r out end"><div data-t class="b">Tudo ótimo!</div></div></div>
+      <div data-t class="sec">Minhas mensagens</div><div class="sws" id="thout"></div>
+      <div data-t class="sec">Mensagens recebidas</div><div class="sws" id="thinn"></div>
+      <div data-t class="sec">Fundo</div><div class="sws" id="thbg"></div>
+      <div data-t class="sec">Estilo do balão</div><div class="seg" id="thstyle"></div>
+      <div data-t class="sec">Tamanho do texto</div><div class="seg" id="thsize"></div>
+      <div data-t class="sec">Fonte</div><div class="seg" id="thfont"></div>
       <p class="err" id="therr" role="alert"></p>
-      <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button type="button" class="nbtn danger" id="thr">Redefinir</button><button type="button" class="nbtn" id="ths">Salvar</button></div></div>
+      <div class="btns"><button data-t type="button" class="nbtn dark" data-close>Cancelar</button><button data-t type="button" class="nbtn danger" id="thr">Redefinir</button><button data-t type="button" class="nbtn" id="ths">Salvar</button></div></div>
     <div class="card wide" id="pv" hidden><h3 id="pvt"></h3><p id="pvs"></p><div id="pvb"></div>
-      <div class="btns"><button type="button" class="nbtn dark" data-close>Fechar</button></div></div>
+      <div class="btns"><button data-t type="button" class="nbtn dark" data-close>Fechar</button></div></div>
   </div>
   <input type="file" id="pfile" accept="image/*" hidden>
-  <div id="lb"><img alt="Foto ampliada"></div>
+  <div id="lb"><img alt="Foto ampliada" data-ti="alt"></div>
   <div id="toast" role="status"></div>
 </div>
 
@@ -358,6 +364,493 @@ svg.ic{width:20px;height:20px;display:block}
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-storage-compat.js"></script>
+<script>
+/* ---------- idiomas: núcleo ---------- */
+const LANGS = { pt: { n: "Português", loc: "pt-BR" }, en: { n: "English", loc: "en-US" }, es: { n: "Español", loc: "es-ES" } };
+let lang = (() => {
+  try { const s = localStorage.getItem("lang"); if (LANGS[s]?.loc) return s; } catch {}
+  const n = ((navigator.language || "pt").slice(0, 2)).toLowerCase();
+  return LANGS[n]?.loc ? n : "en";
+})();
+const LOC = () => LANGS[lang].loc;
+/* tr("texto em português", { n: 3 }): procura a tradução no idioma atual; se não houver, usa o próprio texto */
+const tr = (k, v) => {
+  const d = I18N[lang], s = d && Object.prototype.hasOwnProperty.call(d, k) ? d[k] : k;
+  return v ? s.replace(/\{(\w+)\}/g, (m, n) => n in v ? v[n] : m) : s;
+};
+/* ---------- idiomas: dicionários (chave = texto original em português) ---------- */
+const I18N = {
+ "en": {
+  "Esqueci a senha": "Forgot password",
+  "Configurações": "Settings",
+  "Nova": "New",
+  "Voltar": "Back",
+  "Perfil": "Profile",
+  "Mensagens": "Messages",
+  "Privacidade": "Privacy",
+  "Aparência": "Appearance",
+  "Idioma": "Language",
+  "Sobre": "About",
+  "Grupo": "Group",
+  "Ajustes": "Options",
+  "Responder": "Reply",
+  "Editar": "Edit",
+  "Abrir": "Open",
+  "Encerrar": "End",
+  "Excluir": "Delete",
+  "Cancelar": "Cancel",
+  "Enviar": "Send",
+  "Conversar": "Chat",
+  "Trocar foto": "Change photo",
+  "Remover": "Remove",
+  "Fechar": "Close",
+  "Salvar nome": "Save name",
+  "Sair da conta": "Sign out",
+  "Conversa com uma pessoa": "Chat with one person",
+  "Grupo com várias pessoas": "Group with several people",
+  "Integrantes": "Members",
+  "Adicionar": "Add",
+  "Criar grupo": "Create group",
+  "+ Opção": "+ Option",
+  "Criar enquete": "Create poll",
+  "Adicionar integrante": "Add member",
+  "Nome do grupo": "Group name",
+  "Salvar": "Save",
+  "Foto do grupo": "Group photo",
+  "Personalizar conversa": "Customize chat",
+  "Sair do grupo": "Leave group",
+  "Excluir grupo": "Delete group",
+  "Hoje 10:47": "Today 10:47",
+  "Oi! Tudo bem?": "Hi! How are you?",
+  "Tudo ótimo!": "All great!",
+  "Minhas mensagens": "My messages",
+  "Mensagens recebidas": "Received messages",
+  "Fundo": "Background",
+  "Estilo do balão": "Bubble style",
+  "Tamanho do texto": "Text size",
+  "Fonte": "Font",
+  "Redefinir": "Reset",
+  "Seu nome": "Your name",
+  "E-mail": "Email",
+  "Senha (mínimo 6 caracteres)": "Password (min. 6 characters)",
+  "Buscar conversas": "Search chats",
+  "Enviar foto ou vídeo": "Send photo or video",
+  "Emoticons": "Emoticons",
+  "Digite sua mensagem": "Type your message",
+  "Mensagem": "Message",
+  "Nome de usuário": "Username",
+  "Adicionar por e-mail": "Add by email",
+  "Pergunta": "Question",
+  "E-mail da pessoa": "Person's email",
+  "Foto ampliada": "Enlarged photo",
+  "Lembrar de mim": "Remember me",
+  "Sons de mensagem": "Message sounds",
+  "Mostrar quando estou online e digitando": "Show when I'm online and typing",
+  "Animações nos botões": "Button animations",
+  "Versão": "Version",
+  "Digite o e-mail de quem já criou conta.": "Enter the email of someone who already has an account.",
+  "Minha conta": "My account",
+  "Criar nova": "Create new",
+  "Escolha o que deseja iniciar.": "Choose what to start.",
+  "Você será o administrador.": "You will be the administrator.",
+  "Nova enquete": "New poll",
+  "Permitir mais de uma resposta": "Allow more than one answer",
+  "Aparência da conversa": "Chat appearance",
+  "Hoje": "Today",
+  "Criar conta": "Create account",
+  "Entrar": "Sign in",
+  "Já tenho conta": "I already have an account",
+  "Criar uma conta": "Create an account",
+  "Escolha um nome para seus amigos.": "Choose a name for your friends.",
+  "Entre com seu e-mail e senha.": "Sign in with your email and password.",
+  "Digite seu e-mail e toque de novo.": "Enter your email and tap again.",
+  "Enviamos um link para redefinir a senha.": "We sent you a link to reset your password.",
+  "Não foi possível enviar. Confira o e-mail.": "Couldn't send. Check the email.",
+  "E-mail ou senha incorretos.": "Incorrect email or password.",
+  "Este e-mail já tem conta.": "This email already has an account.",
+  "Use uma senha de 6 ou mais caracteres.": "Use a password of 6 or more characters.",
+  "E-mail inválido.": "Invalid email.",
+  "Muitas tentativas. Aguarde um pouco.": "Too many attempts. Please wait a moment.",
+  "Não foi possível entrar: ": "Couldn't sign in: ",
+  "Nome alterado para {n}": "Name changed to {n}",
+  "Erro: ": "Error: ",
+  "Contato": "Contact",
+  "Integrante": "Member",
+  "Concluído": "Done",
+  "{n} digitando…": "{n} typing…",
+  "digitando…": "typing…",
+  "Novo grupo": "New group",
+  "Nova conversa": "New chat",
+  "Nenhuma conversa encontrada.": "No chats found.",
+  "Nenhuma conversa ainda.<br>Toque em <b>Nova<\/b> para começar uma conversa ou criar um grupo.": "No chats yet.<br>Tap <b>New<\/b> to start a chat or create a group.",
+  "Erro ao carregar: ": "Error loading: ",
+  "Você não está mais neste grupo.": "You are no longer in this group.",
+  "Esta conversa foi encerrada.": "This chat was closed.",
+  "Sair do grupo?": "Leave group?",
+  "Você deixa de receber as mensagens de {n}.": "You will stop receiving messages from {n}.",
+  "Sair": "Leave",
+  "Você saiu do grupo": "You left the group",
+  "Excluir grupo?": "Delete group?",
+  "Excluir conversa?": "Delete chat?",
+  "O grupo {n} e todas as mensagens serão apagados para todos.": "The group {n} and all its messages will be deleted for everyone.",
+  "Todas as mensagens com {n} serão apagadas para os dois.": "All messages with {n} will be deleted for both of you.",
+  "Grupo excluído": "Group deleted",
+  "Conversa excluída": "Chat deleted",
+  "Nenhuma conta com esse e-mail.": "No account with that email.",
+  "Esse é o seu próprio e-mail.": "That's your own email.",
+  "Você ainda não tem contatos. Adicione alguém pelo e-mail abaixo.": "You don't have any contacts yet. Add someone by email below.",
+  "Você já faz parte do grupo.": "You're already in the group.",
+  "Escolha pelo menos 1 integrante.": "Choose at least 1 member.",
+  "O grupo aceita até 50 pessoas.": "The group allows up to 50 people.",
+  "Enquete encerrada": "Poll ended",
+  "Escolha uma ou mais opções": "Choose one or more options",
+  "Escolha uma opção": "Choose one option",
+  "{n} voto": "{n} vote",
+  "{n} votos": "{n} votes",
+  "Ver quem votou": "See who voted",
+  "Esta enquete foi encerrada.": "This poll has ended.",
+  "Não foi possível votar: ": "Couldn't vote: ",
+  "Encerrar enquete?": "End poll?",
+  "Ninguém poderá mais votar. Os resultados continuam visíveis.": "No one will be able to vote anymore. Results stay visible.",
+  "{n} pessoa votou": "{n} person voted",
+  "{n} pessoas votaram": "{n} people voted",
+  "Encerrada": "Ended",
+  "Várias respostas": "Multiple answers",
+  "(você)": "(you)",
+  "Ninguém votou": "No votes",
+  "Enquete: ": "Poll: ",
+  "Excluir mensagem?": "Delete message?",
+  "Ela some da conversa para todos.": "It disappears from the chat for everyone.",
+  "Erro ao excluir: ": "Error deleting: ",
+  "{a} está digitando…": "{a} is typing…",
+  "{a} e {b} estão digitando…": "{a} and {b} are typing…",
+  "{a}, {b} e mais {n} estão digitando…": "{a}, {b} and {n} more are typing…",
+  "{n} integrantes": "{n} members",
+  "{n} online": "{n} online",
+  "Online": "Online",
+  "Visto por último {t}": "Last seen {t}",
+  "Offline": "Offline",
+  "Opção {n}": "Option {n}",
+  "Remover opção": "Remove option",
+  "Preencha pelo menos 2 opções diferentes.": "Fill in at least 2 different options.",
+  "Tornar admin": "Make admin",
+  "Deixar de ser admin": "Step down as admin",
+  "Remover admin": "Remove admin",
+  "Criador": "Creator",
+  "Admin": "Admin",
+  "{n} agora é admin": "{n} is now an admin",
+  "Deixar de ser admin?": "Step down as admin?",
+  "Remover admin?": "Remove admin?",
+  "Você continua no grupo, mas sem poderes de administrador.": "You stay in the group, but without admin powers.",
+  "{n} continua no grupo, mas deixa de ser admin.": "{n} stays in the group but is no longer an admin.",
+  "Deixar": "Step down",
+  "Remover integrante?": "Remove member?",
+  "{n} sai do grupo.": "{n} leaves the group.",
+  "Essa pessoa já está no grupo.": "That person is already in the group.",
+  "{n} entrou no grupo": "{n} joined the group",
+  "Digite um nome para o grupo.": "Enter a name for the group.",
+  "Nome do grupo alterado": "Group name changed",
+  "Você deixa de receber as mensagens deste grupo.": "You will stop receiving this group's messages.",
+  "O grupo e todas as mensagens serão apagados para todos.": "The group and all its messages will be deleted for everyone.",
+  "Não foi possível editar: ": "Couldn't edit: ",
+  "Não foi possível enviar: ": "Couldn't send: ",
+  "Não foi possível ler a imagem": "Couldn't read the image",
+  "Enviando {p}%": "Sending {p}%",
+  "Foto grande demais.": "Photo is too large.",
+  "Foto enviada": "Photo sent",
+  "Vídeos precisam do Storage. Mude USE_STORAGE para true.": "Videos need Storage. Set USE_STORAGE to true.",
+  "Vídeo maior que 50 MB.": "Video larger than 50 MB.",
+  "Vídeo enviado": "Video sent",
+  "Vídeos precisam do Firebase Storage ativado.": "Videos need Firebase Storage enabled.",
+  "Escolha uma foto ou um vídeo.": "Choose a photo or a video.",
+  "Ontem": "Yesterday",
+  "Enviando…": "Sending…",
+  "Lida por {n}": "Read by {n}",
+  "Enviada": "Sent",
+  "Lida {t}": "Read {t}",
+  "Entregue": "Delivered",
+  "Foto": "Photo",
+  "(editada)": "(edited)",
+  "Você": "You",
+  "Nenhuma mensagem. Diga oi!": "No messages. Say hi!",
+  "A mensagem original foi excluída.": "The original message was deleted.",
+  "Editando mensagem": "Editing message",
+  "Respondendo a {n}: {t}": "Replying to {n}: {t}",
+  "você": "you",
+  "Foto atualizada": "Photo updated",
+  "Foto removida": "Photo removed",
+  "Vale para todos do grupo. Só administradores podem alterar.": "Applies to everyone in the group. Only admins can change it.",
+  "Vale para você e para {n}.": "Applies to you and {n}.",
+  "Só administradores podem alterar.": "Only admins can change this.",
+  "Aparência salva": "Appearance saved",
+  "Aparência padrão restaurada": "Default appearance restored",
+  "Verde": "Green",
+  "Azul": "Blue",
+  "Rosa": "Pink",
+  "Laranja": "Orange",
+  "Amarelo": "Yellow",
+  "Turquesa": "Turquoise",
+  "Roxo": "Purple",
+  "Vermelho": "Red",
+  "Grafite": "Graphite",
+  "Cinza": "Gray",
+  "Branco": "White",
+  "Azul claro": "Light blue",
+  "Creme": "Cream",
+  "Rosa claro": "Light pink",
+  "Menta": "Mint",
+  "Padrão": "Default",
+  "Céu": "Sky",
+  "Linho": "Linen",
+  "Noite": "Night",
+  "Brilhante": "Glossy",
+  "Liso": "Flat",
+  "Arredondado": "Rounded",
+  "Pequeno": "Small",
+  "Médio": "Medium",
+  "Grande": "Large",
+  "Clássica": "Classic",
+  "Máquina": "Typewriter",
+  "Vídeo": "Video",
+  "Grupo criado": "Group created"
+ },
+ "es": {
+  "Esqueci a senha": "Olvidé mi contraseña",
+  "Configurações": "Configuración",
+  "Nova": "Nueva",
+  "Voltar": "Atrás",
+  "Perfil": "Perfil",
+  "Mensagens": "Mensajes",
+  "Privacidade": "Privacidad",
+  "Aparência": "Apariencia",
+  "Idioma": "Idioma",
+  "Sobre": "Acerca de",
+  "Grupo": "Grupo",
+  "Ajustes": "Opciones",
+  "Responder": "Responder",
+  "Editar": "Editar",
+  "Abrir": "Abrir",
+  "Encerrar": "Cerrar",
+  "Excluir": "Eliminar",
+  "Cancelar": "Cancelar",
+  "Enviar": "Enviar",
+  "Conversar": "Chatear",
+  "Trocar foto": "Cambiar foto",
+  "Remover": "Quitar",
+  "Fechar": "Cerrar",
+  "Salvar nome": "Guardar nombre",
+  "Sair da conta": "Cerrar sesión",
+  "Conversa com uma pessoa": "Chat con una persona",
+  "Grupo com várias pessoas": "Grupo con varias personas",
+  "Integrantes": "Integrantes",
+  "Adicionar": "Añadir",
+  "Criar grupo": "Crear grupo",
+  "+ Opção": "+ Opción",
+  "Criar enquete": "Crear encuesta",
+  "Adicionar integrante": "Añadir integrante",
+  "Nome do grupo": "Nombre del grupo",
+  "Salvar": "Guardar",
+  "Foto do grupo": "Foto del grupo",
+  "Personalizar conversa": "Personalizar chat",
+  "Sair do grupo": "Salir del grupo",
+  "Excluir grupo": "Eliminar grupo",
+  "Hoje 10:47": "Hoy 10:47",
+  "Oi! Tudo bem?": "¡Hola! ¿Qué tal?",
+  "Tudo ótimo!": "¡Todo genial!",
+  "Minhas mensagens": "Mis mensajes",
+  "Mensagens recebidas": "Mensajes recibidos",
+  "Fundo": "Fondo",
+  "Estilo do balão": "Estilo del globo",
+  "Tamanho do texto": "Tamaño del texto",
+  "Fonte": "Fuente",
+  "Redefinir": "Restablecer",
+  "Seu nome": "Tu nombre",
+  "E-mail": "Correo electrónico",
+  "Senha (mínimo 6 caracteres)": "Contraseña (mínimo 6 caracteres)",
+  "Buscar conversas": "Buscar chats",
+  "Enviar foto ou vídeo": "Enviar foto o vídeo",
+  "Emoticons": "Emoticonos",
+  "Digite sua mensagem": "Escribe tu mensaje",
+  "Mensagem": "Mensaje",
+  "Nome de usuário": "Nombre de usuario",
+  "Adicionar por e-mail": "Añadir por correo",
+  "Pergunta": "Pregunta",
+  "E-mail da pessoa": "Correo de la persona",
+  "Foto ampliada": "Foto ampliada",
+  "Lembrar de mim": "Recordarme",
+  "Sons de mensagem": "Sonidos de mensajes",
+  "Mostrar quando estou online e digitando": "Mostrar cuando estoy en línea y escribiendo",
+  "Animações nos botões": "Animaciones en los botones",
+  "Versão": "Versión",
+  "Digite o e-mail de quem já criou conta.": "Escribe el correo de alguien que ya tenga cuenta.",
+  "Minha conta": "Mi cuenta",
+  "Criar nova": "Crear nuevo",
+  "Escolha o que deseja iniciar.": "Elige qué quieres iniciar.",
+  "Você será o administrador.": "Serás el administrador.",
+  "Nova enquete": "Nueva encuesta",
+  "Permitir mais de uma resposta": "Permitir más de una respuesta",
+  "Aparência da conversa": "Apariencia del chat",
+  "Hoje": "Hoy",
+  "Criar conta": "Crear cuenta",
+  "Entrar": "Iniciar sesión",
+  "Já tenho conta": "Ya tengo cuenta",
+  "Criar uma conta": "Crear una cuenta",
+  "Escolha um nome para seus amigos.": "Elige un nombre para tus amigos.",
+  "Entre com seu e-mail e senha.": "Inicia sesión con tu correo y contraseña.",
+  "Digite seu e-mail e toque de novo.": "Escribe tu correo y toca de nuevo.",
+  "Enviamos um link para redefinir a senha.": "Te enviamos un enlace para restablecer la contraseña.",
+  "Não foi possível enviar. Confira o e-mail.": "No se pudo enviar. Revisa el correo.",
+  "E-mail ou senha incorretos.": "Correo o contraseña incorrectos.",
+  "Este e-mail já tem conta.": "Este correo ya tiene cuenta.",
+  "Use uma senha de 6 ou mais caracteres.": "Usa una contraseña de 6 o más caracteres.",
+  "E-mail inválido.": "Correo no válido.",
+  "Muitas tentativas. Aguarde um pouco.": "Demasiados intentos. Espera un momento.",
+  "Não foi possível entrar: ": "No se pudo iniciar sesión: ",
+  "Nome alterado para {n}": "Nombre cambiado a {n}",
+  "Erro: ": "Error: ",
+  "Contato": "Contacto",
+  "Integrante": "Integrante",
+  "Concluído": "Hecho",
+  "{n} digitando…": "{n} escribiendo…",
+  "digitando…": "escribiendo…",
+  "Novo grupo": "Nuevo grupo",
+  "Nova conversa": "Nuevo chat",
+  "Nenhuma conversa encontrada.": "No se encontraron chats.",
+  "Nenhuma conversa ainda.<br>Toque em <b>Nova<\/b> para começar uma conversa ou criar um grupo.": "Aún no hay chats.<br>Toca <b>Nueva<\/b> para empezar un chat o crear un grupo.",
+  "Erro ao carregar: ": "Error al cargar: ",
+  "Você não está mais neste grupo.": "Ya no estás en este grupo.",
+  "Esta conversa foi encerrada.": "Este chat fue cerrado.",
+  "Sair do grupo?": "¿Salir del grupo?",
+  "Você deixa de receber as mensagens de {n}.": "Dejarás de recibir los mensajes de {n}.",
+  "Sair": "Salir",
+  "Você saiu do grupo": "Saliste del grupo",
+  "Excluir grupo?": "¿Eliminar grupo?",
+  "Excluir conversa?": "¿Eliminar chat?",
+  "O grupo {n} e todas as mensagens serão apagados para todos.": "El grupo {n} y todos sus mensajes se borrarán para todos.",
+  "Todas as mensagens com {n} serão apagadas para os dois.": "Todos los mensajes con {n} se borrarán para los dos.",
+  "Grupo excluído": "Grupo eliminado",
+  "Conversa excluída": "Chat eliminado",
+  "Nenhuma conta com esse e-mail.": "No hay ninguna cuenta con ese correo.",
+  "Esse é o seu próprio e-mail.": "Ese es tu propio correo.",
+  "Você ainda não tem contatos. Adicione alguém pelo e-mail abaixo.": "Aún no tienes contactos. Añade a alguien con su correo abajo.",
+  "Você já faz parte do grupo.": "Ya formas parte del grupo.",
+  "Escolha pelo menos 1 integrante.": "Elige al menos 1 integrante.",
+  "O grupo aceita até 50 pessoas.": "El grupo admite hasta 50 personas.",
+  "Enquete encerrada": "Encuesta cerrada",
+  "Escolha uma ou mais opções": "Elige una o más opciones",
+  "Escolha uma opção": "Elige una opción",
+  "{n} voto": "{n} voto",
+  "{n} votos": "{n} votos",
+  "Ver quem votou": "Ver quién votó",
+  "Esta enquete foi encerrada.": "Esta encuesta está cerrada.",
+  "Não foi possível votar: ": "No se pudo votar: ",
+  "Encerrar enquete?": "¿Cerrar la encuesta?",
+  "Ninguém poderá mais votar. Os resultados continuam visíveis.": "Nadie podrá votar más. Los resultados siguen visibles.",
+  "{n} pessoa votou": "{n} persona votó",
+  "{n} pessoas votaram": "{n} personas votaron",
+  "Encerrada": "Cerrada",
+  "Várias respostas": "Varias respuestas",
+  "(você)": "(tú)",
+  "Ninguém votou": "Nadie votó",
+  "Enquete: ": "Encuesta: ",
+  "Excluir mensagem?": "¿Eliminar mensaje?",
+  "Ela some da conversa para todos.": "Desaparece del chat para todos.",
+  "Erro ao excluir: ": "Error al eliminar: ",
+  "{a} está digitando…": "{a} está escribiendo…",
+  "{a} e {b} estão digitando…": "{a} y {b} están escribiendo…",
+  "{a}, {b} e mais {n} estão digitando…": "{a}, {b} y {n} más están escribiendo…",
+  "{n} integrantes": "{n} integrantes",
+  "{n} online": "{n} en línea",
+  "Online": "En línea",
+  "Visto por último {t}": "Visto por última vez {t}",
+  "Offline": "Desconectado",
+  "Opção {n}": "Opción {n}",
+  "Remover opção": "Quitar opción",
+  "Preencha pelo menos 2 opções diferentes.": "Rellena al menos 2 opciones distintas.",
+  "Tornar admin": "Hacer admin",
+  "Deixar de ser admin": "Dejar de ser admin",
+  "Remover admin": "Quitar admin",
+  "Criador": "Creador",
+  "Admin": "Admin",
+  "{n} agora é admin": "{n} ahora es admin",
+  "Deixar de ser admin?": "¿Dejar de ser admin?",
+  "Remover admin?": "¿Quitar admin?",
+  "Você continua no grupo, mas sem poderes de administrador.": "Sigues en el grupo, pero sin poderes de administrador.",
+  "{n} continua no grupo, mas deixa de ser admin.": "{n} sigue en el grupo, pero deja de ser admin.",
+  "Deixar": "Dejar",
+  "Remover integrante?": "¿Quitar integrante?",
+  "{n} sai do grupo.": "{n} sale del grupo.",
+  "Essa pessoa já está no grupo.": "Esa persona ya está en el grupo.",
+  "{n} entrou no grupo": "{n} entró al grupo",
+  "Digite um nome para o grupo.": "Escribe un nombre para el grupo.",
+  "Nome do grupo alterado": "Nombre del grupo cambiado",
+  "Você deixa de receber as mensagens deste grupo.": "Dejarás de recibir los mensajes de este grupo.",
+  "O grupo e todas as mensagens serão apagados para todos.": "El grupo y todos sus mensajes se borrarán para todos.",
+  "Não foi possível editar: ": "No se pudo editar: ",
+  "Não foi possível enviar: ": "No se pudo enviar: ",
+  "Não foi possível ler a imagem": "No se pudo leer la imagen",
+  "Enviando {p}%": "Enviando {p}%",
+  "Foto grande demais.": "La foto es demasiado grande.",
+  "Foto enviada": "Foto enviada",
+  "Vídeos precisam do Storage. Mude USE_STORAGE para true.": "Los vídeos necesitan Storage. Cambia USE_STORAGE a true.",
+  "Vídeo maior que 50 MB.": "El vídeo supera los 50 MB.",
+  "Vídeo enviado": "Vídeo enviado",
+  "Vídeos precisam do Firebase Storage ativado.": "Los vídeos necesitan Firebase Storage activado.",
+  "Escolha uma foto ou um vídeo.": "Elige una foto o un vídeo.",
+  "Ontem": "Ayer",
+  "Enviando…": "Enviando…",
+  "Lida por {n}": "Leído por {n}",
+  "Enviada": "Enviado",
+  "Lida {t}": "Leído {t}",
+  "Entregue": "Entregado",
+  "Foto": "Foto",
+  "(editada)": "(editado)",
+  "Você": "Tú",
+  "Nenhuma mensagem. Diga oi!": "Sin mensajes. ¡Saluda!",
+  "A mensagem original foi excluída.": "El mensaje original fue eliminado.",
+  "Editando mensagem": "Editando mensaje",
+  "Respondendo a {n}: {t}": "Respondiendo a {n}: {t}",
+  "você": "ti",
+  "Foto atualizada": "Foto actualizada",
+  "Foto removida": "Foto eliminada",
+  "Vale para todos do grupo. Só administradores podem alterar.": "Se aplica a todos en el grupo. Solo los administradores pueden cambiarlo.",
+  "Vale para você e para {n}.": "Se aplica a ti y a {n}.",
+  "Só administradores podem alterar.": "Solo los administradores pueden cambiarlo.",
+  "Aparência salva": "Apariencia guardada",
+  "Aparência padrão restaurada": "Apariencia predeterminada restaurada",
+  "Verde": "Verde",
+  "Azul": "Azul",
+  "Rosa": "Rosa",
+  "Laranja": "Naranja",
+  "Amarelo": "Amarillo",
+  "Turquesa": "Turquesa",
+  "Roxo": "Morado",
+  "Vermelho": "Rojo",
+  "Grafite": "Grafito",
+  "Cinza": "Gris",
+  "Branco": "Blanco",
+  "Azul claro": "Azul claro",
+  "Creme": "Crema",
+  "Rosa claro": "Rosa claro",
+  "Menta": "Menta",
+  "Padrão": "Predeterminado",
+  "Céu": "Cielo",
+  "Linho": "Lino",
+  "Noite": "Noche",
+  "Brilhante": "Brillante",
+  "Liso": "Liso",
+  "Arredondado": "Redondeado",
+  "Pequeno": "Pequeño",
+  "Médio": "Mediano",
+  "Grande": "Grande",
+  "Clássica": "Clásica",
+  "Máquina": "Máquina",
+  "Vídeo": "Vídeo",
+  "Grupo criado": "Grupo creado"
+ }
+};
+I18N.pt = {};
+</script>
 <script>
 firebase.initializeApp({
   apiKey: "AIzaSyBE4pFvb_1_QxZnKIE5DItzrAald2X3RDs",
@@ -385,9 +878,10 @@ function avatar(name, cls = "", ph = ""){
 }
 const hueOf = s => { let h = 0; for (const c of String(s)) h = (h * 31 + c.charCodeAt(0)) % 360; return h; };
 const groupAv = (cls = "", ph = "") => ph ? avatar("g", "grp " + cls, ph) : `<span class="av grp ${cls}" style="background:linear-gradient(#86b6ec,#2f6bb8)"><svg viewBox="0 0 24 24"><circle cx="8" cy="9" r="3" fill="#fff"/><circle cx="16.5" cy="9.5" r="2.6" fill="#e6eefb"/><path d="M2 20c0-4 3-6 6-6s6 2 6 6zM13.5 20c.2-2.800 1.800-4.600 4.200-4.600 2.700 0 4.300 2 4.300 4.600z" fill="#fff"/></svg></span>`;
-const hhmm = d => d.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" });
+const hhmm = d => d.toLocaleTimeString(LOC(), { hour: "2-digit", minute: "2-digit" });
 const sameDay = (a, b) => a.toDateString() === b.toDateString();
-const stamp = d => (sameDay(d, new Date()) ? "Hoje" : d.toLocaleDateString("pt-BR")) + " " + hhmm(d);
+const stamp = (d, lc) => { const td = sameDay(d, new Date()); let w = td ? tr("Hoje") : d.toLocaleDateString(LOC()); if (td && lc) w = w.toLowerCase(); return w + " " + hhmm(d); };
+const stampShort = d => sameDay(d, new Date()) ? hhmm(d) : stamp(d);
 
 /* ---------- emoticons clássicos (desenhados em SVG) ---------- */
 const eyes = '<ellipse cx="8.6" cy="9.6" rx="1.3" ry="1.9" fill="#3a2a00"/><ellipse cx="15.4" cy="9.6" rx="1.3" ry="1.9" fill="#3a2a00"/>';
@@ -455,23 +949,23 @@ $("tray").innerHTML = Object.keys(FACES).map(k => `<button type="button" data-c=
 function openModal(id){ document.querySelectorAll(".card").forEach(c => c.hidden = c.id !== id); $("modal").classList.add("on"); }
 function closeModal(){ $("modal").classList.remove("on"); if (pending) { pending(false); pending = null; } }
 $("modal").onclick = e => { if (e.target.id === "modal" || e.target.hasAttribute("data-close")) closeModal(); };
-function ask(title, text, ok = "Excluir"){ $("ct").textContent = title; $("cp").textContent = text; $("cok").textContent = ok; openModal("cf"); return new Promise(r => pending = r); }
+function ask(title, text, ok = tr("Excluir")){ $("ct").textContent = title; $("cp").textContent = text; $("cok").textContent = ok; openModal("cf"); return new Promise(r => pending = r); }
 $("cf").onsubmit = e => { e.preventDefault(); const r = pending; pending = null; $("modal").classList.remove("on"); r && r(true); };
 
 /* ---------- login ---------- */
 function setMode(s){
   signup = s; $("name").hidden = !s; $("name").required = s;
-  $("ttl").textContent = $("gobtn").textContent = s ? "Criar conta" : "Entrar";
-  $("toggle").textContent = s ? "Já tenho conta" : "Criar uma conta";
-  $("sub").textContent = s ? "Escolha um nome para seus amigos." : "Entre com seu e-mail e senha.";
+  $("ttl").textContent = $("gobtn").textContent = s ? tr("Criar conta") : tr("Entrar");
+  $("toggle").textContent = s ? tr("Já tenho conta") : tr("Criar uma conta");
+  $("sub").textContent = s ? tr("Escolha um nome para seus amigos.") : tr("Entre com seu e-mail e senha.");
   $("pass").autocomplete = s ? "new-password" : "current-password"; $("err").textContent = "";
 }
 $("toggle").onclick = () => setMode(!signup);
 $("forgot").onclick = async () => {
   const email = $("email").value.trim();
-  if (!email) { $("err").textContent = "Digite seu e-mail e toque de novo."; return; }
-  try { await auth.sendPasswordResetEmail(email); $("err").style.color = "#1a6b1a"; $("err").textContent = "Enviamos um link para redefinir a senha."; }
-  catch { $("err").style.color = ""; $("err").textContent = "Não foi possível enviar. Confira o e-mail."; }
+  if (!email) { $("err").textContent = tr("Digite seu e-mail e toque de novo."); return; }
+  try { await auth.sendPasswordResetEmail(email); $("err").style.color = "#1a6b1a"; $("err").textContent = tr("Enviamos um link para redefinir a senha."); }
+  catch { $("err").style.color = ""; $("err").textContent = tr("Não foi possível enviar. Confira o e-mail."); }
 };
 $("f").onsubmit = async e => {
   e.preventDefault(); $("err").style.color = ""; $("err").textContent = ""; $("gobtn").disabled = true;
@@ -486,8 +980,8 @@ $("f").onsubmit = async e => {
     } else { busy = false; await auth.signInWithEmailAndPassword(email, pass); }
   } catch (x) {
     busy = false;
-    const m = { "auth/invalid-credential":"E-mail ou senha incorretos.", "auth/email-already-in-use":"Este e-mail já tem conta.", "auth/weak-password":"Use uma senha de 6 ou mais caracteres.", "auth/invalid-email":"E-mail inválido.", "auth/too-many-requests":"Muitas tentativas. Aguarde um pouco." };
-    $("err").textContent = m[x.code] || "Não foi possível entrar: " + x.message;
+    const m = { "auth/invalid-credential":tr("E-mail ou senha incorretos."), "auth/email-already-in-use":tr("Este e-mail já tem conta."), "auth/weak-password":tr("Use uma senha de 6 ou mais caracteres."), "auth/invalid-email":tr("E-mail inválido."), "auth/too-many-requests":tr("Muitas tentativas. Aguarde um pouco.") };
+    $("err").textContent = m[x.code] || tr("Não foi possível entrar: ") + x.message;
   } finally { $("gobtn").disabled = false; }
 };
 auth.onAuthStateChanged(u => { if (busy) return; if (u) onUser(u); else { cleanup(); show("login"); } });
@@ -508,13 +1002,13 @@ $("af").onsubmit = async e => {
     await db.doc("users/" + me.uid).update({ name: n });
     const cs = await db.collection("chats").where("members", "array-contains", me.uid).get();
     await Promise.all(cs.docs.map(d => d.ref.update("names." + me.uid, n)));
-    myName = n; closeModal(); toast("Nome alterado para " + n);
-  } catch (x) { $("aerr").textContent = "Erro: " + x.message; }
+    myName = n; closeModal(); toast(tr("Nome alterado para {n}", { n }));
+  } catch (x) { $("aerr").textContent = tr("Erro: ") + x.message; }
 };
 
 /* ---------- lista ---------- */
-const chatTitle = c => c.isGroup ? c.title : (c.names?.[c.other] || "Contato");
-const nameOf = u => curMeta?.names?.[u] || "Integrante";
+const chatTitle = c => c.isGroup ? c.title : (c.names?.[c.other] || tr("Contato"));
+const nameOf = u => curMeta?.names?.[u] || tr("Integrante");
 const FV = firebase.firestore.FieldValue;
 async function findUser(email){
   const q = await db.collection("users").where("email", "==", email.trim().toLowerCase()).limit(1).get();
@@ -523,29 +1017,29 @@ async function findUser(email){
 function drawList(){
   const q = $("q").value.trim().toLowerCase();
   const rows = chats.filter(c => !q || chatTitle(c).toLowerCase().includes(q));
-  $("list").classList.toggle("editing", editing); $("edit").textContent = editing ? "Concluído" : "Editar";
+  $("list").classList.toggle("editing", editing); $("edit").textContent = editing ? tr("Concluído") : tr("Editar");
   $("list").innerHTML = rows.length ? rows.map(c => {
     const n = chatTitle(c), d = c.lastAt ? c.lastAt.toDate() : null;
-    const tm = d ? (sameDay(d, new Date()) ? hhmm(d) : d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })) : "";
+    const tm = d ? (sameDay(d, new Date()) ? hhmm(d) : d.toLocaleDateString(LOC(), { day: "2-digit", month: "2-digit" })) : "";
     const ty = typers(c), pr = c.isGroup ? null : presOf(c.other);
     const av = c.isGroup ? groupAv("", c.photo) : `<span class="avw">${avatar(n, "", pres[c.other]?.photo)}${pr ? `<span class="dot${pr.on ? " on" : ""}"></span>` : ""}</span>`;
-    const line = ty.length ? `<span class="l typ">${esc(c.isGroup ? ty.map(u => (c.names?.[u] || "").split(" ")[0]).join(", ") + " digitando…" : "digitando…")}</span>` : `<span class="l">${esc(plain(c.lastText || (c.isGroup ? "Novo grupo" : "Nova conversa")))}</span>`;
+    const line = ty.length ? `<span class="l typ">${esc(c.isGroup ? tr("{n} digitando…", { n: ty.map(u => (c.names?.[u] || "").split(" ")[0]).join(", ") }) : tr("digitando…"))}</span>` : `<span class="l">${esc(plain(c.lastText ? locStored(c.lastText) : (c.isGroup ? tr("Novo grupo") : tr("Nova conversa"))))}</span>`;
     const un = c.lastText ? Math.max(0, c.unread?.[me.uid] || 0) : 0;
     return `<button class="row${myPins.includes(c.id) ? " pn" : ""}${un ? " un" : ""}" data-id="${c.id}"><span class="minus"></span>${av}<span class="tx"><b>${esc(n)}</b>${line}</span><span class="rt"><span class="tm">${tm}</span>${un ? `<span class="bd">${un > 99 ? "99+" : un}</span>` : ""}</span><span class="pinb">${PIN}</span></button>`;
-  }).join("") : `<div class="empty"><svg viewBox="0 0 48 48"><rect x="4" y="6" width="40" height="28" rx="8" fill="#e4eefb" stroke="#6f93b3" stroke-width="2"/><path d="M13 34l-3 9 11-9z" fill="#e4eefb" stroke="#6f93b3" stroke-width="2" stroke-linejoin="round"/></svg>${q ? "Nenhuma conversa encontrada." : "Nenhuma conversa ainda.<br>Toque em <b>Nova</b> para começar uma conversa ou criar um grupo."}</div>`;
+  }).join("") : `<div class="empty"><svg viewBox="0 0 48 48"><rect x="4" y="6" width="40" height="28" rx="8" fill="#e4eefb" stroke="#6f93b3" stroke-width="2"/><path d="M13 34l-3 9 11-9z" fill="#e4eefb" stroke="#6f93b3" stroke-width="2" stroke-linejoin="round"/></svg>${q ? tr("Nenhuma conversa encontrada.") : tr("Nenhuma conversa ainda.<br>Toque em <b>Nova</b> para começar uma conversa ou criar um grupo.")}</div>`;
 }
 function watchList(){
   unsubList && unsubList();
   unsubList = db.collection("chats").where("members", "array-contains", me.uid).onSnapshot(snap => {
     chats = snap.docs.map(d => { const c = d.data({ serverTimestamps: "estimate" }); return { id: d.id, ...c, other: c.members.find(m => m !== me.uid) }; });
     sortChats(); unreadFx(); drawList(); syncOpen(); watchPresence();
-  }, err => { $("list").innerHTML = `<div class="empty">Erro ao carregar: ${esc(err.message)}</div>`; });
+  }, err => { $("list").innerHTML = `<div class="empty">${tr("Erro ao carregar: ")}${esc(err.message)}</div>`; });
 }
 function syncOpen(){
   if (!curChat) return;
   const c = chats.find(x => x.id === curChat);
   if (c) { curMeta = c; curSeen = true; setHeader(); markRead(); if ($("modal").classList.contains("on") && !$("gi").hidden) renderInfo(); }
-  else if (curSeen) { toast(curMeta?.isGroup ? "Você não está mais neste grupo." : "Esta conversa foi encerrada."); goHome(); }
+  else if (curSeen) { toast(curMeta?.isGroup ? tr("Você não está mais neste grupo.") : tr("Esta conversa foi encerrada.")); goHome(); }
 }
 function goHome(){ $("typing").hidden = true; unsubMsgs && unsubMsgs(); curChat = null; curMeta = null; clearSel(); closeModal(); show("home"); }
 $("q").oninput = drawList;
@@ -565,11 +1059,11 @@ $("list").onclick = async e => {
   const n = chatTitle(c);
   try {
     if (c.isGroup && c.admin !== me.uid) {
-      if (await ask("Sair do grupo?", "Você deixa de receber as mensagens de " + n + ".", "Sair")) { await leaveGroup(c.id); toast("Você saiu do grupo"); }
-    } else if (await ask(c.isGroup ? "Excluir grupo?" : "Excluir conversa?", c.isGroup ? "O grupo " + n + " e todas as mensagens serão apagados para todos." : "Todas as mensagens com " + n + " serão apagadas para os dois.")) {
-      await delChat(c.id); toast(c.isGroup ? "Grupo excluído" : "Conversa excluída");
+      if (await ask(tr("Sair do grupo?"), tr("Você deixa de receber as mensagens de {n}.", { n }), tr("Sair"))) { await leaveGroup(c.id); toast(tr("Você saiu do grupo")); }
+    } else if (await ask(c.isGroup ? tr("Excluir grupo?") : tr("Excluir conversa?"), c.isGroup ? tr("O grupo {n} e todas as mensagens serão apagados para todos.", { n }) : tr("Todas as mensagens com {n} serão apagadas para os dois.", { n }))) {
+      await delChat(c.id); toast(c.isGroup ? tr("Grupo excluído") : tr("Conversa excluída"));
     }
-  } catch (x) { toast("Erro: " + x.message); }
+  } catch (x) { toast(tr("Erro: ") + x.message); }
 };
 async function delChat(id){
   const snap = await db.collection("chats/" + id + "/messages").get(), paths = [];
@@ -587,45 +1081,45 @@ $("new").onclick = () => openModal("nm");
 $("nm1").onclick = () => { $("nerr").textContent = ""; $("nemail").value = ""; openModal("nf"); $("nemail").focus(); };
 $("nm2").onclick = () => {
   pool = new Map(); picked = new Set();
-  chats.filter(c => !c.isGroup).forEach(c => pool.set(c.other, c.names?.[c.other] || "Contato"));
+  chats.filter(c => !c.isGroup).forEach(c => pool.set(c.other, c.names?.[c.other] || tr("Contato")));
   $("gname").value = ""; $("gemail").value = ""; $("gerr").textContent = ""; drawPool(); openModal("gf"); $("gname").focus();
 };
 $("nf").onsubmit = async e => {
   e.preventDefault(); $("nerr").textContent = ""; $("nok").disabled = true;
   try {
     const other = await findUser($("nemail").value);
-    if (!other) { $("nerr").textContent = "Nenhuma conta com esse e-mail."; return; }
-    if (other.id === me.uid) { $("nerr").textContent = "Esse é o seu próprio e-mail."; return; }
+    if (!other) { $("nerr").textContent = tr("Nenhuma conta com esse e-mail."); return; }
+    if (other.id === me.uid) { $("nerr").textContent = tr("Esse é o seu próprio e-mail."); return; }
     const id = [me.uid, other.id].sort().join("_"), ref = db.doc("chats/" + id);
     const ex = await ref.get().catch(() => null), names = { [me.uid]: myName, [other.id]: other.name };
     if (!ex || !ex.exists) await ref.set({ members: [me.uid, other.id], names, lastText: "", lastAt: TS() });
     closeModal(); openChat(id, { id, isGroup: false, members: [me.uid, other.id], names, other: other.id });
-  } catch (x) { $("nerr").textContent = "Erro: " + x.message; }
+  } catch (x) { $("nerr").textContent = tr("Erro: ") + x.message; }
   finally { $("nok").disabled = false; }
 };
 function drawPool(){
-  $("gpool").innerHTML = pool.size ? [...pool].map(([u, n]) => `<label class="pick">${avatar(n, "sm")}<span class="mn">${esc(n)}</span><input type="checkbox" data-u="${u}" ${picked.has(u) ? "checked" : ""}></label>`).join("") : '<p class="hint">Você ainda não tem contatos. Adicione alguém pelo e-mail abaixo.</p>';
+  $("gpool").innerHTML = pool.size ? [...pool].map(([u, n]) => `<label class="pick">${avatar(n, "sm")}<span class="mn">${esc(n)}</span><input type="checkbox" data-u="${u}" ${picked.has(u) ? "checked" : ""}></label>`).join("") : '<p class="hint">' + tr("Você ainda não tem contatos. Adicione alguém pelo e-mail abaixo.") + '</p>';
 }
 $("gpool").onchange = e => { const u = e.target.dataset.u; if (u) e.target.checked ? picked.add(u) : picked.delete(u); };
 $("gadd").onclick = async () => {
   const em = $("gemail").value.trim(); if (!em) return; $("gerr").textContent = "";
   try {
     const u = await findUser(em);
-    if (!u) return void ($("gerr").textContent = "Nenhuma conta com esse e-mail.");
-    if (u.id === me.uid) return void ($("gerr").textContent = "Você já faz parte do grupo.");
+    if (!u) return void ($("gerr").textContent = tr("Nenhuma conta com esse e-mail."));
+    if (u.id === me.uid) return void ($("gerr").textContent = tr("Você já faz parte do grupo."));
     pool.set(u.id, u.name); picked.add(u.id); $("gemail").value = ""; drawPool();
-  } catch (x) { $("gerr").textContent = "Erro: " + x.message; }
+  } catch (x) { $("gerr").textContent = tr("Erro: ") + x.message; }
 };
 $("gf").onsubmit = async e => {
   e.preventDefault(); $("gerr").textContent = "";
   const title = $("gname").value.trim();
-  if (!picked.size) { $("gerr").textContent = "Escolha pelo menos 1 integrante."; return; }
-  if (picked.size > 49) { $("gerr").textContent = "O grupo aceita até 50 pessoas."; return; }
+  if (!picked.size) { $("gerr").textContent = tr("Escolha pelo menos 1 integrante."); return; }
+  if (picked.size > 49) { $("gerr").textContent = tr("O grupo aceita até 50 pessoas."); return; }
   const members = [me.uid, ...picked], names = { [me.uid]: myName }; picked.forEach(u => names[u] = pool.get(u));
   try {
     const ref = await db.collection("chats").add({ isGroup: true, title, admin: me.uid, members, names, lastText: "Grupo criado", lastAt: TS() });
     closeModal(); openChat(ref.id, { id: ref.id, isGroup: true, title, admin: me.uid, members, names });
-  } catch (x) { $("gerr").textContent = "Erro: " + x.message; }
+  } catch (x) { $("gerr").textContent = tr("Erro: ") + x.message; }
 };
 
 /* ---------- conversa ---------- */
@@ -643,11 +1137,11 @@ function pollHtml(m){
   const voters = Object.keys(votes).filter(u => votesOf(votes[u]).length), tot = voters.length, cnt = m.options.map(() => 0);
   voters.forEach(u => votesOf(votes[u]).forEach(i => { if (cnt[i] != null) cnt[i]++; }));
   const top = Math.max(0, ...cnt);
-  const meta = closed ? "Enquete encerrada" : multi ? "Escolha uma ou mais opções" : "Escolha uma opção";
+  const meta = closed ? tr("Enquete encerrada") : multi ? tr("Escolha uma ou mais opções") : tr("Escolha uma opção");
   return `<div class="pq">${esc(m.question)}</div><div class="pmeta">${meta}</div>` + m.options.map((o, i) => {
     const n = cnt[i], pc = tot ? Math.round(100 * n / tot) : 0, key = m.id + "|" + i, prev = pollPc[key] ?? pc; pollPc[key] = pc;
     return `<div class="opt${multi ? " multi" : ""}${mine.includes(i) ? " mine" : ""}${top > 0 && n === top ? " lead" : ""}${closed ? " off" : ""}" data-i="${i}" role="button" tabindex="0" aria-pressed="${mine.includes(i)}"><div class="fill" style="width:${prev}%" data-w="${pc}"></div><span class="ck"></span><span class="ot">${esc(o)}</span><span class="oc">${n} · ${pc}%</span></div>`;
-  }).join("") + `<div class="pt"><span>${tot} ${tot === 1 ? "voto" : "votos"}</span>${tot ? '<button type="button" class="link pvl">Ver quem votou</button>' : ""}</div>`;
+  }).join("") + `<div class="pt"><span>${tot === 1 ? tr("{n} voto", { n: tot }) : tr("{n} votos", { n: tot })}</span>${tot ? `<button type="button" class="link pvl">${tr("Ver quem votou")}</button>` : ""}</div>`;
 }
 function openChat(id, meta){
   curChat = id; curMeta = meta; curSeen = chats.some(x => x.id === id); firstLoad = true; clearSel();
@@ -662,19 +1156,19 @@ function openChat(id, meta){
     if (!firstLoad && nw.some(m => m.from !== me.uid)) beep("r");
     nw.forEach(m => seenIds.add(m.id));
     drawMsgs(firstLoad || curPend); firstLoad = false; markRead();
-  }, err => toast("Erro: " + err.message));
+  }, err => toast(tr("Erro: ") + err.message));
 }
 $("back").onclick = goHome;
 
 /* selecionar, abrir, votar e excluir mensagem */
 async function vote(id, i){
   const m = msgMap[id]; if (!m) return;
-  if (m.closed) return toast("Esta enquete foi encerrada.");
+  if (m.closed) return toast(tr("Esta enquete foi encerrada."));
   const cur = votesOf((m.votes || {})[me.uid]);
   const nv = m.multi ? (cur.includes(i) ? cur.filter(x => x !== i) : [...cur, i].sort((a, b) => a - b)) : (cur[0] === i ? [] : [i]);
   const val = nv.length ? (m.multi ? nv : nv[0]) : FV.delete();
   try { await db.doc("chats/" + curChat + "/messages/" + id).update("votes." + me.uid, val); }
-  catch (x) { toast("Não foi possível votar: " + x.message); }
+  catch (x) { toast(tr("Não foi possível votar: ") + x.message); }
 }
 $("msgs").onclick = e => {
   const b = e.target.closest(".b");
@@ -693,28 +1187,36 @@ $("scan").onclick = clearSel;
 $("msgs").onkeydown = e => { if ((e.key === "Enter" || e.key === " ") && e.target.classList?.contains("opt")) { e.preventDefault(); e.target.click(); } };
 $("sclose").onclick = async () => {
   const m = sel; if (!m) return;
-  if (!await ask("Encerrar enquete?", "Ninguém poderá mais votar. Os resultados continuam visíveis.", "Encerrar")) return;
-  try { await db.doc("chats/" + curChat + "/messages/" + m.id).update({ closed: true }); clearSel(); toast("Enquete encerrada"); }
-  catch (x) { toast("Erro: " + x.message); }
+  if (!await ask(tr("Encerrar enquete?"), tr("Ninguém poderá mais votar. Os resultados continuam visíveis."), tr("Encerrar"))) return;
+  try { await db.doc("chats/" + curChat + "/messages/" + m.id).update({ closed: true }); clearSel(); toast(tr("Enquete encerrada")); }
+  catch (x) { toast(tr("Erro: ") + x.message); }
 };
 function renderVotes(){
   const m = msgMap[pvId]; if (!m) return closeModal();
   const votes = m.votes || {}, voters = Object.keys(votes).filter(u => votesOf(votes[u]).length);
   $("pvt").textContent = m.question;
-  $("pvs").textContent = voters.length + (voters.length === 1 ? " pessoa votou" : " pessoas votaram") + (m.closed ? " · Encerrada" : m.multi ? " · Várias respostas" : "");
+  $("pvs").textContent = (voters.length === 1 ? tr("{n} pessoa votou", { n: 1 }) : tr("{n} pessoas votaram", { n: voters.length })) + (m.closed ? " · " + tr("Encerrada") : m.multi ? " · " + tr("Várias respostas") : "");
   $("pvb").innerHTML = m.options.map((o, i) => {
     const us = voters.filter(u => votesOf(votes[u]).includes(i));
-    return `<div class="sec">${esc(o)} <small>(${us.length})</small></div><div class="box">${us.length ? us.map(u => `<div class="mem">${avatar(nameOf(u), "sm", phOf(u))}<span class="mn">${esc(nameOf(u))}${u === me.uid ? " (você)" : ""}</span></div>`).join("") : '<p class="hint">Ninguém votou</p>'}</div>`;
+    return `<div class="sec">${esc(o)} <small>(${us.length})</small></div><div class="box">${us.length ? us.map(u => `<div class="mem">${avatar(nameOf(u), "sm", phOf(u))}<span class="mn">${esc(nameOf(u))}${u === me.uid ? " " + tr("(você)") : ""}</span></div>`).join("") : '<p class="hint">' + tr("Ninguém votou") + '</p>'}</div>`;
   }).join("");
 }
 function openVotes(id){ pvId = id; renderVotes(); if (msgMap[id]) openModal("pv"); }
 $("sopen").onclick = () => { $("lb").querySelector("img").src = sel.url; $("lb").classList.add("on"); };
 $("lb").onclick = () => $("lb").classList.remove("on");
+/* Textos que o app grava no banco (resumo da conversa e citação) são sempre em português;
+   aqui são traduzidos só na exibição, para cada pessoa ver no seu idioma. */
+function locStored(s){
+  s = String(s || ""); let m;
+  if ((m = s.match(/^(.*: )?(Foto|Vídeo|Grupo criado)$/))) return (m[1] || "") + tr(m[2]);
+  if ((m = s.match(/^(.*?: )?Enquete: ([\s\S]*)$/))) return (m[1] || "") + tr("Enquete: ") + m[2];
+  return s;
+}
 const previewOf = l => l.kind === "image" ? "Foto" : l.kind === "video" ? "Vídeo" : l.kind === "poll" ? "Enquete: " + l.question : l.text;
 const withName = (uid, t) => curMeta.isGroup ? nameOf(uid).split(" ")[0] + ": " + t : t;
 $("sdel").onclick = async () => {
   const m = sel; if (!m) return;
-  if (!await ask("Excluir mensagem?", "Ela some da conversa para todos.")) return;
+  if (!await ask(tr("Excluir mensagem?"), tr("Ela some da conversa para todos."))) return;
   try {
     const t = m.t ? m.t.getTime() : 0, dec = {};
     (curMeta.members || []).forEach(u => { if (u !== m.from && tsMs(curMeta.read?.[u]) < t) dec["unread." + u] = FV.increment(-1); });
@@ -724,7 +1226,7 @@ $("sdel").onclick = async () => {
     const q = await db.collection("chats/" + curChat + "/messages").orderBy("ts", "desc").limit(1).get();
     const l = q.empty ? null : q.docs[0].data({ serverTimestamps: "estimate" });
     await db.doc("chats/" + curChat).update({ lastText: l ? withName(l.from, previewOf(l)).slice(0, 80) : "", lastAt: l && l.ts ? l.ts : TS(), ...dec });
-  } catch (x) { toast("Erro ao excluir: " + x.message); }
+  } catch (x) { toast(tr("Erro ao excluir: ") + x.message); }
 };
 
 /* ---------- presença e "digitando" ---------- */
@@ -738,7 +1240,7 @@ function typers(c){
   const now = Date.now(), last = tsMs(c.lastAt);
   return Object.entries(c.typing).filter(([u, t]) => u !== me.uid && now - tsMs(t) < 6000 && tsMs(t) > last && pres[u]?.show !== false).map(([u]) => u);
 }
-const typText = n => n.length === 1 ? n[0] + " está digitando…" : n.length === 2 ? n[0] + " e " + n[1] + " estão digitando…" : n[0] + ", " + n[1] + " e mais " + (n.length - 2) + " estão digitando…";
+const typText = n => n.length === 1 ? tr("{a} está digitando…", { a: n[0] }) : n.length === 2 ? tr("{a} e {b} estão digitando…", { a: n[0], b: n[1] }) : tr("{a}, {b} e mais {n} estão digitando…", { a: n[0], b: n[1], n: n.length - 2 });
 function renderLive(){
   if (!curChat || !curMeta || !me) return;
   chkStatus();
@@ -748,13 +1250,13 @@ function renderLive(){
   if (ty.length) $("typtx").textContent = typText(ty.map(u => nameOf(u).split(" ")[0]));
   if (atEnd) box.scrollTop = box.scrollHeight;
   let st = "", cls = "";
-  if (ty.length && !c.isGroup) { st = "digitando…"; cls = "typ"; }
+  if (ty.length && !c.isGroup) { st = tr("digitando…"); cls = "typ"; }
   else if (c.isGroup) {
     const n = c.members.filter(u => u !== me.uid && presOf(u)?.on).length;
-    st = c.members.length + " integrantes" + (myShow && n ? ", " + n + " online" : "");
+    st = tr("{n} integrantes", { n: c.members.length }) + (myShow && n ? ", " + tr("{n} online", { n }) : "");
   } else {
     const s = presOf(c.other);
-    if (s) { cls = s.on ? "on" : "off"; st = s.on ? "Online" : s.seen ? "Visto por último " + stamp(new Date(s.seen)).replace("Hoje", "hoje") : "Offline"; }
+    if (s) { cls = s.on ? "on" : "off"; st = s.on ? tr("Online") : s.seen ? tr("Visto por último {t}", { t: stamp(new Date(s.seen), true) }) : tr("Offline"); }
   }
   $("stat").textContent = st; $("stat").className = cls;
 }
@@ -788,20 +1290,20 @@ document.addEventListener("visibilitychange", () => { beat(!document.hidden); ma
 addEventListener("pagehide", () => beat(false));
 $("ashow").onchange = async () => {
   myShow = $("ashow").checked;
-  try { await db.doc("users/" + me.uid).update({ showStatus: myShow, online: myShow, lastSeen: TS() }); } catch (x) { $("aerr").textContent = "Erro: " + x.message; }
+  try { await db.doc("users/" + me.uid).update({ showStatus: myShow, online: myShow, lastSeen: TS() }); } catch (x) { $("aerr").textContent = tr("Erro: ") + x.message; }
   tick();
 };
 
 /* ---------- enquete ---------- */
 function syncOpts(){
   const rows = [...$("pops").children];
-  rows.forEach((r, i) => { r.querySelector("input").placeholder = "Opção " + (i + 1); r.querySelector("button").hidden = rows.length <= 2; });
+  rows.forEach((r, i) => { r.querySelector("input").placeholder = tr("Opção {n}", { n: i + 1 }); r.querySelector("button").hidden = rows.length <= 2; });
   $("padd").hidden = rows.length >= 6;
 }
 function addOpt(){
   if ($("pops").children.length >= 6) return;
   const d = document.createElement("div"); d.className = "row2";
-  d.innerHTML = '<input type="text" maxlength="60"><button type="button" class="link" aria-label="Remover opção">✕</button>';
+  d.innerHTML = '<input type="text" maxlength="60"><button type="button" class="link" aria-label="' + tr("Remover opção") + '">✕</button>';
   $("pops").appendChild(d); syncOpts();
 }
 $("pops").onclick = e => { const b = e.target.closest("button"); if (!b) return; b.parentElement.remove(); syncOpts(); };
@@ -811,22 +1313,22 @@ $("np").onsubmit = async e => {
   e.preventDefault();
   const q = $("pq").value.trim(), seen = new Set(), ops = [];
   [...$("pops").querySelectorAll("input")].forEach(i => { const v = i.value.trim(), k = v.toLowerCase(); if (v && !seen.has(k)) { seen.add(k); ops.push(v); } });
-  if (ops.length < 2) { $("nperr").textContent = "Preencha pelo menos 2 opções diferentes."; return; }
+  if (ops.length < 2) { $("nperr").textContent = tr("Preencha pelo menos 2 opções diferentes."); return; }
   try { await sendMsg({ kind: "poll", question: q, options: ops, votes: {}, ...($("pmulti").checked ? { multi: true } : {}) }, "Enquete: " + q); closeModal(); }
-  catch (x) { $("nperr").textContent = "Erro: " + x.message; }
+  catch (x) { $("nperr").textContent = tr("Erro: ") + x.message; }
 };
 
 /* ---------- grupo: integrantes e administração ---------- */
 function gerr(t){ $("gierr").textContent = t; }
 function renderInfo(){
   const c = curMeta, adm = isAdm(c), own = isOwner(c);
-  $("gititle").textContent = c.title; $("gicount").textContent = c.members.length + " integrantes";
+  $("gititle").textContent = c.title; $("gicount").textContent = tr("{n} integrantes", { n: c.members.length });
   $("gmem").innerHTML = c.members.map(u => {
-    const n = c.names?.[u] || "Integrante", isO = c.admin === u, isA = !isO && (c.admins || []).includes(u), acts = [];
-    if (adm && u !== me.uid && !isO && !isA) acts.push(`<button class="link" data-mk="${u}">Tornar admin</button>`);
-    if (isA && (own || u === me.uid)) acts.push(`<button class="link" data-un="${u}">${u === me.uid ? "Deixar de ser admin" : "Remover admin"}</button>`);
-    if (adm && u !== me.uid && !isO && (own || !isA)) acts.push(`<button class="link" data-rm="${u}">Remover</button>`);
-    return `<div class="mem">${avatar(n, "sm", phOf(u))}<span class="mn">${esc(n)}${u === me.uid ? " (você)" : ""}</span>${isO ? '<span class="badge">Criador</span>' : isA ? '<span class="badge">Admin</span>' : ""}${acts.length ? `<span class="mact">${acts.join("")}</span>` : ""}</div>`;
+    const n = c.names?.[u] || tr("Integrante"), isO = c.admin === u, isA = !isO && (c.admins || []).includes(u), acts = [];
+    if (adm && u !== me.uid && !isO && !isA) acts.push(`<button class="link" data-mk="${u}">${tr("Tornar admin")}</button>`);
+    if (isA && (own || u === me.uid)) acts.push(`<button class="link" data-un="${u}">${u === me.uid ? tr("Deixar de ser admin") : tr("Remover admin")}</button>`);
+    if (adm && u !== me.uid && !isO && (own || !isA)) acts.push(`<button class="link" data-rm="${u}">${tr("Remover")}</button>`);
+    return `<div class="mem">${avatar(n, "sm", phOf(u))}<span class="mn">${esc(n)}${u === me.uid ? " " + tr("(você)") : ""}</span>${isO ? '<span class="badge">' + tr("Criador") + '</span>' : isA ? '<span class="badge">' + tr("Admin") + '</span>' : ""}${acts.length ? `<span class="mact">${acts.join("")}</span>` : ""}</div>`;
   }).join("");
   $("gadm").hidden = !adm; $("gdel").hidden = !own; $("gleave").hidden = own;
   if (adm && document.activeElement !== $("grename")) $("grename").value = c.title;
@@ -838,37 +1340,37 @@ $("gmem").onclick = async e => {
   const b = e.target.closest("button"); if (!b) return;
   const d = b.dataset, u = d.rm || d.mk || d.un; if (!u) return;
   try {
-    if (d.mk) { await upd({ admins: FV.arrayUnion(u) }); toast(nameOf(u) + " agora é admin"); }
+    if (d.mk) { await upd({ admins: FV.arrayUnion(u) }); toast(tr("{n} agora é admin", { n: nameOf(u) })); }
     else if (d.un) {
-      const ok = await ask(u === me.uid ? "Deixar de ser admin?" : "Remover admin?", u === me.uid ? "Você continua no grupo, mas sem poderes de administrador." : nameOf(u) + " continua no grupo, mas deixa de ser admin.", u === me.uid ? "Deixar" : "Remover");
+      const ok = await ask(u === me.uid ? tr("Deixar de ser admin?") : tr("Remover admin?"), u === me.uid ? tr("Você continua no grupo, mas sem poderes de administrador.") : tr("{n} continua no grupo, mas deixa de ser admin.", { n: nameOf(u) }), u === me.uid ? tr("Deixar") : tr("Remover"));
       openInfo(); if (ok) await upd({ admins: FV.arrayRemove(u) });
     } else {
-      const ok = await ask("Remover integrante?", nameOf(u) + " sai do grupo.", "Remover");
+      const ok = await ask(tr("Remover integrante?"), tr("{n} sai do grupo.", { n: nameOf(u) }), tr("Remover"));
       openInfo(); if (ok) await upd({ members: FV.arrayRemove(u), ...((curMeta.admins || []).includes(u) ? { admins: FV.arrayRemove(u) } : {}) });
     }
-  } catch (x) { gerr("Erro: " + x.message); }
+  } catch (x) { gerr(tr("Erro: ") + x.message); }
 };
 $("giadd").onclick = async () => {
   const em = $("giemail").value.trim(); if (!em) return; gerr("");
   try {
     const u = await findUser(em);
-    if (!u) return gerr("Nenhuma conta com esse e-mail.");
-    if (curMeta.members.includes(u.id)) return gerr("Essa pessoa já está no grupo.");
-    if (curMeta.members.length >= 50) return gerr("O grupo aceita até 50 pessoas.");
-    await upd({ members: FV.arrayUnion(u.id), ["names." + u.id]: u.name }); $("giemail").value = ""; toast(u.name + " entrou no grupo");
-  } catch (x) { gerr("Erro: " + x.message); }
+    if (!u) return gerr(tr("Nenhuma conta com esse e-mail."));
+    if (curMeta.members.includes(u.id)) return gerr(tr("Essa pessoa já está no grupo."));
+    if (curMeta.members.length >= 50) return gerr(tr("O grupo aceita até 50 pessoas."));
+    await upd({ members: FV.arrayUnion(u.id), ["names." + u.id]: u.name }); $("giemail").value = ""; toast(tr("{n} entrou no grupo", { n: u.name }));
+  } catch (x) { gerr(tr("Erro: ") + x.message); }
 };
 $("girename").onclick = async () => {
-  const t = $("grename").value.trim(); if (!t) return gerr("Digite um nome para o grupo.");
-  try { await upd({ title: t }); toast("Nome do grupo alterado"); } catch (x) { gerr("Erro: " + x.message); }
+  const t = $("grename").value.trim(); if (!t) return gerr(tr("Digite um nome para o grupo."));
+  try { await upd({ title: t }); toast(tr("Nome do grupo alterado")); } catch (x) { gerr(tr("Erro: ") + x.message); }
 };
 $("gleave").onclick = async () => {
-  if (!await ask("Sair do grupo?", "Você deixa de receber as mensagens deste grupo.", "Sair")) return openInfo();
-  try { curSeen = false; await leaveGroup(curChat); goHome(); toast("Você saiu do grupo"); } catch (x) { curSeen = true; openInfo(); gerr("Erro: " + x.message); }
+  if (!await ask(tr("Sair do grupo?"), tr("Você deixa de receber as mensagens deste grupo."), tr("Sair"))) return openInfo();
+  try { curSeen = false; await leaveGroup(curChat); goHome(); toast(tr("Você saiu do grupo")); } catch (x) { curSeen = true; openInfo(); gerr(tr("Erro: ") + x.message); }
 };
 $("gdel").onclick = async () => {
-  if (!await ask("Excluir grupo?", "O grupo e todas as mensagens serão apagados para todos.")) return openInfo();
-  try { const id = curChat; curSeen = false; await delChat(id); goHome(); toast("Grupo excluído"); } catch (x) { curSeen = true; openInfo(); gerr("Erro: " + x.message); }
+  if (!await ask(tr("Excluir grupo?"), tr("O grupo e todas as mensagens serão apagados para todos."))) return openInfo();
+  try { const id = curChat; curSeen = false; await delChat(id); goHome(); toast(tr("Grupo excluído")); } catch (x) { curSeen = true; openInfo(); gerr(tr("Erro: ") + x.message); }
 };
 
 /* emoticons e texto */
@@ -891,7 +1393,7 @@ function mentionSuggest(){
   const list = Object.entries(curHandles.full).filter(([h, u]) => u !== me.uid && (!q || h.startsWith(q) || norm(curMeta.names?.[u] || "").includes(q)));
   if (!list.length) { box.classList.remove("on"); mq = null; return; }
   mq = { start: before.length - m[2].length - 1, end: before.length };
-  box.innerHTML = list.map(([h, u]) => { const n = curMeta.names?.[u] || "Integrante"; return `<button type="button" data-h="${h}">${avatar(n, "sm", phOf(u))}<span class="mn">${esc(n)}</span><small>@${h}</small></button>`; }).join("");
+  box.innerHTML = list.map(([h, u]) => { const n = curMeta.names?.[u] || tr("Integrante"); return `<button type="button" data-h="${h}">${avatar(n, "sm", phOf(u))}<span class="mn">${esc(n)}</span><small>@${h}</small></button>`; }).join("");
   box.classList.add("on"); box.scrollTop = 0;
 }
 $("mpick").onclick = e => {
@@ -926,7 +1428,7 @@ $("sendf").onsubmit = async e => {
       await db.doc("chats/" + curChat + "/messages/" + ed.id).update({ text, edited: true });
       if (curList[curList.length - 1]?.id === ed.id) await db.doc("chats/" + curChat).update({ lastText: withName(me.uid, text).slice(0, 80) });
     } else await sendMsg({ text, ...(rp ? { reply: { id: rp.id, from: rp.from, text: rp.text } } : {}) }, text);
-  } catch (x) { toast("Não foi possível " + (ed ? "editar" : "enviar") + ": " + x.message); $("txt").value = text; $("txt").dispatchEvent(new Event("input")); edit = ed; reply = rp; setBar(); }
+  } catch (x) { toast((ed ? tr("Não foi possível editar: ") : tr("Não foi possível enviar: ")) + x.message); $("txt").value = text; $("txt").dispatchEvent(new Event("input")); edit = ed; reply = rp; setBar(); }
 };
 
 /* ---------- fotos e vídeos ---------- */
@@ -939,12 +1441,12 @@ function toCanvas(file, max){
       c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
       c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(u); ok(c);
     };
-    img.onerror = () => no(new Error("Não foi possível ler a imagem")); img.src = u;
+    img.onerror = () => no(new Error(tr("Não foi possível ler a imagem"))); img.src = u;
   });
 }
 async function upload(blob, ext, type){
   const ref = storage.ref(`chats/${curChat}/${me.uid}/${Date.now()}.${ext}`), task = ref.put(blob, { contentType: type });
-  task.on("state_changed", s => toast("Enviando " + Math.round(100 * s.bytesTransferred / s.totalBytes) + "%"));
+  task.on("state_changed", s => toast(tr("Enviando {p}%", { p: Math.round(100 * s.bytesTransferred / s.totalBytes) })));
   await task; return { url: await ref.getDownloadURL(), path: ref.fullPath };
 }
 $("file").onchange = async e => {
@@ -964,17 +1466,17 @@ $("file").onchange = async e => {
           url = (await toCanvas(f, max)).toDataURL("image/jpeg", q);
           if (url.length < 880000) break;
         }
-        if (url.length >= 880000) throw new Error("Foto grande demais.");
+        if (url.length >= 880000) throw new Error(tr("Foto grande demais."));
         await sendMsg({ kind: "image", url }, "Foto");
       }
-      toast("Foto enviada");
+      toast(tr("Foto enviada"));
     } else if (f.type.startsWith("video/")) {
-      if (!USE_STORAGE) return toast("Vídeos precisam do Storage. Mude USE_STORAGE para true.");
-      if (f.size > 50e6) return toast("Vídeo maior que 50 MB.");
-      try { const u = await upload(f, (f.name.split(".").pop() || "mp4").toLowerCase(), f.type); await sendMsg({ kind: "video", ...u }, "Vídeo"); toast("Vídeo enviado"); }
-      catch (x) { toast("Vídeos precisam do Firebase Storage ativado."); }
-    } else toast("Escolha uma foto ou um vídeo.");
-  } catch (x) { toast("Erro: " + x.message); }
+      if (!USE_STORAGE) return toast(tr("Vídeos precisam do Storage. Mude USE_STORAGE para true."));
+      if (f.size > 50e6) return toast(tr("Vídeo maior que 50 MB."));
+      try { const u = await upload(f, (f.name.split(".").pop() || "mp4").toLowerCase(), f.type); await sendMsg({ kind: "video", ...u }, "Vídeo"); toast(tr("Vídeo enviado")); }
+      catch (x) { toast(tr("Vídeos precisam do Firebase Storage ativado.")); }
+    } else toast(tr("Escolha uma foto ou um vídeo."));
+  } catch (x) { toast(tr("Erro: ") + x.message); }
 };
 /* ---------- recursos novos ---------- */
 const PIN = '<svg viewBox="0 0 24 24" width="18" height="18"><path d="M9 3h6l-1 6 3 3v2h-4v7l-1 1-1-1v-7H7v-2l3-3z" fill="currentColor"/></svg>';
@@ -999,15 +1501,15 @@ function unreadFx(){
 }
 async function togglePin(id){
   myPins = myPins.includes(id) ? myPins.filter(x => x !== id) : [...myPins, id]; sortChats(); drawList();
-  try { await db.doc("users/" + me.uid).update({ pinned: myPins }); } catch (x) { toast("Erro: " + x.message); }
+  try { await db.doc("users/" + me.uid).update({ pinned: myPins }); } catch (x) { toast(tr("Erro: ") + x.message); }
 }
-const dsep = d => { const n = new Date(); return (sameDay(d, n) ? "Hoje" : sameDay(d, new Date(n - 864e5)) ? "Ontem" : d.toLocaleDateString("pt-BR", { day: "numeric", month: "short", year: "numeric" })) + " " + hhmm(d); };
+const dsep = d => { const n = new Date(); return (sameDay(d, n) ? tr("Hoje") : sameDay(d, new Date(n - 864e5)) ? tr("Ontem") : d.toLocaleDateString(LOC(), { day: "numeric", month: "short", year: "numeric" })) + " " + hhmm(d); };
 function statusOf(m){
-  if (curPend) return "Enviando…";
+  if (curPend) return tr("Enviando…");
   const c = curMeta, rd = c.read || {}, t = m.t.getTime(), ok = c.members.filter(u => u !== me.uid && tsMs(rd[u]) >= t);
-  if (c.isGroup) return ok.length ? "Lida por " + ok.length : "Enviada";
-  if (ok.length) return "Lida " + stamp(new Date(tsMs(rd[c.other]))).replace("Hoje ", "");
-  return presOf(c.other)?.on ? "Entregue" : "Enviada";
+  if (c.isGroup) return ok.length ? tr("Lida por {n}", { n: ok.length }) : tr("Enviada");
+  if (ok.length) return tr("Lida {t}", { t: stampShort(new Date(tsMs(rd[c.other]))) });
+  return presOf(c.other)?.on ? tr("Entregue") : tr("Enviada");
 }
 function chkStatus(){
   if (!curChat || !curMeta || !me || !curList.length) return;
@@ -1032,15 +1534,15 @@ function drawMsgs(force){
     const first = !prev || prev.from !== m.from || m.t - prev.t > GAP, last = !next || next.from !== m.from || next.t - m.t > GAP;
     const sn = curMeta.isGroup && !mine && first ? `<span class="sn" style="color:hsl(${hueOf(m.from)},60%,32%)">${esc(nameOf(m.from))}</span>` : "";
     let inner, cls = "";
-    if (m.kind === "image") { inner = `<img class="med" loading="lazy" src="${esc(m.url)}" alt="Foto">`; cls = " m"; }
+    if (m.kind === "image") { inner = `<img class="med" loading="lazy" src="${esc(m.url)}" alt="${tr("Foto")}">`; cls = " m"; }
     else if (m.kind === "video") { inner = `<video class="med" src="${esc(m.url)}" controls preload="metadata" playsinline></video>`; cls = " m"; }
     else if (m.kind === "poll") { inner = pollHtml(m); cls = " p"; }
-    else inner = fmt(m.text) + (m.edited ? ' <small class="ed">(editada)</small>' : "");
-    const q = m.reply ? `<div class="q" data-q="${esc(m.reply.id)}"><b>${esc(m.reply.from === me.uid ? "Você" : nameOf(m.reply.from))}</b>${esc(plain(m.reply.text))}</div>` : "";
+    else inner = fmt(m.text) + (m.edited ? ' <small class="ed">' + tr("(editada)") + '</small>' : "");
+    const q = m.reply ? `<div class="q" data-q="${esc(m.reply.id)}"><b>${esc(m.reply.from === me.uid ? tr("Você") : nameOf(m.reply.from))}</b>${esc(plain(locStored(m.reply.text)))}</div>` : "";
     html += `<div class="r ${mine ? "out" : "in"}${last ? " end" : ""}"><div class="b${cls}${sel && sel.id === m.id ? " sel" : ""}${fresh.has(m.id) ? " pop" : ""}" data-id="${m.id}">${sn}${q}${inner}</div></div>`;
   });
   if (st) html += `<div class="status">${st}</div>`;
-  box.innerHTML = html || `<div class="date">Nenhuma mensagem. Diga oi!</div>`;
+  box.innerHTML = html || `<div class="date">${tr("Nenhuma mensagem. Diga oi!")}</div>`;
   if (sel && !msgMap[sel.id]) clearSel();
   const fills = box.querySelectorAll(".fill[data-w]");
   if (fills.length) { void box.offsetWidth; fills.forEach(f => { f.style.width = f.dataset.w + "%"; }); }
@@ -1055,11 +1557,11 @@ function markRead(){
   db.doc("chats/" + curChat).update({ ["read." + me.uid]: TS(), ["unread." + me.uid]: 0 }).catch(() => {});
 }
 function jump(id){
-  const el = document.querySelector('.b[data-id="' + CSS.escape(id) + '"]'); if (!el) return toast("A mensagem original foi excluída.");
+  const el = document.querySelector('.b[data-id="' + CSS.escape(id) + '"]'); if (!el) return toast(tr("A mensagem original foi excluída."));
   el.scrollIntoView({ block: "center", behavior: "smooth" }); el.classList.add("fl"); setTimeout(() => el.classList.remove("fl"), 1400);
 }
 function setBar(){
-  const t = edit ? "Editando mensagem" : reply ? "Respondendo a " + (reply.from === me.uid ? "você" : nameOf(reply.from)) + ": " + plain(reply.text) : "";
+  const t = edit ? tr("Editando mensagem") : reply ? tr("Respondendo a {n}: {t}", { n: reply.from === me.uid ? tr("você") : nameOf(reply.from), t: plain(locStored(reply.text)) }) : "";
   $("rbar").hidden = !t; $("rtx").textContent = t;
 }
 $("srep").onclick = () => { const m = sel; if (!m) return; edit = null; reply = { id: m.id, from: m.from, text: previewOf(m).slice(0, 80) }; clearSel(); setBar(); $("txt").focus(); };
@@ -1075,8 +1577,8 @@ async function setPhoto(url){
   try {
     if (phT === "me") { await db.doc("users/" + me.uid).update({ photo: url || FV.delete() }); myPhoto = url; $("apv").innerHTML = avatar(myName, "", url); drawList(); fillSettings(); }
     else await upd({ photo: url || FV.delete() });
-    toast(url ? "Foto atualizada" : "Foto removida");
-  } catch (x) { toast("Erro: " + x.message); }
+    toast(url ? tr("Foto atualizada") : tr("Foto removida"));
+  } catch (x) { toast(tr("Erro: ") + x.message); }
 }
 $("aph").onclick = () => { phT = "me"; $("pfile").click(); };
 $("gph").onclick = () => { phT = "grp"; $("pfile").click(); };
@@ -1185,8 +1687,8 @@ function themeVars(el, t){
 const canTheme = c => !!c && (!c.isGroup || isAdm(c));
 function renderTheme(){
   const d = thDraft, on = (k, id) => (d[k] || TD[k]) === id;
-  const sw = (k, sq, css) => Object.entries(TH[k]).map(([id, o]) => `<button type="button" class="sw2${sq ? " sq" : ""}${on(k, id) ? " on" : ""}" data-k="${k}" data-v="${id}" title="${o.l}" aria-label="${o.l}" aria-pressed="${on(k, id)}" style="background:${css(o)}"></button>`).join("");
-  const sg = k => Object.entries(TH[k]).map(([id, o]) => `<button type="button" class="nbtn${on(k, id) ? "" : " dark"}" data-k="${k}" data-v="${id}" aria-pressed="${on(k, id)}">${o.l}</button>`).join("");
+  const sw = (k, sq, css) => Object.entries(TH[k]).map(([id, o]) => `<button type="button" class="sw2${sq ? " sq" : ""}${on(k, id) ? " on" : ""}" data-k="${k}" data-v="${id}" title="${tr(o.l)}" aria-label="${tr(o.l)}" aria-pressed="${on(k, id)}" style="background:${css(o)}"></button>`).join("");
+  const sg = k => Object.entries(TH[k]).map(([id, o]) => `<button type="button" class="nbtn${on(k, id) ? "" : " dark"}" data-k="${k}" data-v="${id}" aria-pressed="${on(k, id)}">${tr(o.l)}</button>`).join("");
   $("thout").innerHTML = sw("out", false, o => `linear-gradient(${o.c[0]},${o.c[1]})`);
   $("thinn").innerHTML = sw("inn", false, o => `linear-gradient(${o.c[0]},${o.c[1]})`);
   $("thbg").innerHTML = sw("bg", true, o => o.b);
@@ -1196,22 +1698,48 @@ function renderTheme(){
 function openTheme(){
   if (!curMeta) return;
   thDraft = { ...(curMeta.theme && typeof curMeta.theme === "object" ? curMeta.theme : {}) }; $("therr").textContent = "";
-  $("thn").textContent = curMeta.isGroup ? "Vale para todos do grupo. Só administradores podem alterar." : "Vale para você e para " + chatTitle(curMeta) + ".";
+  $("thn").textContent = curMeta.isGroup ? tr("Vale para todos do grupo. Só administradores podem alterar.") : tr("Vale para você e para {n}.", { n: chatTitle(curMeta) });
   renderTheme(); openModal("th");
 }
 $("cset").onclick = openTheme; $("gth").onclick = openTheme;
 $("th").onclick = e => { const b = e.target.closest("[data-v]"); if (!b) return; thDraft[b.dataset.k] = b.dataset.v; renderTheme(); };
 $("ths").onclick = async () => {
-  if (!canTheme(curMeta)) { $("therr").textContent = "Só administradores podem alterar."; return; }
+  if (!canTheme(curMeta)) { $("therr").textContent = tr("Só administradores podem alterar."); return; }
   const clean = {}; Object.keys(TD).forEach(k => { if (thDraft[k] && thDraft[k] !== TD[k]) clean[k] = thDraft[k]; });
-  try { await upd({ theme: Object.keys(clean).length ? clean : FV.delete() }); closeModal(); toast("Aparência salva"); }
-  catch (x) { $("therr").textContent = "Erro: " + x.message; }
+  try { await upd({ theme: Object.keys(clean).length ? clean : FV.delete() }); closeModal(); toast(tr("Aparência salva")); }
+  catch (x) { $("therr").textContent = tr("Erro: ") + x.message; }
 };
 $("thr").onclick = async () => {
-  if (!canTheme(curMeta)) { $("therr").textContent = "Só administradores podem alterar."; return; }
-  try { await upd({ theme: FV.delete() }); closeModal(); toast("Aparência padrão restaurada"); }
-  catch (x) { $("therr").textContent = "Erro: " + x.message; }
+  if (!canTheme(curMeta)) { $("therr").textContent = tr("Só administradores podem alterar."); return; }
+  try { await upd({ theme: FV.delete() }); closeModal(); toast(tr("Aparência padrão restaurada")); }
+  catch (x) { $("therr").textContent = tr("Erro: ") + x.message; }
 };
+
+/* ---------- idioma ---------- */
+function applyStatic(){
+  document.querySelectorAll("[data-t]").forEach(el => { const k = el._k ??= el.textContent.trim(); el.textContent = tr(k); });
+  document.querySelectorAll("[data-ti]").forEach(el => {
+    el._a ??= {};
+    el.dataset.ti.split(" ").forEach(a => { const k = el._a[a] ??= el.getAttribute(a); el.setAttribute(a, tr(k)); });
+  });
+}
+function setLang(code){
+  if (!LANGS[code]?.loc) code = "pt";
+  lang = code; try { localStorage.setItem("lang", code); } catch {}
+  document.documentElement.lang = LANGS[code].loc;
+  applyStatic();
+  $("lgsel").value = $("lglogin").value = code;
+  setMode(signup);
+  if (me) {
+    fillSettings(); drawList();
+    if (curChat && curMeta) { setHeader(); renderLive(); bodySig = null; stSig = ""; drawMsgs(); setBar(); }
+  }
+}
+["lgsel", "lglogin"].forEach(id => {
+  $(id).innerHTML = Object.entries(LANGS).map(([c, o]) => `<option value="${c}">${o.n}</option>`).join("");
+  $(id).onchange = e => setLang(e.target.value);
+});
+setLang(lang);
 </script>
 </body>
 </html>
