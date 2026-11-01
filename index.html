@@ -55,20 +55,24 @@ svg.ic{width:20px;height:20px;display:block}
 .empty svg{width:64px;height:64px;margin:0 auto 10px;display:block}
 
 /* conversa */
-#msgs{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 0 12px;display:flex;flex-direction:column;background:var(--bg);min-width:0}
+#msgs{flex:1;overflow-y:auto;overflow-x:hidden;padding:8px 0 12px;display:flex;flex-direction:column;background:var(--cbg,var(--bg));min-width:0}
 #msgs>*{flex-shrink:0}
-.date{align-self:center;color:#7a8296;font-weight:700;font-size:11px;margin:10px 0 5px;text-shadow:0 1px #fff;white-space:nowrap}
+.date{align-self:center;color:var(--cdt,#7a8296);font-weight:700;font-size:11px;margin:10px 0 5px;text-shadow:0 1px var(--cds,#fff);white-space:nowrap}
 .r{display:flex;padding:0 12px;margin-top:2px;min-width:0}
 .r.out{justify-content:flex-end}
 .r.end{margin-bottom:5px}
-.b{max-width:80%;min-width:0;padding:6px 11px 7px;font-size:14px;line-height:1.35;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;box-shadow:0 1px 2px rgba(0,0,0,.3),inset 0 0 0 1px rgba(0,0,0,.2)}
-.in .b{background:linear-gradient(rgba(255,255,255,.75),rgba(255,255,255,.12) 50%,rgba(255,255,255,0) 51%),linear-gradient(#f2f2f6,#d0d0d7)}
-.out .b{background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.08) 50%,rgba(255,255,255,0) 51%),linear-gradient(#a8e65c,#78cd27);color:#0c2300}
+.b{max-width:80%;min-width:0;padding:6px 11px 7px;font-size:var(--fs,14px);font-family:var(--bf,inherit);line-height:1.35;border-radius:var(--rad,12px);white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;box-shadow:0 1px 2px rgba(0,0,0,.3),inset 0 0 0 1px rgba(0,0,0,.2)}
+.in .b{background:linear-gradient(rgba(255,255,255,.75),rgba(255,255,255,.12) 50%,rgba(255,255,255,0) 51%),linear-gradient(var(--i1,#f2f2f6),var(--i2,#d0d0d7))}
+.out .b{background:linear-gradient(rgba(255,255,255,.5),rgba(255,255,255,.08) 50%,rgba(255,255,255,0) 51%),linear-gradient(var(--o1,#a8e65c),var(--o2,#78cd27));color:var(--ot,#0c2300);text-shadow:var(--ots,none)}
+.sflat .b{box-shadow:0 1px 1px rgba(0,0,0,.25)}
+.sflat .in .b{background:var(--i2,#d0d0d7)}
+.sflat .out .b{background:var(--o2,#78cd27)}
+.spill{--rad:20px}.spill .b.m{border-radius:14px}
 .b.sel{outline:3px solid #2f74dc;outline-offset:1px}
 .b.m{padding:4px;width:244px}
 .med{display:block;width:100%;height:auto;max-height:340px;border-radius:9px;background:#000;object-fit:contain}
 .em{width:19px;height:19px;vertical-align:-4px;margin:0 1px}
-.status{align-self:flex-end;padding:0 14px;font-size:10px;color:#7a8296;font-weight:700}
+.status{align-self:flex-end;padding:0 14px;font-size:10px;color:var(--cdt,#7a8296);font-weight:700}
 #selbar,#tray{display:none;background:#eef0f5;border-top:1px solid #b5bccb;flex-shrink:0}
 #selbar.on{display:flex;gap:8px;align-items:center;padding:7px 10px}
 #selbar span{flex:1;font-size:12px;color:#445}
@@ -122,13 +126,22 @@ svg.ic{width:20px;height:20px;display:block}
 .sn{display:block;font-weight:700;font-size:11px;margin-bottom:2px}
 .b.m .sn{padding:2px 4px}
 .b.p{width:262px;white-space:normal}
-.pq{font-weight:700;margin-bottom:2px}
-.opt{position:relative;display:flex;justify-content:space-between;gap:8px;border:1px solid #8a9bb3;border-radius:3px;background:#fff;margin-top:5px;padding:5px 8px;overflow:hidden;cursor:pointer;color:#111}
-.opt .fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(#d4f5bd,#8fdb68 50%,#6ccd3c 51%,#8fdc66);border-right:1px solid #4a9e24}
-.opt span{position:relative}
-.opt .oc{font-size:11px;white-space:nowrap;color:#345}
+.pq{font-weight:700;margin-bottom:3px}
+.pmeta{font-size:11px;opacity:.8;margin-bottom:2px}
+.opt{position:relative;display:flex;align-items:center;gap:8px;min-height:32px;border:1px solid #8a9bb3;border-radius:4px;background:#fff;margin-top:5px;padding:5px 8px;overflow:hidden;cursor:pointer;color:#111;-webkit-user-select:none;user-select:none}
+.opt .fill{position:absolute;left:0;top:0;bottom:0;width:0;background:linear-gradient(#dbe7f8,#b8cdea 50%,#a6bde2 51%,#bbcfec);border-right:1px solid #7c97c4}
+.opt.lead .fill{background:linear-gradient(#d4f5bd,#8fdb68 50%,#6ccd3c 51%,#8fdc66);border-right-color:#4a9e24}
+.opt .ck{position:relative;flex-shrink:0;width:16px;height:16px;border:1px solid #6d7482;border-radius:50%;background:linear-gradient(#fff,#e1e4ea);box-shadow:inset 0 1px 2px rgba(0,0,0,.2)}
+.opt.multi .ck{border-radius:3px}
+.opt.mine .ck{border-color:#1b3f8f;background:linear-gradient(#7ba3ee,#2d5fce)}
+.opt.mine .ck::after{content:"";position:absolute;left:4px;top:1px;width:4px;height:8px;border:solid #fff;border-width:0 2px 2px 0;transform:rotate(45deg)}
+.opt .ot{position:relative;flex:1;min-width:0;overflow-wrap:anywhere}
+.opt .oc{position:relative;font-size:11px;white-space:nowrap;color:#345}
 .opt.mine{border-color:#2f74dc;box-shadow:0 0 0 1px #2f74dc}
-.pt{font-size:11px;color:#556;margin-top:5px}
+.opt.off{cursor:default}
+.pt{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:11px;margin-top:6px}
+.pt .link{font-size:11px;color:inherit;text-decoration:underline;opacity:.9}
+@media(prefers-reduced-motion:no-preference){.opt .fill{transition:width .35s ease}}
 .card{max-height:92%;overflow:auto}
 .card.wide{max-width:340px}
 .sec{font-weight:700;color:#1d3f6b;margin:10px 0 4px}
@@ -141,7 +154,6 @@ svg.ic{width:20px;height:20px;display:block}
 .row2{display:flex;gap:6px;margin-top:6px}
 .row2 input{flex:1;width:auto;min-width:0}
 .row2 .nbtn{min-width:0}
-#pops input{margin-top:6px}
 .ttl{display:flex;flex-direction:column;min-width:0;text-align:left;line-height:1.15}
 #who{display:block;overflow:hidden;text-overflow:ellipsis}
 #stat{display:block;font-size:10px;font-weight:400;opacity:.95;min-height:11px}
@@ -153,7 +165,7 @@ svg.ic{width:20px;height:20px;display:block}
 .dot.on{background:radial-gradient(circle at 35% 30%,#c8fba0,#2fa80f);box-shadow:0 0 0 1px #1d6f08}
 .row .l.typ{color:#2a9d0f;font-style:italic}
 .row:active .l.typ{color:#d6ffc4}
-#typing{display:flex;align-items:center;gap:7px;padding:3px 14px 5px;background:var(--bg);color:#5a6680;font-size:11px;font-style:italic;flex-shrink:0}
+#typing{display:flex;align-items:center;gap:7px;padding:3px 14px 5px;background:var(--cbg,var(--bg));color:var(--ctt,#5a6680);font-size:11px;font-style:italic;flex-shrink:0}
 .dots i{display:inline-block;width:5px;height:5px;margin-right:2px;border-radius:50%;background:#7d8aa5}
 @media(prefers-reduced-motion:no-preference){.dots i{animation:bl 1.2s infinite}.dots i:nth-child(2){animation-delay:.2s}.dots i:nth-child(3){animation-delay:.4s}@keyframes bl{0%,60%,100%{opacity:.25}30%{opacity:1}}}
 .card .chk{margin-top:8px}
@@ -200,6 +212,27 @@ svg.ic{width:20px;height:20px;display:block}
 .srow input.sw:checked{background:linear-gradient(#2a68c8,#5b9bf0);border-color:#1f4f9c}
 .srow input.sw:checked::before{content:"ON";left:0;color:#fff;text-shadow:0 -1px rgba(0,0,0,.35)}
 .srow input.sw:checked::after{left:30px}
+
+/* v7: negrito, menções, aparência, admins */
+.b strong{font-weight:700}
+.mt{font-weight:700;color:#16408f;background:rgba(255,255,255,.65);border-radius:3px;padding:0 3px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14);text-shadow:none}
+.mt.me{background:#fff0a8;color:#5a3d00}
+#mpick{display:none;background:#eef0f5;border-top:1px solid #b5bccb;flex-shrink:0;max-height:156px;overflow:auto}
+#mpick.on{display:block}
+#mpick button{display:flex;align-items:center;gap:8px;width:100%;border:0;border-bottom:1px solid #d5dae4;background:none;padding:5px 10px;text-align:left;font-size:13px;color:#111}
+#mpick button:active{background:linear-gradient(#5b9cf0,#2f74dc);color:#fff}
+#mpick small{color:#6b7587}
+#mpick button:active small{color:#e3eeff}
+.mact{display:flex;flex-direction:column;align-items:flex-end;gap:1px;flex-shrink:0}
+.mact .link{font-size:11px;white-space:nowrap}
+.sws{display:flex;flex-wrap:wrap;gap:7px}
+.sw2{width:30px;height:30px;padding:0;border-radius:50%;border:1px solid #5d6778;box-shadow:inset 0 1px rgba(255,255,255,.55),0 1px 1px rgba(0,0,0,.25)}
+.sw2.sq{border-radius:5px}
+.sw2.on{outline:3px solid #2f74dc;outline-offset:1px}
+.seg{display:flex;gap:5px}
+.seg .nbtn{flex:1;min-width:0;padding:0 4px}
+#thp{display:flex;flex-direction:column;padding:4px 0 8px;margin:8px 0 2px;border:1px solid #828790;border-radius:5px;background:var(--cbg,#dde1ec);overflow:hidden}
+#thp .r{padding:0 10px}
 </style>
 </head>
 <body>
@@ -247,16 +280,17 @@ svg.ic{width:20px;height:20px;display:block}
       <div class="gt">Aparência</div>
       <div class="grp"><label class="srow t"><span>Animações nos botões</span><input type="checkbox" class="sw" id="afx"></label></div>
       <div class="gt">Sobre</div>
-      <div class="grp"><div class="srow t"><span>Versão</span><small>Messenger v6</small></div></div>
+      <div class="grp"><div class="srow t"><span>Versão</span><small>Messenger v7</small></div></div>
     </div>
   </section>
 
   <section id="chat" class="screen">
-    <div class="nav"><button class="nbtn" id="back">Voltar</button><h1><span class="av sm" id="cav"></span><span class="ttl"><span id="who"></span><small id="stat"></small></span></h1><button class="nbtn" id="ginfo" type="button" hidden>Grupo</button><span class="sp" id="gsp"></span></div>
+    <div class="nav"><button class="nbtn" id="back">Voltar</button><h1><span class="av sm" id="cav"></span><span class="ttl"><span id="who"></span><small id="stat"></small></span></h1><button class="nbtn" id="ginfo" type="button" hidden>Grupo</button><button class="nbtn" id="cset" type="button" hidden>Ajustes</button></div>
     <div id="msgs"></div>
     <div id="typing" hidden><span class="dots"><i></i><i></i><i></i></span><span id="typtx"></span></div>
-    <div id="selbar"><button class="nbtn dark" id="srep" type="button">Responder</button><button class="nbtn dark" id="sedit" type="button">Editar</button><button class="nbtn dark" id="sopen" type="button">Abrir</button><button class="nbtn danger" id="sdel" type="button">Excluir</button><button class="nbtn dark" id="scan" type="button">Cancelar</button></div>
+    <div id="selbar"><button class="nbtn dark" id="srep" type="button">Responder</button><button class="nbtn dark" id="sedit" type="button">Editar</button><button class="nbtn dark" id="sopen" type="button">Abrir</button><button class="nbtn dark" id="sclose" type="button">Encerrar</button><button class="nbtn danger" id="sdel" type="button">Excluir</button><button class="nbtn dark" id="scan" type="button">Cancelar</button></div>
     <div id="tray"></div>
+    <div id="mpick"></div>
     <div id="rbar" hidden><span id="rtx"></span><button type="button" class="link" id="rx">Cancelar</button></div>
     <form class="bar" id="sendf">
       <button type="button" class="ib" id="att" aria-label="Enviar foto ou vídeo"><svg class="ic" viewBox="0 0 24 24"><path d="M16.5 6.5l-8 8a2.2 2.2 0 003.1 3.1l8.4-8.4a4.2 4.2 0 00-6-6L5.7 11.8a6.2 6.2 0 008.8 8.8l6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></button>
@@ -291,15 +325,29 @@ svg.ic{width:20px;height:20px;display:block}
     <form class="card" id="np" hidden><h3>Nova enquete</h3>
       <input id="pq" type="text" maxlength="120" placeholder="Pergunta" required><div id="pops"></div>
       <div class="row2"><button type="button" class="nbtn dark" id="padd">+ Opção</button></div>
+      <label class="chk"><input type="checkbox" id="pmulti"> Permitir mais de uma resposta</label>
       <p class="err" id="nperr" role="alert"></p>
       <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button class="nbtn">Criar enquete</button></div></form>
     <div class="card wide" id="gi" hidden><h3 id="gititle"></h3><p id="gicount"></p>
       <div class="box" id="gmem"></div>
       <div id="gadm"><div class="sec">Adicionar integrante</div><div class="row2"><input id="giemail" type="email" placeholder="E-mail da pessoa"><button type="button" class="nbtn" id="giadd">Adicionar</button></div>
       <div class="sec">Nome do grupo</div><div class="row2"><input id="grename" type="text" maxlength="40"><button type="button" class="nbtn" id="girename">Salvar</button></div>
-      <div class="sec">Foto do grupo</div><div class="row2"><button type="button" class="nbtn" id="gph">Trocar foto</button><button type="button" class="nbtn dark" id="gphx">Remover</button></div></div>
+      <div class="sec">Foto do grupo</div><div class="row2"><button type="button" class="nbtn" id="gph">Trocar foto</button><button type="button" class="nbtn dark" id="gphx">Remover</button></div>
+      <div class="sec">Aparência</div><div class="row2"><button type="button" class="nbtn" id="gth">Personalizar conversa</button></div></div>
       <p class="err" id="gierr" role="alert"></p>
       <div class="btns"><button type="button" class="nbtn dark" data-close>Fechar</button><button type="button" class="nbtn danger" id="gleave">Sair do grupo</button><button type="button" class="nbtn danger" id="gdel">Excluir grupo</button></div></div>
+    <div class="card wide" id="th" hidden><h3>Aparência da conversa</h3><p id="thn"></p>
+      <div id="thp"><div class="date">Hoje 10:47</div><div class="r in"><div class="b">Oi! Tudo bem?</div></div><div class="r out end"><div class="b">Tudo ótimo!</div></div></div>
+      <div class="sec">Minhas mensagens</div><div class="sws" id="thout"></div>
+      <div class="sec">Mensagens recebidas</div><div class="sws" id="thinn"></div>
+      <div class="sec">Fundo</div><div class="sws" id="thbg"></div>
+      <div class="sec">Estilo do balão</div><div class="seg" id="thstyle"></div>
+      <div class="sec">Tamanho do texto</div><div class="seg" id="thsize"></div>
+      <div class="sec">Fonte</div><div class="seg" id="thfont"></div>
+      <p class="err" id="therr" role="alert"></p>
+      <div class="btns"><button type="button" class="nbtn dark" data-close>Cancelar</button><button type="button" class="nbtn danger" id="thr">Redefinir</button><button type="button" class="nbtn" id="ths">Salvar</button></div></div>
+    <div class="card wide" id="pv" hidden><h3 id="pvt"></h3><p id="pvs"></p><div id="pvb"></div>
+      <div class="btns"><button type="button" class="nbtn dark" data-close>Fechar</button></div></div>
   </div>
   <input type="file" id="pfile" accept="image/*" hidden>
   <div id="lb"><img alt="Foto ampliada"></div>
@@ -325,6 +373,8 @@ storage.setMaxUploadRetryTime(20000); storage.setMaxOperationRetryTime(15000);
 const USE_STORAGE = false;
 const $ = id => document.getElementById(id);
 let me = null, myName = "", unsubList = null, unsubMsgs = null, curChat = null, signup = false, busy = false, chats = [], firstLoad = true, editing = false, sel = null, msgMap = {}, pending = null, curMeta = null, curSeen = false, pool = new Map(), picked = new Set(), myShow = true, pres = {}, presUnsubs = [], presSig = "", beatT = null, typSent = 0, lastSig = "", myPins = [], myPhoto = "", curList = [], curPend = false, seenIds = new Set(), fresh = new Set(), reply = null, edit = null, bodySig = null, stSig = "", rdT = 0, prevUn = null, phT = "", AC = null;
+let pvId = null, mq = null, thDraft = {}, themeSig = "";
+const pollPc = {};
 
 const show = id => document.querySelectorAll(".screen").forEach(s => s.classList.toggle("on", s.id === id));
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -371,8 +421,31 @@ const U = {
 };
 const EMAP = {}; Object.entries(U).forEach(([k, v]) => v.split(" ").forEach(c => EMAP[c] = k));
 const reEmoji = new RegExp("(?<!\\u200D)(" + Object.keys(EMAP).join("|") + ")\\uFE0F?(?!\\u200D)", "gu");
+/* negrito *texto* e menções @nome */
+const BOLD = /(^|[^\p{L}\p{N}*])\*([^\s*](?:[^*\n]*[^\s*])?)\*(?![\p{L}\p{N}*])/gu;
+const MENT = /(^|[^\p{L}\p{N}_@.])@([\p{L}\p{N}_]{1,40})/gu;
+const norm = s => String(s).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+const handleBase = n => norm(n).replace(/[^\p{L}\p{N}_]/gu, "");
+const plain = t => String(t).replace(BOLD, "$1$2");
+let curHandles = { full: {}, alias: {} };
+function handleMap(c){
+  const full = {}, alias = {}, fc = {};
+  (c?.members || []).forEach(u => {
+    const nm = c.names?.[u] || "", h = handleBase(nm) || "usuario"; let k = h, i = 2;
+    while (full[k]) k = h + i++;
+    full[k] = u;
+    const f = handleBase(nm.trim().split(/\s+/)[0] || ""); if (f) (fc[f] = fc[f] || []).push(u);
+  });
+  Object.entries(fc).forEach(([f, us]) => { if (us.length === 1 && !full[f]) alias[f] = us[0]; });
+  return { full, alias };
+}
 const fmt = t => {
-  const h = esc(t).replace(reEmoji, (m, c) => face(EMAP[c]));
+  let h = esc(t).replace(BOLD, "$1<strong>$2</strong>");
+  h = h.replace(MENT, (m, pre, name) => {
+    const k = handleBase(name), u = curHandles.full[k] || curHandles.alias[k];
+    return u ? pre + '<span class="mt' + (u === me?.uid ? " me" : "") + '">@' + name + "</span>" : m;
+  });
+  h = h.replace(reEmoji, (m, c) => face(EMAP[c]));
   return /^\s*(<svg class="em"[\s\S]*?<\/svg>\s*){1,3}$/.test(h) ? '<span class="big">' + h + "</span>" : h;
 };
 $("emo").innerHTML = face("smile");
@@ -456,7 +529,7 @@ function drawList(){
     const tm = d ? (sameDay(d, new Date()) ? hhmm(d) : d.toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })) : "";
     const ty = typers(c), pr = c.isGroup ? null : presOf(c.other);
     const av = c.isGroup ? groupAv("", c.photo) : `<span class="avw">${avatar(n, "", pres[c.other]?.photo)}${pr ? `<span class="dot${pr.on ? " on" : ""}"></span>` : ""}</span>`;
-    const line = ty.length ? `<span class="l typ">${esc(c.isGroup ? ty.map(u => (c.names?.[u] || "").split(" ")[0]).join(", ") + " digitando…" : "digitando…")}</span>` : `<span class="l">${esc(c.lastText || (c.isGroup ? "Novo grupo" : "Nova conversa"))}</span>`;
+    const line = ty.length ? `<span class="l typ">${esc(c.isGroup ? ty.map(u => (c.names?.[u] || "").split(" ")[0]).join(", ") + " digitando…" : "digitando…")}</span>` : `<span class="l">${esc(plain(c.lastText || (c.isGroup ? "Novo grupo" : "Nova conversa")))}</span>`;
     const un = c.lastText ? Math.max(0, c.unread?.[me.uid] || 0) : 0;
     return `<button class="row${myPins.includes(c.id) ? " pn" : ""}${un ? " un" : ""}" data-id="${c.id}"><span class="minus"></span>${av}<span class="tx"><b>${esc(n)}</b>${line}</span><span class="rt"><span class="tm">${tm}</span>${un ? `<span class="bd">${un > 99 ? "99+" : un}</span>` : ""}</span><span class="pinb">${PIN}</span></button>`;
   }).join("") : `<div class="empty"><svg viewBox="0 0 48 48"><rect x="4" y="6" width="40" height="28" rx="8" fill="#e4eefb" stroke="#6f93b3" stroke-width="2"/><path d="M13 34l-3 9 11-9z" fill="#e4eefb" stroke="#6f93b3" stroke-width="2" stroke-linejoin="round"/></svg>${q ? "Nenhuma conversa encontrada." : "Nenhuma conversa ainda.<br>Toque em <b>Nova</b> para começar uma conversa ou criar um grupo."}</div>`;
@@ -477,7 +550,13 @@ function syncOpen(){
 function goHome(){ $("typing").hidden = true; unsubMsgs && unsubMsgs(); curChat = null; curMeta = null; clearSel(); closeModal(); show("home"); }
 $("q").oninput = drawList;
 $("edit").onclick = () => { editing = !editing; drawList(); };
-const leaveGroup = id => db.doc("chats/" + id).update({ members: FV.arrayRemove(me.uid) });
+const isAdm = (c, u = me?.uid) => !!c && (c.admin === u || (c.admins || []).includes(u));
+const isOwner = (c, u = me?.uid) => !!c && c.admin === u;
+const leaveGroup = id => {
+  const c = chats.find(x => x.id === id), up = { members: FV.arrayRemove(me.uid) };
+  if (c && (c.admins || []).includes(me.uid)) up.admins = FV.arrayRemove(me.uid);
+  return db.doc("chats/" + id).update(up);
+};
 $("list").onclick = async e => {
   const r = e.target.closest(".row"); if (!r) return;
   const c = chats.find(x => x.id === r.dataset.id); if (!c) return;
@@ -555,19 +634,25 @@ function setHeader(){
   const c = curMeta, g = c.isGroup, t = chatTitle(c);
   $("who").textContent = t;
   $("cav").outerHTML = (g ? groupAv("sm", c.photo) : avatar(t, "sm", phOf(c.other))).replace("<span", '<span id="cav"');
-  $("ginfo").hidden = !g; $("gsp").hidden = g; renderLive();
+  $("ginfo").hidden = !g; $("cset").hidden = g; curHandles = handleMap(c); renderLive();
+  const ts = JSON.stringify(c.theme || null); if (ts !== themeSig) { themeSig = ts; themeVars($("chat"), c.theme); }
 }
+const votesOf = v => v == null ? [] : Array.isArray(v) ? v : [v];
 function pollHtml(m){
-  const votes = m.votes || {}, tot = Object.keys(votes).length, mine = votes[me.uid], vals = Object.values(votes);
-  return `<div class="pq">${esc(m.question)}</div>` + m.options.map((o, i) => {
-    const n = vals.filter(v => v === i).length, pc = tot ? Math.round(100 * n / tot) : 0;
-    return `<div class="opt${mine === i ? " mine" : ""}" data-i="${i}" role="button" tabindex="0"><div class="fill" style="width:${pc}%"></div><span>${esc(o)}</span><span class="oc">${n} (${pc}%)</span></div>`;
-  }).join("") + `<div class="pt">${tot} ${tot === 1 ? "voto" : "votos"}. Toque numa opção para votar.</div>`;
+  const votes = m.votes || {}, multi = !!m.multi, closed = !!m.closed, mine = votesOf(votes[me.uid]);
+  const voters = Object.keys(votes).filter(u => votesOf(votes[u]).length), tot = voters.length, cnt = m.options.map(() => 0);
+  voters.forEach(u => votesOf(votes[u]).forEach(i => { if (cnt[i] != null) cnt[i]++; }));
+  const top = Math.max(0, ...cnt);
+  const meta = closed ? "Enquete encerrada" : multi ? "Escolha uma ou mais opções" : "Escolha uma opção";
+  return `<div class="pq">${esc(m.question)}</div><div class="pmeta">${meta}</div>` + m.options.map((o, i) => {
+    const n = cnt[i], pc = tot ? Math.round(100 * n / tot) : 0, key = m.id + "|" + i, prev = pollPc[key] ?? pc; pollPc[key] = pc;
+    return `<div class="opt${multi ? " multi" : ""}${mine.includes(i) ? " mine" : ""}${top > 0 && n === top ? " lead" : ""}${closed ? " off" : ""}" data-i="${i}" role="button" tabindex="0" aria-pressed="${mine.includes(i)}"><div class="fill" style="width:${prev}%" data-w="${pc}"></div><span class="ck"></span><span class="ot">${esc(o)}</span><span class="oc">${n} · ${pc}%</span></div>`;
+  }).join("") + `<div class="pt"><span>${tot} ${tot === 1 ? "voto" : "votos"}</span>${tot ? '<button type="button" class="link pvl">Ver quem votou</button>' : ""}</div>`;
 }
 function openChat(id, meta){
   curChat = id; curMeta = meta; curSeen = chats.some(x => x.id === id); firstLoad = true; clearSel();
   curList = []; curPend = false; seenIds = new Set(); fresh = new Set(); bodySig = null; stSig = ""; reply = edit = null; setBar();
-  setHeader(); $("msgs").innerHTML = ""; $("tray").classList.remove("on"); show("chat"); markRead();
+  setHeader(); $("msgs").innerHTML = ""; $("tray").classList.remove("on"); $("mpick").classList.remove("on"); show("chat"); markRead();
   unsubMsgs && unsubMsgs();
   unsubMsgs = db.collection("chats/" + id + "/messages").orderBy("ts").onSnapshot(snap => {
     curList = snap.docs.map(d => { const m = d.data({ serverTimestamps: "estimate" }); return { id: d.id, ...m, t: m.ts ? m.ts.toDate() : new Date() }; });
@@ -584,22 +669,45 @@ $("back").onclick = goHome;
 /* selecionar, abrir, votar e excluir mensagem */
 async function vote(id, i){
   const m = msgMap[id]; if (!m) return;
-  const cur = (m.votes || {})[me.uid];
-  try { await db.doc("chats/" + curChat + "/messages/" + id).update("votes." + me.uid, cur === i ? FV.delete() : i); }
+  if (m.closed) return toast("Esta enquete foi encerrada.");
+  const cur = votesOf((m.votes || {})[me.uid]);
+  const nv = m.multi ? (cur.includes(i) ? cur.filter(x => x !== i) : [...cur, i].sort((a, b) => a - b)) : (cur[0] === i ? [] : [i]);
+  const val = nv.length ? (m.multi ? nv : nv[0]) : FV.delete();
+  try { await db.doc("chats/" + curChat + "/messages/" + id).update("votes." + me.uid, val); }
   catch (x) { toast("Não foi possível votar: " + x.message); }
 }
 $("msgs").onclick = e => {
   const b = e.target.closest(".b");
   const qq = e.target.closest(".q"); if (qq) return jump(qq.dataset.q);
   if (!b || e.target.closest("video")) return clearSel();
+  if (e.target.closest(".pvl")) return openVotes(b.dataset.id);
   const o = e.target.closest(".opt"); if (o) return vote(b.dataset.id, +o.dataset.i);
   const m = msgMap[b.dataset.id]; if (!m) return;
   clearSel(); sel = m; b.classList.add("sel");
   $("sopen").hidden = m.kind !== "image"; $("sedit").hidden = !(m.from === me.uid && m.kind === "text");
-  $("sdel").hidden = !(m.from === me.uid || (curMeta.isGroup && curMeta.admin === me.uid));
+  $("sdel").hidden = !(m.from === me.uid || (curMeta.isGroup && isAdm(curMeta)));
+  $("sclose").hidden = !(m.kind === "poll" && !m.closed && (m.from === me.uid || (curMeta.isGroup && isAdm(curMeta))));
   $("selbar").classList.add("on");
 };
 $("scan").onclick = clearSel;
+$("msgs").onkeydown = e => { if ((e.key === "Enter" || e.key === " ") && e.target.classList?.contains("opt")) { e.preventDefault(); e.target.click(); } };
+$("sclose").onclick = async () => {
+  const m = sel; if (!m) return;
+  if (!await ask("Encerrar enquete?", "Ninguém poderá mais votar. Os resultados continuam visíveis.", "Encerrar")) return;
+  try { await db.doc("chats/" + curChat + "/messages/" + m.id).update({ closed: true }); clearSel(); toast("Enquete encerrada"); }
+  catch (x) { toast("Erro: " + x.message); }
+};
+function renderVotes(){
+  const m = msgMap[pvId]; if (!m) return closeModal();
+  const votes = m.votes || {}, voters = Object.keys(votes).filter(u => votesOf(votes[u]).length);
+  $("pvt").textContent = m.question;
+  $("pvs").textContent = voters.length + (voters.length === 1 ? " pessoa votou" : " pessoas votaram") + (m.closed ? " · Encerrada" : m.multi ? " · Várias respostas" : "");
+  $("pvb").innerHTML = m.options.map((o, i) => {
+    const us = voters.filter(u => votesOf(votes[u]).includes(i));
+    return `<div class="sec">${esc(o)} <small>(${us.length})</small></div><div class="box">${us.length ? us.map(u => `<div class="mem">${avatar(nameOf(u), "sm", phOf(u))}<span class="mn">${esc(nameOf(u))}${u === me.uid ? " (você)" : ""}</span></div>`).join("") : '<p class="hint">Ninguém votou</p>'}</div>`;
+  }).join("");
+}
+function openVotes(id){ pvId = id; renderVotes(); if (msgMap[id]) openModal("pv"); }
 $("sopen").onclick = () => { $("lb").querySelector("img").src = sel.url; $("lb").classList.add("on"); };
 $("lb").onclick = () => $("lb").classList.remove("on");
 const previewOf = l => l.kind === "image" ? "Foto" : l.kind === "video" ? "Vídeo" : l.kind === "poll" ? "Enquete: " + l.question : l.text;
@@ -685,41 +793,60 @@ $("ashow").onchange = async () => {
 };
 
 /* ---------- enquete ---------- */
-function addOpt(){
-  const n = $("pops").children.length; if (n >= 6) return;
-  const i = document.createElement("input"); i.type = "text"; i.maxLength = 60; i.placeholder = "Opção " + (n + 1); $("pops").appendChild(i);
-  $("padd").hidden = n + 1 >= 6;
+function syncOpts(){
+  const rows = [...$("pops").children];
+  rows.forEach((r, i) => { r.querySelector("input").placeholder = "Opção " + (i + 1); r.querySelector("button").hidden = rows.length <= 2; });
+  $("padd").hidden = rows.length >= 6;
 }
-$("pollb").onclick = () => { $("pq").value = ""; $("pops").innerHTML = ""; $("nperr").textContent = ""; addOpt(); addOpt(); openModal("np"); $("pq").focus(); };
+function addOpt(){
+  if ($("pops").children.length >= 6) return;
+  const d = document.createElement("div"); d.className = "row2";
+  d.innerHTML = '<input type="text" maxlength="60"><button type="button" class="link" aria-label="Remover opção">✕</button>';
+  $("pops").appendChild(d); syncOpts();
+}
+$("pops").onclick = e => { const b = e.target.closest("button"); if (!b) return; b.parentElement.remove(); syncOpts(); };
+$("pollb").onclick = () => { $("pq").value = ""; $("pops").innerHTML = ""; $("nperr").textContent = ""; $("pmulti").checked = false; addOpt(); addOpt(); openModal("np"); $("pq").focus(); };
 $("padd").onclick = addOpt;
 $("np").onsubmit = async e => {
   e.preventDefault();
-  const q = $("pq").value.trim(), ops = [...$("pops").children].map(i => i.value.trim()).filter(Boolean);
-  if (ops.length < 2) { $("nperr").textContent = "Preencha pelo menos 2 opções."; return; }
-  try { await sendMsg({ kind: "poll", question: q, options: ops, votes: {} }, "Enquete: " + q); closeModal(); }
+  const q = $("pq").value.trim(), seen = new Set(), ops = [];
+  [...$("pops").querySelectorAll("input")].forEach(i => { const v = i.value.trim(), k = v.toLowerCase(); if (v && !seen.has(k)) { seen.add(k); ops.push(v); } });
+  if (ops.length < 2) { $("nperr").textContent = "Preencha pelo menos 2 opções diferentes."; return; }
+  try { await sendMsg({ kind: "poll", question: q, options: ops, votes: {}, ...($("pmulti").checked ? { multi: true } : {}) }, "Enquete: " + q); closeModal(); }
   catch (x) { $("nperr").textContent = "Erro: " + x.message; }
 };
 
 /* ---------- grupo: integrantes e administração ---------- */
 function gerr(t){ $("gierr").textContent = t; }
 function renderInfo(){
-  const c = curMeta, adm = c.admin === me.uid;
+  const c = curMeta, adm = isAdm(c), own = isOwner(c);
   $("gititle").textContent = c.title; $("gicount").textContent = c.members.length + " integrantes";
   $("gmem").innerHTML = c.members.map(u => {
-    const n = c.names?.[u] || "Integrante";
-    return `<div class="mem">${avatar(n, "sm", phOf(u))}<span class="mn">${esc(n)}${u === me.uid ? " (você)" : ""}</span>${u === c.admin ? '<span class="badge">Admin</span>' : ""}${adm && u !== me.uid ? `<button class="link" data-rm="${u}">Remover</button>` : ""}</div>`;
+    const n = c.names?.[u] || "Integrante", isO = c.admin === u, isA = !isO && (c.admins || []).includes(u), acts = [];
+    if (adm && u !== me.uid && !isO && !isA) acts.push(`<button class="link" data-mk="${u}">Tornar admin</button>`);
+    if (isA && (own || u === me.uid)) acts.push(`<button class="link" data-un="${u}">${u === me.uid ? "Deixar de ser admin" : "Remover admin"}</button>`);
+    if (adm && u !== me.uid && !isO && (own || !isA)) acts.push(`<button class="link" data-rm="${u}">Remover</button>`);
+    return `<div class="mem">${avatar(n, "sm", phOf(u))}<span class="mn">${esc(n)}${u === me.uid ? " (você)" : ""}</span>${isO ? '<span class="badge">Criador</span>' : isA ? '<span class="badge">Admin</span>' : ""}${acts.length ? `<span class="mact">${acts.join("")}</span>` : ""}</div>`;
   }).join("");
-  $("gadm").hidden = !adm; $("gdel").hidden = !adm; $("gleave").hidden = adm;
+  $("gadm").hidden = !adm; $("gdel").hidden = !own; $("gleave").hidden = own;
   if (adm && document.activeElement !== $("grename")) $("grename").value = c.title;
 }
 const openInfo = () => { renderInfo(); gerr(""); openModal("gi"); };
 $("ginfo").onclick = openInfo;
 const upd = data => db.doc("chats/" + curChat).update(data);
 $("gmem").onclick = async e => {
-  const b = e.target.closest("[data-rm]"); if (!b) return;
-  const u = b.dataset.rm, ok = await ask("Remover integrante?", nameOf(u) + " sai do grupo.", "Remover");
-  openInfo();
-  if (ok) try { await upd({ members: FV.arrayRemove(u) }); } catch (x) { gerr("Erro: " + x.message); }
+  const b = e.target.closest("button"); if (!b) return;
+  const d = b.dataset, u = d.rm || d.mk || d.un; if (!u) return;
+  try {
+    if (d.mk) { await upd({ admins: FV.arrayUnion(u) }); toast(nameOf(u) + " agora é admin"); }
+    else if (d.un) {
+      const ok = await ask(u === me.uid ? "Deixar de ser admin?" : "Remover admin?", u === me.uid ? "Você continua no grupo, mas sem poderes de administrador." : nameOf(u) + " continua no grupo, mas deixa de ser admin.", u === me.uid ? "Deixar" : "Remover");
+      openInfo(); if (ok) await upd({ admins: FV.arrayRemove(u) });
+    } else {
+      const ok = await ask("Remover integrante?", nameOf(u) + " sai do grupo.", "Remover");
+      openInfo(); if (ok) await upd({ members: FV.arrayRemove(u), ...((curMeta.admins || []).includes(u) ? { admins: FV.arrayRemove(u) } : {}) });
+    }
+  } catch (x) { gerr("Erro: " + x.message); }
 };
 $("giadd").onclick = async () => {
   const em = $("giemail").value.trim(); if (!em) return; gerr("");
@@ -754,8 +881,33 @@ $("txt").oninput = () => {
   const t = $("txt"); t.style.height = "32px"; t.style.height = Math.min(t.scrollHeight, 96) + "px";
   $("sendbtn").disabled = !t.value.trim();
   if (t.value.trim()) pingTyping();
+  mentionSuggest();
 };
-$("txt").onkeydown = e => { if (e.key === "Enter" && !e.shiftKey && matchMedia("(pointer:fine)").matches) { e.preventDefault(); $("sendf").requestSubmit(); } };
+function mentionSuggest(){
+  const t = $("txt"), box = $("mpick"), before = t.value.slice(0, t.selectionStart);
+  const m = curMeta && before.match(/(^|[^\p{L}\p{N}_@.])@([\p{L}\p{N}_]*)$/u);
+  if (!m) { box.classList.remove("on"); mq = null; return; }
+  const q = norm(m[2]);
+  const list = Object.entries(curHandles.full).filter(([h, u]) => u !== me.uid && (!q || h.startsWith(q) || norm(curMeta.names?.[u] || "").includes(q)));
+  if (!list.length) { box.classList.remove("on"); mq = null; return; }
+  mq = { start: before.length - m[2].length - 1, end: before.length };
+  box.innerHTML = list.map(([h, u]) => { const n = curMeta.names?.[u] || "Integrante"; return `<button type="button" data-h="${h}">${avatar(n, "sm", phOf(u))}<span class="mn">${esc(n)}</span><small>@${h}</small></button>`; }).join("");
+  box.classList.add("on"); box.scrollTop = 0;
+}
+$("mpick").onclick = e => {
+  const b = e.target.closest("button"); if (!b || !mq) return;
+  const t = $("txt"), v = t.value, ins = "@" + b.dataset.h + " ", pos = mq.start + ins.length;
+  t.value = v.slice(0, mq.start) + ins + v.slice(mq.end); t.focus(); t.setSelectionRange(pos, pos); t.dispatchEvent(new Event("input"));
+};
+$("mpick").addEventListener("mousedown", e => e.preventDefault());
+$("txt").onkeydown = e => {
+  const fine = matchMedia("(pointer:fine)").matches, mp = $("mpick");
+  if (mp.classList.contains("on")) {
+    if (e.key === "Escape") { mp.classList.remove("on"); return; }
+    if (e.key === "Tab" || (e.key === "Enter" && !e.shiftKey && fine)) { e.preventDefault(); const b = mp.querySelector("button"); if (b) b.click(); return; }
+  }
+  if (e.key === "Enter" && !e.shiftKey && fine) { e.preventDefault(); $("sendf").requestSubmit(); }
+};
 async function sendMsg(data, preview){
   const id = curChat; beep("s");
   await db.collection("chats/" + id + "/messages").add({ from: me.uid, text: "", kind: "text", ts: TS(), ...data });
@@ -767,7 +919,7 @@ $("sendf").onsubmit = async e => {
   e.preventDefault();
   const text = $("txt").value.trim(); if (!text || !curChat) return;
   const ed = edit, rp = reply; edit = reply = null; setBar();
-  $("txt").value = ""; $("txt").style.height = "32px"; $("sendbtn").disabled = true; $("tray").classList.remove("on");
+  $("txt").value = ""; $("txt").style.height = "32px"; $("sendbtn").disabled = true; $("tray").classList.remove("on"); $("mpick").classList.remove("on");
   try {
     if (ed) {
       if (text === ed.text) return;
@@ -865,8 +1017,9 @@ function chkStatus(){
 function drawMsgs(force){
   const box = $("msgs"), list = curList, near = box.scrollHeight - box.scrollTop - box.clientHeight < 120;
   const lm = list[list.length - 1], st = lm && lm.from === me.uid ? statusOf(lm) : "";
-  msgMap = {}; list.forEach(m => msgMap[m.id] = m);
-  const sg = list.map(m => m.id + "|" + m.text + "|" + (m.edited ? 1 : 0) + "|" + JSON.stringify(m.votes || 0)).join("\n");
+  curHandles = handleMap(curMeta); msgMap = {}; list.forEach(m => msgMap[m.id] = m);
+  const hs = Object.entries(curHandles.full).map(e => e.join("=")).join(",") + "~" + Object.entries(curHandles.alias).map(e => e.join("=")).join(",");
+  const sg = hs + "\n" + list.map(m => m.id + "|" + m.text + "|" + (m.edited ? 1 : 0) + "|" + (m.closed ? 1 : 0) + "|" + JSON.stringify(m.votes || 0)).join("\n");
   if (sg === bodySig) {
     const s = box.querySelector(".status");
     if (s && st) { s.textContent = st; stSig = st; return; }
@@ -883,12 +1036,15 @@ function drawMsgs(force){
     else if (m.kind === "video") { inner = `<video class="med" src="${esc(m.url)}" controls preload="metadata" playsinline></video>`; cls = " m"; }
     else if (m.kind === "poll") { inner = pollHtml(m); cls = " p"; }
     else inner = fmt(m.text) + (m.edited ? ' <small class="ed">(editada)</small>' : "");
-    const q = m.reply ? `<div class="q" data-q="${esc(m.reply.id)}"><b>${esc(m.reply.from === me.uid ? "Você" : nameOf(m.reply.from))}</b>${esc(m.reply.text)}</div>` : "";
+    const q = m.reply ? `<div class="q" data-q="${esc(m.reply.id)}"><b>${esc(m.reply.from === me.uid ? "Você" : nameOf(m.reply.from))}</b>${esc(plain(m.reply.text))}</div>` : "";
     html += `<div class="r ${mine ? "out" : "in"}${last ? " end" : ""}"><div class="b${cls}${sel && sel.id === m.id ? " sel" : ""}${fresh.has(m.id) ? " pop" : ""}" data-id="${m.id}">${sn}${q}${inner}</div></div>`;
   });
   if (st) html += `<div class="status">${st}</div>`;
   box.innerHTML = html || `<div class="date">Nenhuma mensagem. Diga oi!</div>`;
   if (sel && !msgMap[sel.id]) clearSel();
+  const fills = box.querySelectorAll(".fill[data-w]");
+  if (fills.length) { void box.offsetWidth; fills.forEach(f => { f.style.width = f.dataset.w + "%"; }); }
+  if (pvId && !$("pv").hidden && $("modal").classList.contains("on")) renderVotes();
   if (near || force) box.scrollTop = box.scrollHeight;
 }
 function markRead(){
@@ -903,7 +1059,7 @@ function jump(id){
   el.scrollIntoView({ block: "center", behavior: "smooth" }); el.classList.add("fl"); setTimeout(() => el.classList.remove("fl"), 1400);
 }
 function setBar(){
-  const t = edit ? "Editando mensagem" : reply ? "Respondendo a " + (reply.from === me.uid ? "você" : nameOf(reply.from)) + ": " + reply.text : "";
+  const t = edit ? "Editando mensagem" : reply ? "Respondendo a " + (reply.from === me.uid ? "você" : nameOf(reply.from)) + ": " + plain(reply.text) : "";
   $("rbar").hidden = !t; $("rtx").textContent = t;
 }
 $("srep").onclick = () => { const m = sel; if (!m) return; edit = null; reply = { id: m.id, from: m.from, text: previewOf(m).slice(0, 80) }; clearSel(); setBar(); $("txt").focus(); };
@@ -978,6 +1134,84 @@ $("cfg").onclick = () => { fillSettings(); show("settings"); };
 $("sback").onclick = () => show("home");
 document.addEventListener("click", () => setTimeout(() => { if ($("settings").classList.contains("on")) fillSettings(); }, 60));
 $("af").addEventListener("submit", () => setTimeout(fillSettings, 800));
+
+/* ---------- aparência da conversa ---------- */
+const TH = {
+  out: {
+    verde: { l: "Verde", c: ["#a8e65c", "#78cd27", "#0c2300", "none"] },
+    azul: { l: "Azul", c: ["#6da8f2", "#1f63cc", "#fff", "0 -1px rgba(0,0,0,.3)"] },
+    rosa: { l: "Rosa", c: ["#f48fbb", "#d63f86", "#fff", "0 -1px rgba(0,0,0,.3)"] },
+    laranja: { l: "Laranja", c: ["#ffc472", "#f08c1c", "#2b1600", "none"] },
+    amarelo: { l: "Amarelo", c: ["#fff0a0", "#f2cd2c", "#3a2f00", "none"] },
+    turquesa: { l: "Turquesa", c: ["#7fe0d3", "#1fa797", "#032b26", "none"] },
+    roxo: { l: "Roxo", c: ["#b48ceb", "#7a47cc", "#fff", "0 -1px rgba(0,0,0,.3)"] },
+    vermelho: { l: "Vermelho", c: ["#f27d72", "#c92f22", "#fff", "0 -1px rgba(0,0,0,.3)"] },
+    grafite: { l: "Grafite", c: ["#8e98aa", "#4e586d", "#fff", "0 -1px rgba(0,0,0,.3)"] }
+  },
+  inn: {
+    cinza: { l: "Cinza", c: ["#f2f2f6", "#d0d0d7"] },
+    branco: { l: "Branco", c: ["#ffffff", "#e6e8ee"] },
+    azul: { l: "Azul claro", c: ["#e6f1ff", "#bdd7f6"] },
+    creme: { l: "Creme", c: ["#fff8e1", "#efdfae"] },
+    rosa: { l: "Rosa claro", c: ["#ffe9f1", "#f4c3d6"] },
+    menta: { l: "Menta", c: ["#e7f9ea", "#bbe4c4"] }
+  },
+  bg: {
+    padrao: { l: "Padrão", b: "#dde1ec", d: "#7a8296", s: "#fff", t: "#5a6680" },
+    branco: { l: "Branco", b: "#ffffff", d: "#8a8f9c", s: "#fff", t: "#6b7280" },
+    creme: { l: "Creme", b: "#f4ecd8", d: "#8a7d5c", s: "#fff", t: "#7a6e50" },
+    ceu: { l: "Céu", b: "#cfe3f6", d: "#5f7d9c", s: "#fff", t: "#4f6b88" },
+    rosa: { l: "Rosa", b: "#f5dfe7", d: "#8f6075", s: "#fff", t: "#7d5266" },
+    verde: { l: "Verde", b: "#d9e8d5", d: "#5d7b58", s: "#fff", t: "#4c6948" },
+    linho: { l: "Linho", b: "#e5e0d3 repeating-linear-gradient(0deg,rgba(255,255,255,.35) 0 1px,transparent 1px 3px)", d: "#857c66", s: "#fff", t: "#716850" },
+    noite: { l: "Noite", b: "#1e2533", d: "#9aa7bf", s: "transparent", t: "#9aa7bf" }
+  },
+  style: { gloss: { l: "Brilhante" }, flat: { l: "Liso" }, pill: { l: "Arredondado" } },
+  size: { s: { l: "Pequeno", v: "12.5px" }, m: { l: "Médio", v: "14px" }, l: { l: "Grande", v: "16.5px" } },
+  font: { sans: { l: "Padrão", v: "inherit" }, serif: { l: "Clássica", v: 'Georgia,"Times New Roman",serif' }, mono: { l: "Máquina", v: '"Courier New",Courier,monospace' } }
+};
+const TD = { out: "verde", inn: "cinza", bg: "padrao", style: "gloss", size: "m", font: "sans" };
+const thPick = (k, id) => Object.prototype.hasOwnProperty.call(TH[k], id) ? TH[k][id] : TH[k][TD[k]];
+function themeVars(el, t){
+  t = (t && typeof t === "object") ? t : {};
+  const o = thPick("out", t.out).c, i = thPick("inn", t.inn).c, b = thPick("bg", t.bg);
+  const st = Object.prototype.hasOwnProperty.call(TH.style, t.style) ? t.style : TD.style, S = (k, v) => el.style.setProperty(k, v);
+  S("--o1", o[0]); S("--o2", o[1]); S("--ot", o[2]); S("--ots", o[3]);
+  S("--i1", i[0]); S("--i2", i[1]);
+  S("--cbg", b.b); S("--cdt", b.d); S("--cds", b.s); S("--ctt", b.t);
+  S("--fs", thPick("size", t.size).v); S("--bf", thPick("font", t.font).v);
+  el.classList.toggle("sflat", st === "flat"); el.classList.toggle("spill", st === "pill");
+}
+const canTheme = c => !!c && (!c.isGroup || isAdm(c));
+function renderTheme(){
+  const d = thDraft, on = (k, id) => (d[k] || TD[k]) === id;
+  const sw = (k, sq, css) => Object.entries(TH[k]).map(([id, o]) => `<button type="button" class="sw2${sq ? " sq" : ""}${on(k, id) ? " on" : ""}" data-k="${k}" data-v="${id}" title="${o.l}" aria-label="${o.l}" aria-pressed="${on(k, id)}" style="background:${css(o)}"></button>`).join("");
+  const sg = k => Object.entries(TH[k]).map(([id, o]) => `<button type="button" class="nbtn${on(k, id) ? "" : " dark"}" data-k="${k}" data-v="${id}" aria-pressed="${on(k, id)}">${o.l}</button>`).join("");
+  $("thout").innerHTML = sw("out", false, o => `linear-gradient(${o.c[0]},${o.c[1]})`);
+  $("thinn").innerHTML = sw("inn", false, o => `linear-gradient(${o.c[0]},${o.c[1]})`);
+  $("thbg").innerHTML = sw("bg", true, o => o.b);
+  $("thstyle").innerHTML = sg("style"); $("thsize").innerHTML = sg("size"); $("thfont").innerHTML = sg("font");
+  themeVars($("thp"), d);
+}
+function openTheme(){
+  if (!curMeta) return;
+  thDraft = { ...(curMeta.theme && typeof curMeta.theme === "object" ? curMeta.theme : {}) }; $("therr").textContent = "";
+  $("thn").textContent = curMeta.isGroup ? "Vale para todos do grupo. Só administradores podem alterar." : "Vale para você e para " + chatTitle(curMeta) + ".";
+  renderTheme(); openModal("th");
+}
+$("cset").onclick = openTheme; $("gth").onclick = openTheme;
+$("th").onclick = e => { const b = e.target.closest("[data-v]"); if (!b) return; thDraft[b.dataset.k] = b.dataset.v; renderTheme(); };
+$("ths").onclick = async () => {
+  if (!canTheme(curMeta)) { $("therr").textContent = "Só administradores podem alterar."; return; }
+  const clean = {}; Object.keys(TD).forEach(k => { if (thDraft[k] && thDraft[k] !== TD[k]) clean[k] = thDraft[k]; });
+  try { await upd({ theme: Object.keys(clean).length ? clean : FV.delete() }); closeModal(); toast("Aparência salva"); }
+  catch (x) { $("therr").textContent = "Erro: " + x.message; }
+};
+$("thr").onclick = async () => {
+  if (!canTheme(curMeta)) { $("therr").textContent = "Só administradores podem alterar."; return; }
+  try { await upd({ theme: FV.delete() }); closeModal(); toast("Aparência padrão restaurada"); }
+  catch (x) { $("therr").textContent = "Erro: " + x.message; }
+};
 </script>
 </body>
 </html>
